@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enter Invite - SOL Alchemists</title>
+  <link rel="stylesheet" href="styles/wallet-adapter.css" />
+  <link rel="stylesheet" href="styles/quests.css" />
+</head>
+<body style="background:#000; color:#00ff41; font-family:'Orbitron', monospace;">
+  <div style="max-width:680px; margin:10vh auto; padding:1.5rem; border:2px solid #00ff41; border-radius:12px; background:rgba(0,0,0,.7);">
+    <h1 class="section-title" style="text-align:center;">Unlock the Alchemy Lab</h1>
+    <p style="text-align:center; color:#ccc;">Enter a valid invite code to join.</p>
+    <div class="referral-gate" style="justify-content:center;">
+      <input id="invite-code" class="referral-input" placeholder="CODE REQUIRED" maxlength="10" />
+      <button id="invite-enter" class="referral-enter">UNLOCK</button>
+    </div>
+    <div id="invite-error" style="text-align:center; color:#ff5566; display:none;">Invalid or already used code.</div>
+    <div style="text-align:center; margin-top:1rem;">
+      <a href="/signin" style="color:#ffaa00; text-decoration:none;">Already a member? Sign in</a>
+    </div>
+  </div>
+
+  <div id="codes-modal-overlay" class="codes-modal-overlay">
+    <div class="codes-modal">
+      <h3><i class="fas fa-unlock"></i> Welcome!</h3>
+      <p>Your referral codes:</p>
+      <div class="codes-grid" id="codes-grid"></div>
+      <button class="modal-close-btn" onclick="closeCodes()">CONTINUE</button>
+    </div>
+  </div>
+
+  <script>
+    const API = '';
+    function showErr(msg){ const el=document.getElementById('invite-error'); el.textContent=msg||'Invalid or already used code.'; el.style.display='block'; }
+    function closeCodes(){ document.getElementById('codes-modal-overlay').style.display='none'; window.location.href = '/'; }
+    async function post(url, body){ const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify(body)}); return await res.json(); }
+    document.getElementById('invite-enter').addEventListener('click', async ()=>{
+      const code = (document.getElementById('invite-code').value||'').trim().toUpperCase();
+      if (!code){ return showErr('Enter a code.'); }
+      const verify = await post('/api/referral/verify', { code });
+      if (!verify?.success){ return showErr(verify?.error||'Invalid or already used code.'); }
+      const gen = await post('/api/referral/generate', { count:5 });
+      const grid = document.getElementById('codes-grid');
+      grid.innerHTML = (gen?.codes||[]).map(c=>`<div class='code-chip'>${c}</div>`).join('');
+      document.getElementById('codes-modal-overlay').style.display='flex';
+    });
+  </script>
+</body>
+</html>
+
+
