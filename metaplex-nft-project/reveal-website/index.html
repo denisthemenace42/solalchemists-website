@@ -3116,11 +3116,6 @@
                         <img id="userAvatar" src="" alt="User Avatar">
                         <div class="user-info">
                             <span id="userName"></span>
-                            <div class="profile-stats">
-                                <div class="stat">Level: <span id="profile-level">1</span></div>
-                                <div class="stat">XP: <span id="profile-xp">0</span>/<span id="profile-xp-threshold">100</span></div>
-                            </div>
-                            <div class="xp-bar"><div id="profile-xp-bar" class="xp-bar-inner" style="width:0%"></div></div>
                         </div>
                         <button class="logout-btn" onclick="signOut()">
                             <i class="fas fa-sign-out-alt"></i> Logout
@@ -3151,34 +3146,7 @@
                 </div>
 
                 <!-- Social Media Rewards System -->
-                <div id="social-rewards" class="social-rewards-section" style="display: none;">
-                    <!-- Quests & Leaderboard Section -->
-                    <div class="quests-section">
-                        <h3 class="section-subtitle" style="margin-bottom: .5rem;">Quests</h3>
-                        <div class="quests-container" id="quests-active"></div>
-                        <h4 class="section-subtitle" style="margin-top:1.5rem;">Locked</h4>
-                        <div class="quests-container" id="quests-locked"></div>
-                        <h4 class="section-subtitle" style="margin-top:1.5rem;">Completed</h4>
-                        <div class="quests-container" id="quests-completed"></div>
-                        <div class="leaderboard">
-                            <h3 class="section-subtitle" style="margin-top:2rem;">Leaderboard</h3>
-                            <div id="leaderboard-table"></div>
-                        </div>
-                    </div>
-                    <!-- XP Display -->
-                    <div class="xp-container">
-                        <div class="xp-title">
-                            <i class="fas fa-star"></i> ALCHEMIST XP
-                        </div>
-                        <div class="xp-amount" id="user-xp">0</div>
-                        <div class="xp-progress-container">
-                            <div class="xp-progress-bar" id="xp-progress" style="width: 0%"></div>
-                        </div>
-                        <div class="xp-next-milestone" id="next-milestone">Next milestone: 100 XP</div>
-                    </div>
-
-                    
-                </div>
+                
                 
                 <!-- Wallet Selection Modal -->
                 <div id="wallet-modal" class="wallet-modal" style="display: none;">
