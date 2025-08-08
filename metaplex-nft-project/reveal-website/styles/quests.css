@@ -66,8 +66,11 @@
 }
 .social-btn.twitter-btn {
   border-color: #1DA1F2;
-  background: linear-gradient(135deg, #0d2a3a, #102d5f);
-  color: #bfe6ff;
+  background: linear-gradient(135deg, #0b0b0b, #151515);
+  color: #eaeaea;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 .social-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .social-btn:active { transform: translateY(0); }
