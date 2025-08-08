@@ -10,7 +10,7 @@ class SolanaWalletAdapter {
         this.walletName = null;
         this.listeners = new Set();
         
-        // Supported wallets
+        // Supported wallets with proper logos
         this.supportedWallets = [
             {
                 name: 'Phantom',
@@ -21,31 +21,31 @@ class SolanaWalletAdapter {
             {
                 name: 'Solflare',
                 url: 'https://solflare.com/',
-                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiByeD0iMTAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50MF9saW5lYXJfMV8xKSIvPgo8cGF0aCBkPSJNNDAgNjBMMTAwIDQwTDE2MCA2MEwxMDAgMTYwTDQwIDYwWiIgZmlsbD0id2hpdGUiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwX2xpbmVhcl8xXzEiIHgxPSIwIiB5MT0iMCIgeDI9IjIwMCIgeTI9IjIwMCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjRkY2QjAwIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGOTgwMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=',
+                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iNjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik0yNCAyNEgxMDRWMTA0SDI0VjI0WiIgZmlsbD0id2hpdGUiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwX2xpbmVhcl8xXzEiIHgxPSIwIiB5MT0iMCIgeDI9IjEyOCIgeTI9IjEyOCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjRkY2QjAwIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGOTgwMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=',
                 adapter: 'solflare'
             },
             {
                 name: 'Backpack',
                 url: 'https://backpack.app/',
-                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiByeD0iMTAwIiBmaWxsPSIjMDAwMDAwIi8+CjxwYXRoIGQ9Ik01MCA1MEgxNTBWMTAwSDUwVjUwWiIgZmlsbD0id2hpdGUiLz4KPHA+PHQ+QmFja3BhY2s8L3Q+PC9wPgo8L3N2Zz4K',
+                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iNjQiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTMyIDMySDk2Vjk2SDMyVjMyWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTQ4IDQ4SDgwVjgwSDQ4VjQ4WiIgZmlsbD0iIzAwMDAwMCIvPgo8L3N2Zz4K',
                 adapter: 'backpack'
             },
             {
                 name: 'Slope',
                 url: 'https://slope.finance/',
-                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiByeD0iMTAwIiBmaWxsPSIjMDA4MDAwIi8+CjxwYXRoIGQ9Ik01MCA1MEgxNTBWMTAwSDUwVjUwWiIgZmlsbD0id2hpdGUiLz4KPHA+PHQ+U2xvcGU8L3Q+PC9wPgo8L3N2Zz4K',
+                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iNjQiIGZpbGw9IiMwMDgwMDAiLz4KPHBhdGggZD0iTTI0IDI0SDQ4VjQ4SDI0VjI0WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTQ4IDQ4SDcyVjcySDQ4VjQ4WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTcyIDcySDk2Vjk2SDcyVjcyWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==',
                 adapter: 'slope'
             },
             {
                 name: 'Glow',
                 url: 'https://glow.app/',
-                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiByeD0iMTAwIiBmaWxsPSIjRkY2QjAwIi8+CjxwYXRoIGQ9Ik01MCA1MEgxNTBWMTAwSDUwVjUwWiIgZmlsbD0id2hpdGUiLz4KPHA+PHQ+R2xvdzwvdD48L3A+Cjwvc3ZnPgo=',
+                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iNjQiIGZpbGw9IiNGRjZCMDAiLz4KPGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgcj0iMzIiIGZpbGw9IndoaXRlIi8+CjxjaXJjbGUgY3g9IjY0IiBjeT0iNjQiIHI9IjE2IiBmaWxsPSIjRkY2QjAwIi8+Cjwvc3ZnPgo=',
                 adapter: 'glow'
             },
             {
                 name: 'Clover',
                 url: 'https://clover.finance/',
-                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiByeD0iMTAwIiBmaWxsPSIjRkY2QjAwIi8+CjxwYXRoIGQ9Ik01MCA1MEgxNTBWMTAwSDUwVjUwWiIgZmlsbD0id2hpdGUiLz4KPHA+PHQ+Q2xvdmVyPC90PjwvcD4KPC9zdmc+Cg==',
+                icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iNjQiIGZpbGw9IiNGRjZCMDAiLz4KPHBhdGggZD0iTTMyIDMyTDUwIDUwTDMyIDY4VjMyWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTk2IDMyTDUwIDUwTDk2IDY4VjMyWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTMyIDk2TDUwIDUwTDMyIDMyVjk2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTk2IDk2TDUwIDUwTDk2IDMyVjk2WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==',
                 adapter: 'clover'
             }
         ];
