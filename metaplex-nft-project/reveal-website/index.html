@@ -1482,20 +1482,30 @@
                     // Get Twitter handle from provider data
                     const twitterProvider = user.providerData.find(p => p.providerId === 'twitter.com');
                     if (twitterProvider && userHandle) {
-                        // Try different possible property names for Twitter handle
-                        let twitterHandle = twitterProvider.screenName || 
-                                          twitterProvider.username || 
-                                          twitterProvider.uid;
+                        let twitterHandle = null;
                         
-                        // If no handle found in provider data, try to extract from display name
+                        // Check if the uid is a numeric ID (Twitter user ID) - if so, skip it
+                        const uid = twitterProvider.uid;
+                        const isNumericId = /^\d+$/.test(uid);
+                        
+                        // Try to get the actual username from different sources
+                        if (twitterProvider.screenName && !/^\d+$/.test(twitterProvider.screenName)) {
+                            twitterHandle = twitterProvider.screenName;
+                        } else if (twitterProvider.username && !/^\d+$/.test(twitterProvider.username)) {
+                            twitterHandle = twitterProvider.username;
+                        }
+                        
+                        // If we still don't have a handle, try to extract from display name
                         if (!twitterHandle && user.displayName) {
                             // Check if display name contains @ symbol (common for Twitter)
                             const match = user.displayName.match(/@(\w+)/);
                             if (match) {
                                 twitterHandle = match[1];
                             } else {
-                                // Use display name as fallback
+                                // Use display name as fallback, but clean it up
                                 twitterHandle = user.displayName.replace(/\s+/g, '').toLowerCase();
+                                // Remove any special characters that aren't valid in Twitter handles
+                                twitterHandle = twitterHandle.replace(/[^a-zA-Z0-9_]/g, '');
                             }
                         }
                         
@@ -1504,17 +1514,28 @@
                             twitterHandle = user.email.split('@')[0];
                         }
                         
-                        // Final fallback
-                        if (!twitterHandle) {
+                        // Final fallback - use a generic name instead of the numeric ID
+                        if (!twitterHandle || isNumericId) {
                             twitterHandle = 'alchemist';
                         }
                         
                         userHandle.textContent = `@${twitterHandle}`;
                         
+                        // Show edit handle button if we're using a fallback
+                        const editHandleBtn = document.getElementById('editHandleBtn');
+                        if (editHandleBtn) {
+                            if (isNumericId || twitterHandle === 'alchemist') {
+                                editHandleBtn.style.display = 'flex';
+                            } else {
+                                editHandleBtn.style.display = 'none';
+                            }
+                        }
+                        
                         // Debug: Log the provider data to see what's available
                         console.log('Twitter provider data:', twitterProvider);
                         console.log('User provider data:', user.providerData);
                         console.log('Extracted handle:', twitterHandle);
+                        console.log('Is numeric ID:', isNumericId);
                     } else if (userHandle) {
                         userHandle.textContent = '@alchemist';
                     }
@@ -1728,6 +1749,8 @@
         if (typeof firebase !== 'undefined') {
             firebase.auth().onAuthStateChanged(updateUI);
         }
+
+
     </script>
     
     <!-- Social Login Styling -->
@@ -3048,7 +3071,6 @@
                         <img id="userAvatar" src="" alt="User Avatar">
                         <div class="user-info">
                             <span id="userName"></span>
-                            <span id="userHandle" class="user-handle"></span>
                         </div>
                         <button class="logout-btn" onclick="signOut()">
                             <i class="fas fa-sign-out-alt"></i> Logout
