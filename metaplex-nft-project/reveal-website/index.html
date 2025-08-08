@@ -1719,14 +1719,47 @@
                 showErrorMessage('Please connect with Twitter first');
                 return;
             }
-            
+
+            // Determine active wallet provider and ensure we have a string public key
+            function getActiveWalletProvider() {
+                if (window.SolanaWalletAdapter) {
+                    const status = window.SolanaWalletAdapter.getConnectionStatus();
+                    if (status.connected) return (status.walletName || '').toLowerCase();
+                }
+                if (window.solana && window.solana.isPhantom) return 'phantom';
+                if (window.solflare) return 'solflare';
+                return 'unknown';
+            }
+
+            // Ensure currentPublicKey is populated as a string
+            if (!currentPublicKey) {
+                try {
+                    if (window.SolanaWalletAdapter) {
+                        const status = window.SolanaWalletAdapter.getConnectionStatus();
+                        if (status.connected && status.publicKey) {
+                            currentPublicKey = String(status.publicKey);
+                        }
+                    }
+                    if (!currentPublicKey && window.solana && (window.solana.isPhantom || window.solana.publicKey)) {
+                        currentPublicKey = window.solana.publicKey ? window.solana.publicKey.toString() : currentPublicKey;
+                    }
+                    if (!currentPublicKey && window.solflare && window.solflare.publicKey) {
+                        currentPublicKey = window.solflare.publicKey.toString();
+                    }
+                } catch (e) {
+                    // no-op; will fall back to error below
+                }
+            }
+
             if (!currentPublicKey) {
                 showErrorMessage('Please connect your wallet first');
                 return;
             }
-            
+
             showSuccessMessage('Beginning transmutation...');
-            
+
+            const walletType = getActiveWalletProvider();
+
             // Store user info for the reveal page
             const userInfo = {
                 user: {
@@ -1736,11 +1769,11 @@
                     uid: firebase.auth().currentUser.uid
                 },
                 wallet: currentPublicKey,
-                walletType: currentWallet ? currentWallet.wallet : 'Unknown'
+                walletType
             };
-            
+
             sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-            
+
             // Redirect to reveal page immediately
             window.location.href = 'real-nft-reveal.html';
         }
