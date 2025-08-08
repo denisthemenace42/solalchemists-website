@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "serve": "npx serve .",
+    "serve": "npx http-server . -p 3000",
     "deploy:vercel": "vercel --prod",
     "deploy:netlify": "netlify deploy --prod"
   },
@@ -24,7 +24,7 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "serve": "^14.2.0"
+    "http-server": "^14.1.1"
   },
   "engines": {
     "node": ">=16.0.0"

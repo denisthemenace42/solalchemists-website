@@ -61,6 +61,33 @@ Set environment variables in Vercel dashboard:
    git push origin --force --all
    ```
 
+## 🚨 CRITICAL: Firebase API Keys Exposed
+
+**Your Firebase API keys were exposed in the repository!**
+
+### **Immediate Actions Required:**
+
+1. **Regenerate Firebase API Key:**
+   - Go to [Firebase Console](https://console.firebase.google.com/)
+   - Project Settings → General → Your apps
+   - Click web app → "Regenerate API key"
+   - **Save the new key securely**
+
+2. **Set up Environment Variables:**
+   - Create `.env` file for local development
+   - Add environment variables to Vercel
+   - Use `firebase-config.example.js` as template
+
+3. **Remove Exposed Keys:**
+   - The `firebase-config.js` file has been deleted
+   - Update `.gitignore` to prevent future commits
+   - Follow `ENVIRONMENT_SETUP.md` for complete setup
+
+### **Security Impact:**
+- Exposed API keys can be used by malicious actors
+- Immediate regeneration is critical
+- Monitor Firebase usage for unauthorized access
+
 ## Best Practices
 
 - Use environment variables for all secrets

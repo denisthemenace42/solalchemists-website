@@ -5,10 +5,11 @@
 .env.development
 .env.test
 
-# Firebase configuration (if contains sensitive keys)
+# Firebase configuration (contains sensitive keys)
 firebase-config.js
 firebase-config.local.js
 firebase-config.prod.js
+firebase-config.example.js
 
 # API Keys and Secrets
 config.js
