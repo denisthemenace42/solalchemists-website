@@ -313,8 +313,9 @@ class SolanaWalletAdapter {
     
     // Check existing connection
     checkExistingConnection() {
+        const gateUnlocked = typeof localStorage !== 'undefined' && localStorage.getItem('sola:gateUnlocked') === '1';
         // Check Phantom
-        if (window.solana && window.solana.isPhantom && window.solana.isConnected) {
+        if (gateUnlocked && window.solana && window.solana.isPhantom && window.solana.isConnected) {
             this.wallet = window.solana;
             this.publicKey = window.solana.publicKey?.toString();
             this.walletName = 'phantom';
@@ -328,7 +329,7 @@ class SolanaWalletAdapter {
         }
         
         // Check Solflare
-        if (window.solflare && window.solflare.isConnected) {
+        if (gateUnlocked && window.solflare && window.solflare.isConnected) {
             this.wallet = window.solflare;
             this.publicKey = window.solflare.publicKey?.toString();
             this.walletName = 'solflare';

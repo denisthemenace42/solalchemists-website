@@ -40,7 +40,11 @@ const db = {
 };
 
 function genCode() {
-  return crypto.randomBytes(3).toString('hex').toUpperCase();
+  // 6-char alphanumeric (A-Z0-9) for friendlier codes than hex only
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let out = '';
+  for (let i = 0; i < 6; i++) out += alphabet[Math.floor(Math.random()*alphabet.length)];
+  return out;
 }
 
 // POST /api/referral/verify { code, userId }

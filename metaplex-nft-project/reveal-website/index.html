@@ -3641,6 +3641,8 @@
           wallet.classList.remove('gated');
           wallet.classList.add('unlocked');
           localStorage.setItem('sola:gateUnlocked','1');
+          // If a wallet is already connected at the provider level, do not auto-bind until user clicks
+          // leave currentWallet/currentPublicKey unchanged here
         } else {
           twitter.classList.add('gated');
           wallet.classList.add('gated');
