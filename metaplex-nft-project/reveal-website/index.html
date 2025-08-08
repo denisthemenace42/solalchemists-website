@@ -1471,10 +1471,50 @@
                     if (userName) userName.textContent = user.displayName || 'Alchemist';
                     if (userAvatar) userAvatar.src = user.photoURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiMwMGZmNDEiLz4KPHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDEwQzE3LjIwOTEgMTAgMTkgMTEuNzkwOSAxOSAxNEMxOSAxNi4yMDkxIDE3LjIwOTEgMTggMTUgMThDMTIuNzkwOSAxOCAxMSAxNi4yMDkxIDExIDE0QzExIDExLjc5MDkgMTIuNzkwOSAxMCAxNSAxMFoiIGZpbGw9IiMwMDAiLz4KPHBhdGggZD0iTTE1IDIwQzE4LjMxMzcgMjAgMjEgMjIuNjg2MyAyMSAyNkgyMUMxOSAyOCAyMSAzMCAyMSAzMEg5QzkgMzAgMTEgMjggOSAyNkM5IDIyLjY4NjMgMTEuNjg2MyAyMCAxNSAyMFoiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cjwvc3ZnPgo=';
                     
+                    // Debug: Log user data to see what's available
+                    console.log('User data:', {
+                        displayName: user.displayName,
+                        email: user.email,
+                        uid: user.uid,
+                        photoURL: user.photoURL
+                    });
+                    
                     // Get Twitter handle from provider data
                     const twitterProvider = user.providerData.find(p => p.providerId === 'twitter.com');
                     if (twitterProvider && userHandle) {
-                        userHandle.textContent = `@${twitterProvider.screenName || 'twitter_user'}`;
+                        // Try different possible property names for Twitter handle
+                        let twitterHandle = twitterProvider.screenName || 
+                                          twitterProvider.username || 
+                                          twitterProvider.uid;
+                        
+                        // If no handle found in provider data, try to extract from display name
+                        if (!twitterHandle && user.displayName) {
+                            // Check if display name contains @ symbol (common for Twitter)
+                            const match = user.displayName.match(/@(\w+)/);
+                            if (match) {
+                                twitterHandle = match[1];
+                            } else {
+                                // Use display name as fallback
+                                twitterHandle = user.displayName.replace(/\s+/g, '').toLowerCase();
+                            }
+                        }
+                        
+                        // Last resort: use email username
+                        if (!twitterHandle && user.email) {
+                            twitterHandle = user.email.split('@')[0];
+                        }
+                        
+                        // Final fallback
+                        if (!twitterHandle) {
+                            twitterHandle = 'alchemist';
+                        }
+                        
+                        userHandle.textContent = `@${twitterHandle}`;
+                        
+                        // Debug: Log the provider data to see what's available
+                        console.log('Twitter provider data:', twitterProvider);
+                        console.log('User provider data:', user.providerData);
+                        console.log('Extracted handle:', twitterHandle);
                     } else if (userHandle) {
                         userHandle.textContent = '@alchemist';
                     }
