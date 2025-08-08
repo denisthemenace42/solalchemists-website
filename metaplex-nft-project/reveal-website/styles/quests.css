@@ -35,3 +35,50 @@
 .code-chip { border:2px solid #ffaa00; padding:.5rem; border-radius:8px; text-align:center; background:#000; letter-spacing:2px; }
 .modal-close-btn { margin-top:1rem; font-family:'Press Start 2P', cursive; border:2px solid #00ff41; color:#00ff41; background:#000; padding:.5rem .75rem; border-radius:8px; cursor:pointer; }
 
+/* Aesthetic Buttons */
+.cta-button {
+  position: relative;
+  border: 2px solid #111;
+  border-radius: 10px;
+  padding: 0.85rem 1.25rem;
+  font-family: 'Press Start 2P', cursive;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #0b0b0b;
+  background: linear-gradient(135deg, #00ff9d, #00d4ff);
+  box-shadow: 0 6px 18px rgba(0, 255, 157, 0.25), inset 0 0 10px rgba(255,255,255,0.1);
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+.cta-button.secondary {
+  color: #fff;
+  background: linear-gradient(135deg, #ff00a8, #7a00ff);
+  box-shadow: 0 6px 18px rgba(255, 0, 168, 0.25), inset 0 0 10px rgba(255,255,255,0.06);
+}
+.cta-button:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.cta-button:active { transform: translateY(0); filter: brightness(.98); }
+
+.social-btn {
+  border: 2px solid #141414;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(0,0,0,.95), rgba(12,12,12,.95));
+  color: #e2e2e2;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+.social-btn.twitter-btn {
+  border-color: #1DA1F2;
+  background: linear-gradient(135deg, #0d2a3a, #102d5f);
+  color: #bfe6ff;
+}
+.social-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.social-btn:active { transform: translateY(0); }
+
+.logout-btn, .disconnect-wallet-btn, .referral-enter {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,255,65,.15);
+}
+.referral-enter {
+  background: linear-gradient(135deg, #ffd700, #ff9c00);
+  color: #111;
+  border: 2px solid #111;
+}
+
