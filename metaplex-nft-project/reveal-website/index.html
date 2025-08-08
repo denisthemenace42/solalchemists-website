@@ -1494,53 +1494,14 @@
         let currentWallet = null;
         let currentPublicKey = null;
 
-        async function connectWallet() {
-            if (!firebase.auth().currentUser) {
-                showErrorMessage('Please connect with Twitter first');
-                return;
-            }
-            
-            try {
-                const wallet = await connectToWallet();
-                if (wallet && wallet.publicKey) {
-                    currentWallet = wallet;
-                    currentPublicKey = wallet.publicKey.toString();
-                    updateWalletUI();
-                    showSuccessMessage('Wallet connected successfully!');
-                } else {
-                    throw new Error('No wallet could be connected. Please install Phantom or Solflare.');
-                }
-            } catch (error) {
-                showErrorMessage('Wallet connection failed: ' + error.message);
-            }
-        }
+        function connectWallet() {
+            const walletChoice = confirm('Choose your wallet:\n\nClick "OK" for Phantom\nClick "Cancel" for Solflare');
 
-        async function connectToWallet() {
-            // Try Phantom first
-            if (window.solana && window.solana.isPhantom) {
-                try {
-                    const response = await window.solana.connect();
-                    if (response.publicKey) {
-                        return { wallet: 'Phantom', publicKey: response.publicKey };
-                    }
-                } catch (e) {
-                    console.log('Phantom connection failed:', e.message);
-                }
+            if (walletChoice) {
+                connectToPhantomWallet();
+            } else {
+                connectToSolflareWallet();
             }
-            
-            // Try Solflare
-            if (window.solflare) {
-                try {
-                    const response = await window.solflare.connect();
-                    if (response && response.publicKey) {
-                        return { wallet: 'Solflare', publicKey: response.publicKey };
-                    }
-                } catch (e) {
-                    console.log('Solflare connection failed:', e.message);
-                }
-            }
-            
-            return null;
         }
 
         function updateWalletUI() {
