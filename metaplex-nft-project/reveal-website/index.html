@@ -1513,27 +1513,7 @@
             box-shadow: 0 0 20px rgba(29, 161, 242, 0.5);
         }
 
-        .discord-btn {
-            border-color: #7289DA;
-            color: #7289DA;
-        }
 
-        .discord-btn:hover {
-            background: #7289DA;
-            color: #fff;
-            box-shadow: 0 0 20px rgba(114, 137, 218, 0.5);
-        }
-
-        .telegram-btn {
-            border-color: #0088cc;
-            color: #0088cc;
-        }
-
-        .telegram-btn:hover {
-            background: #0088cc;
-            color: #fff;
-            box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
-        }
 
         .user-profile {
             display: flex;
@@ -2725,14 +2705,6 @@
                             <i class="fab fa-twitter"></i>
                             <span>Connect with Twitter</span>
                         </button>
-                        <button class="social-btn discord-btn" onclick="signInWithDiscord()">
-                            <i class="fab fa-discord"></i>
-                            <span>Connect with Discord</span>
-                        </button>
-                        <button class="social-btn telegram-btn" onclick="signInWithTelegram()">
-                            <i class="fab fa-telegram"></i>
-                            <span>Connect with Telegram</span>
-                        </button>
                     </div>
                     <div class="user-profile" id="userProfile" style="display: none;">
                         <img id="userAvatar" src="" alt="User Avatar">
@@ -2901,7 +2873,7 @@
                 <div class="col-lg-6 col-md-8">
                     <div class="team-member">
                         <div class="member-image">
-                            <img src="images/themenace.png" alt="The Menace" class="member-photo">
+                            <img src="https://unavatar.io/twitter/themenace_X" alt="The Menace" class="member-photo" onerror="this.src='images/themenace.png'">
                             <div class="member-overlay">
                                 <div class="social-links">
                                     <a href="https://twitter.com/themenace_X" target="_blank" class="social-link">
