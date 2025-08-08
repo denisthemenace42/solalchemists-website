@@ -108,6 +108,9 @@ class WalletModal {
         const availableWallets = window.SolanaWalletAdapter.getAvailableWallets();
         const allWallets = window.SolanaWalletAdapter.supportedWallets;
         
+        console.log('Available wallets:', availableWallets);
+        console.log('All wallets:', allWallets);
+        
         // Show connection status if already connected
         const status = window.SolanaWalletAdapter.getConnectionStatus();
         if (status.connected) {
@@ -125,6 +128,10 @@ class WalletModal {
         if (availableWallets.length === 0) {
             this.showNoWalletsMessage();
         }
+        
+        // Debug: Check if wallet list has content
+        console.log('Wallet list children:', walletList.children.length);
+        console.log('Wallet list HTML:', walletList.innerHTML);
     }
     
     createWalletItem(wallet, isAvailable) {

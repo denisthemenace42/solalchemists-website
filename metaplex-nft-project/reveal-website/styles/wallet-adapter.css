@@ -37,6 +37,8 @@
     box-shadow: 0 0 50px rgba(0, 255, 65, 0.3);
     transform: scale(0.8);
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .wallet-modal-overlay.show .wallet-modal {
@@ -48,6 +50,7 @@
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
+    flex-shrink: 0;
 }
 
 .wallet-modal-title {
@@ -95,6 +98,9 @@
     display: grid;
     gap: 1rem;
     margin-bottom: 2rem;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 200px;
 }
 
 /* Wallet Item */
@@ -240,6 +246,12 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Status Container */
+#wallet-status-container {
+    margin-bottom: 1rem;
+    flex-shrink: 0;
 }
 
 /* Connection Status */
