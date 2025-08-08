@@ -1,0 +1,43 @@
+{
+  "minted": [
+    {
+      "number": 922,
+      "address": "CXPXfJLEuR1Eu3bhi5pZWBbb1EBAfzdcP6xta79LYVwk",
+      "timestamp": "2025-08-07T13:32:52.503Z"
+    },
+    {
+      "number": 112,
+      "address": "9sjjMNjrVfQkYcc4mXJzbKFztkGj6TrDkS8mWwXaWa5V",
+      "timestamp": "2025-08-07T13:34:23.867Z"
+    },
+    {
+      "number": 42,
+      "address": "5EswrMCJG7h9ezQ5N5MwJmuPmBPafHq7LZdTBwBuRCya",
+      "timestamp": "2025-08-07T13:34:26.395Z"
+    },
+    {
+      "number": 28,
+      "address": "JA2K8a6m6kcepoCYRDYbczQ1hxbQwPxuAQ89GaKKbJf3",
+      "timestamp": "2025-08-07T13:50:02.829Z"
+    },
+    {
+      "number": 600,
+      "address": "6Ai1VPgSPYs4tbpj8pqyCw4Z9gD46ripp6RwukJrwZdG",
+      "userWallet": "834LEdsyaZsgYt8gNmqFo7KJvVvUbMSM4E7ZVgJcWVqn",
+      "timestamp": "2025-08-07T13:56:21.041Z"
+    },
+    {
+      "number": 768,
+      "address": "CY5nZpNDpt6Cujo8ZdGsRMh5ASZTVkxX6DxbfuLEBdDo",
+      "userWallet": "834LEdsyaZsgYt8gNmqFo7KJvVvUbMSM4E7ZVgJcWVqn",
+      "timestamp": "2025-08-07T14:02:16.894Z"
+    },
+    {
+      "number": 1118,
+      "address": "6i5jjiKryUH52nDmUFiTYA4br2XZeBYK6m4We34jaWQU",
+      "userWallet": "834LEdsyaZsgYt8gNmqFo7KJvVvUbMSM4E7ZVgJcWVqn",
+      "timestamp": "2025-08-07T14:04:10.322Z"
+    }
+  ],
+  "lastMinted": 1118
+}

@@ -1,0 +1,14 @@
+{
+  "address": "BJkug4ERLkLSSVTMQtBhcTSeymwMf4zPDN1mnkFsBTm4",
+  "name": "SOLalchemists Mystery Collection",
+  "symbol": "MYSTALCH",
+  "description": "Mysterious alchemists waiting to be revealed! Each mystery NFT can be revealed to show a unique SOLalchemist from the 1120 collection.",
+  "solscanUrl": "https://solscan.io/token/BJkug4ERLkLSSVTMQtBhcTSeymwMf4zPDN1mnkFsBTm4?cluster=devnet",
+  "timestamp": "2025-08-07T14:22:53.025Z",
+  "network": "devnet",
+  "sampleNFT": {
+    "address": "5bJWFiJNtaRfxXmUeP612mpz3G3PSRPjwj6RnDFXeoqn",
+    "name": "Mystery Alchemist #1",
+    "solscanUrl": "https://solscan.io/token/5bJWFiJNtaRfxXmUeP612mpz3G3PSRPjwj6RnDFXeoqn?cluster=devnet"
+  }
+}

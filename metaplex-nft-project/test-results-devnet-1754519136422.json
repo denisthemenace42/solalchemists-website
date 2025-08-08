@@ -1,0 +1,222 @@
+[
+  {
+    "timestamp": "2025-08-06T22:25:22.995Z",
+    "type": "info",
+    "message": "🚀 Starting Devnet test suite..."
+  },
+  {
+    "timestamp": "2025-08-06T22:25:22.996Z",
+    "type": "info",
+    "message": null
+  },
+  {
+    "timestamp": "2025-08-06T22:25:22.996Z",
+    "type": "info",
+    "message": "\n🧪 Running: Network Connection"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:22.997Z",
+    "type": "info",
+    "message": "Testing network connection..."
+  },
+  {
+    "timestamp": "2025-08-06T22:25:23.559Z",
+    "type": "info",
+    "message": "✅ Connected to Devnet. Version: 2.3.6"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:23.559Z",
+    "type": "info",
+    "message": "✅ Network Connection PASSED"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:23.559Z",
+    "type": "info",
+    "message": "\n🧪 Running: Wallet Setup"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:23.559Z",
+    "type": "info",
+    "message": "Testing wallet setup..."
+  },
+  {
+    "timestamp": "2025-08-06T22:25:23.693Z",
+    "type": "info",
+    "message": "✅ Wallet created: S8WzfjuwkSqSJehzCapXVVHvA6KF75c2xqcwo1nHjeq"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:23.694Z",
+    "type": "info",
+    "message": "💰 Balance: 0 SOL"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:23.694Z",
+    "type": "info",
+    "message": "Requesting airdrop for testing..."
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "warning",
+    "message": "⚠️  Airdrop failed: 429 Too Many Requests:  {\"jsonrpc\":\"2.0\",\"error\":{\"code\": 429, \"message\":\"You've either reached your airdrop limit today or the airdrop faucet has run dry. Please visit https://faucet.solana.com for alternate sources of test SOL\"}, \"id\": \"e931fe63-146e-4570-89ea-40db106da63f\" } \r\n"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "info",
+    "message": "💡 This is common on testnet. You can:"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "info",
+    "message": "   1. Use devnet for testing (recommended)"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "info",
+    "message": "   2. Manually fund the testnet wallet"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "info",
+    "message": "   3. Skip testnet and go directly to mainnet"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "error",
+    "message": "❌ Wallet setup failed: 429 Too Many Requests:  {\"jsonrpc\":\"2.0\",\"error\":{\"code\": 429, \"message\":\"You've either reached your airdrop limit today or the airdrop faucet has run dry. Please visit https://faucet.solana.com for alternate sources of test SOL\"}, \"id\": \"e931fe63-146e-4570-89ea-40db106da63f\" } \r\n"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "info",
+    "message": "❌ Wallet Setup FAILED"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "info",
+    "message": "\n🧪 Running: Metadata Files"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.101Z",
+    "type": "info",
+    "message": "Testing metadata files..."
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.103Z",
+    "type": "info",
+    "message": "📁 Found 1111 metadata files"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.103Z",
+    "type": "info",
+    "message": "✅ Validated metadata: SOLalchemists #1"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.103Z",
+    "type": "info",
+    "message": "✅ Validated metadata: SOLalchemists #10"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.103Z",
+    "type": "info",
+    "message": "✅ Validated metadata: SOLalchemists #100"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.103Z",
+    "type": "info",
+    "message": "✅ Metadata Files PASSED"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.103Z",
+    "type": "info",
+    "message": "\n🧪 Running: Single NFT Mint"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.103Z",
+    "type": "info",
+    "message": "Testing single NFT mint..."
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "error",
+    "message": "❌ Cannot mint NFT: Wallet has 0 SOL balance"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "info",
+    "message": "💡 Solutions:"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "info",
+    "message": "   1. Use devnet for testing (npm run test:devnet)"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "info",
+    "message": "   2. Manually fund this wallet with SOL"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "info",
+    "message": "   3. Skip testnet testing and proceed to mainnet"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "info",
+    "message": "❌ Single NFT Mint FAILED"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "info",
+    "message": "\n🧪 Running: Batch Mint"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:35.762Z",
+    "type": "info",
+    "message": "Testing batch minting..."
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.421Z",
+    "type": "error",
+    "message": "❌ Cannot mint NFTs: Wallet has 0 SOL balance"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.421Z",
+    "type": "info",
+    "message": "💡 Solutions:"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.421Z",
+    "type": "info",
+    "message": "   1. Use devnet for testing (npm run test:devnet)"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.421Z",
+    "type": "info",
+    "message": "   2. Manually fund this wallet with SOL"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.421Z",
+    "type": "info",
+    "message": "   3. Skip testnet testing and proceed to mainnet"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.422Z",
+    "type": "info",
+    "message": "❌ Batch Mint FAILED"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.422Z",
+    "type": "info",
+    "message": "\nNaN"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.422Z",
+    "type": "info",
+    "message": "📊 Test Results: 2/5 tests passed"
+  },
+  {
+    "timestamp": "2025-08-06T22:25:36.422Z",
+    "type": "info",
+    "message": "⚠️  Some tests failed. Please fix issues before mainnet deployment."
+  }
+]

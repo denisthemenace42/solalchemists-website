@@ -1,0 +1,32 @@
+{
+  "name": "Mystery Alchemist",
+  "description": "A mysterious alchemist waiting to be revealed... Will you discover what lies beneath the shadows?",
+  "image": "ipfs://bafybeidojayq2h3ja5qqragcu3nxik5qpk65yn6ratpu5mupgtwhi6etcu/Mystery.png",
+  "attributes": [
+    {
+      "trait_type": "Status",
+      "value": "Mystery"
+    },
+    {
+      "trait_type": "Reveal Date",
+      "value": "TBA"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "SOLalchemists"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mystery"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "type": "image/png",
+        "uri": "ipfs://bafybeidojayq2h3ja5qqragcu3nxik5qpk65yn6ratpu5mupgtwhi6etcu/Mystery.png"
+      }
+    ],
+    "category": "image"
+  }
+}

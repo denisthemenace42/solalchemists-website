@@ -1,0 +1,197 @@
+[
+  {
+    "timestamp": "2025-08-06T22:22:02.692Z",
+    "type": "info",
+    "message": "🚀 Starting Devnet test suite..."
+  },
+  {
+    "timestamp": "2025-08-06T22:22:02.693Z",
+    "type": "info",
+    "message": null
+  },
+  {
+    "timestamp": "2025-08-06T22:22:02.693Z",
+    "type": "info",
+    "message": "\n🧪 Running: Network Connection"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:02.694Z",
+    "type": "info",
+    "message": "Testing network connection..."
+  },
+  {
+    "timestamp": "2025-08-06T22:22:03.407Z",
+    "type": "info",
+    "message": "✅ Connected to Devnet. Version: 2.3.6"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:03.407Z",
+    "type": "info",
+    "message": "✅ Network Connection PASSED"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:03.407Z",
+    "type": "info",
+    "message": "\n🧪 Running: Wallet Setup"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:03.407Z",
+    "type": "info",
+    "message": "Testing wallet setup..."
+  },
+  {
+    "timestamp": "2025-08-06T22:22:03.979Z",
+    "type": "info",
+    "message": "✅ Wallet created: BAhb4VajsavL19mBQF5pVtSYoyGyaQcWxvLiqQtHdSGL"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:03.979Z",
+    "type": "info",
+    "message": "💰 Balance: 0 SOL"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:03.979Z",
+    "type": "info",
+    "message": "Requesting airdrop for testing..."
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.494Z",
+    "type": "info",
+    "message": "✅ Airdrop successful. New balance: 2 SOL"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.495Z",
+    "type": "info",
+    "message": "✅ Wallet Setup PASSED"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.495Z",
+    "type": "info",
+    "message": "\n🧪 Running: Metadata Files"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.496Z",
+    "type": "info",
+    "message": "Testing metadata files..."
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.498Z",
+    "type": "info",
+    "message": "📁 Found 1111 metadata files"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.498Z",
+    "type": "info",
+    "message": "✅ Validated metadata: SOLalchemists #1"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.499Z",
+    "type": "info",
+    "message": "✅ Validated metadata: SOLalchemists #10"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.500Z",
+    "type": "info",
+    "message": "✅ Validated metadata: SOLalchemists #100"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.500Z",
+    "type": "info",
+    "message": "✅ Metadata Files PASSED"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.500Z",
+    "type": "info",
+    "message": "\n🧪 Running: Single NFT Mint"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:08.500Z",
+    "type": "info",
+    "message": "Testing single NFT mint..."
+  },
+  {
+    "timestamp": "2025-08-06T22:22:10.334Z",
+    "type": "info",
+    "message": "✅ NFT minted successfully!"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:10.334Z",
+    "type": "info",
+    "message": "🔗 NFT Address: EYNN4rVNoK4VAVJ1E4sGhBQgsanbU1Hgv3vhAUzWGPjh"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:10.334Z",
+    "type": "info",
+    "message": "🌐 View on Solscan: https://solscan.io/token/EYNN4rVNoK4VAVJ1E4sGhBQgsanbU1Hgv3vhAUzWGPjh?cluster=devnet"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:10.334Z",
+    "type": "info",
+    "message": "✅ Single NFT Mint PASSED"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:10.334Z",
+    "type": "info",
+    "message": "\n🧪 Running: Batch Mint"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:10.334Z",
+    "type": "info",
+    "message": "Testing batch minting..."
+  },
+  {
+    "timestamp": "2025-08-06T22:22:10.335Z",
+    "type": "info",
+    "message": "Minting NFT 1/3: SOLalchemists #1"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:12.116Z",
+    "type": "info",
+    "message": "✅ Minted: kRf3Ex4ddWEKToi1wFJjfiE8o92XcaLrzquR2W2bpue"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:14.118Z",
+    "type": "info",
+    "message": "Minting NFT 2/3: SOLalchemists #10"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:15.945Z",
+    "type": "info",
+    "message": "✅ Minted: 5gYJxih2H4TFtak8ve28M546erNYe64ua8mVQSraxcL9"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:17.948Z",
+    "type": "info",
+    "message": "Minting NFT 3/3: SOLalchemists #100"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:20.028Z",
+    "type": "info",
+    "message": "✅ Minted: 99osCAj9SUhsoATZ5DvuBgCiPTrSXe8qEVVZc48nT3HP"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:20.028Z",
+    "type": "info",
+    "message": "✅ Batch mint test completed. Minted 3 NFTs"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:20.028Z",
+    "type": "info",
+    "message": "✅ Batch Mint PASSED"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:20.028Z",
+    "type": "info",
+    "message": "\nNaN"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:20.028Z",
+    "type": "info",
+    "message": "📊 Test Results: 5/5 tests passed"
+  },
+  {
+    "timestamp": "2025-08-06T22:22:20.028Z",
+    "type": "info",
+    "message": "🎉 All tests passed! Ready for mainnet deployment."
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "name": "SOLalchemists Mystery Collection",
+  "symbol": "MYSTALCH",
+  "description": "Mysterious alchemists waiting to be revealed! Each mystery NFT can be revealed to show a unique SOLalchemist from the 1120 collection. Holders can visit our reveal website to transform their mystery alchemist into a unique SOLalchemist NFT with rare traits and attributes.",
+  "image": "ipfs://bafybeidojayq2h3ja5qqragcu3nxik5qpk65yn6ratpu5mupgtwhi6etcu/Mystery.png",
+  "external_url": "https://your-reveal-website.com",
+  "seller_fee_basis_points": 500,
+  "attributes": [
+    {
+      "trait_type": "Collection Type",
+      "value": "Mystery"
+    },
+    {
+      "trait_type": "Total Supply",
+      "value": "1000"
+    },
+    {
+      "trait_type": "Reveal Status",
+      "value": "Available"
+    },
+    {
+      "trait_type": "Reveal Collection",
+      "value": "SOLalchemists"
+    },
+    {
+      "trait_type": "Reveal Supply",
+      "value": "1120"
+    },
+    {
+      "trait_type": "Mint Strategy",
+      "value": "On-Demand"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "type": "image/png",
+        "uri": "ipfs://bafybeidojayq2h3ja5qqragcu3nxik5qpk65yn6ratpu5mupgtwhi6etcu/Mystery.png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "834LEdsyaZsgYt8gNmqFo7KJvVvUbMSM4E7ZVgJcWVqn",
+        "share": 100,
+        "verified": true
+      }
+    ]
+  }
+}

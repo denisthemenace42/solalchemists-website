@@ -1,0 +1,77 @@
+/* Roadmap page styles (scoped to roadmap only) */
+
+:root {
+  --bg: #000;
+  --fg: #e6ffe6;
+  --accent: #00ff41;
+  --accent-2: #ffaa00;
+  --danger: #ff0040;
+  --muted: #777;
+  --card: rgba(0,0,0,.7);
+  --border: #00ff41;
+}
+
+body { font-family: 'Orbitron', 'Press Start 2P', monospace; }
+
+.roadmap-container { padding-top: 96px; padding-bottom: 64px; }
+
+.roadmap-hero { margin-bottom: 24px; }
+.roadmap-title { color: var(--accent); text-align: left; font-size: clamp(1.4rem, 4vw, 2rem); margin: 0; }
+.roadmap-subtitle { color: #ccc; margin: 8px 0 12px; font-size: .95rem; }
+.meta-row { display:flex; flex-wrap:wrap; gap: 12px; align-items:center; justify-content: space-between; }
+.status-legend { display:flex; align-items:center; gap: 12px; color:#bbb; font-size:.85rem; }
+.status-legend .pill { display:inline-block; width: 10px; height: 10px; border-radius: 50%; border:2px solid #222; box-shadow: 0 0 6px rgba(0,0,0,.3); margin-right: 4px; }
+.last-updated { color:#aaa; font-size:.85rem; }
+
+.pill-progress { background:#00c853; border-color:#00ff41; box-shadow:0 0 8px rgba(0,255,65,.6); }
+.pill-planned { background:#ffaa00; border-color:#ffaa00; box-shadow:0 0 8px rgba(255,170,0,.5); }
+.pill-upcoming { background:#2979ff; border-color:#2979ff; box-shadow:0 0 8px rgba(41,121,255,.5); }
+.pill-complete { background:#00e5ff; border-color:#00e5ff; box-shadow:0 0 8px rgba(0,229,255,.5); }
+
+.layout { display:grid; grid-template-columns: 1fr; gap: 20px; }
+.toc { position: relative; top: 0; padding: 12px 16px; border:2px solid var(--border); border-radius:12px; background:var(--card); }
+.toc-title { color: var(--accent); display:block; margin-bottom:8px; }
+.toc ol { margin:0; padding-left: 1rem; }
+.toc a { color:#ddd; text-decoration:none; }
+.toc a:hover, .toc a:focus { color: var(--accent); text-decoration: underline; outline: none; }
+
+.timeline { position: relative; }
+.timeline-list { list-style:none; margin:0; padding:0; position:relative; }
+.timeline-list::before { content:""; position:absolute; left: 16px; top: 0; bottom: 0; width: 2px; background: linear-gradient(#064, #0a0); opacity:.6; }
+.timeline-item { display:grid; grid-template-columns: 40px 1fr; gap: 12px; margin-bottom: 18px; }
+.marker { width: 16px; height: 16px; background: var(--accent); border:2px solid #0a0; border-radius:50%; margin-top: 8px; box-shadow:0 0 10px rgba(0,255,65,.6); }
+.phase-card { border:2px solid var(--border); background: var(--card); border-radius: 12px; padding: 14px; }
+.phase-header { display:flex; align-items:center; justify-content: space-between; gap: 10px; }
+.phase-title { font-size: 1.05rem; color: var(--accent); margin: 0; }
+.status { font-size: .75rem; padding:.2rem .5rem; border-radius: 999px; color:#000; font-weight:700; text-transform: uppercase; letter-spacing: .5px; }
+.pill.pill-progress { color:#001b07; }
+.pill.pill-planned { color:#2a1500; }
+.pill.pill-upcoming { color:#00122e; }
+.pill.pill-complete { color:#002226; }
+.phase-points { margin: 10px 0; color:#ddd; }
+.phase-points li { margin: 4px 0; }
+.phase-meta { color:#aaa; font-size:.85rem; }
+.eta { color: var(--accent-2); }
+
+.social-callout { margin-top: 28px; text-align:center; color:#ccc; }
+.social-callout .social-link { color: var(--accent); text-decoration: none; }
+.social-callout .social-link:hover { text-decoration: underline; }
+
+.back-to-top { position: fixed; right: 16px; bottom: 16px; width:44px; height:44px; border-radius:50%; border:2px solid var(--border); background: #000; color: var(--accent); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 0 10px rgba(0,255,65,.4); opacity:0; visibility:hidden; transition: all .25s ease; z-index: 1000; }
+.back-to-top.show { opacity:1; visibility:visible; transform: translateY(0); }
+.back-to-top:focus { outline: 3px solid var(--accent); }
+
+/* Animations */
+.animate-on-scroll { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+.animate-on-scroll.in-view { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (min-width: 992px) {
+  .layout { grid-template-columns: 260px 1fr; align-items: start; }
+  .toc { position: sticky; top: 96px; }
+  .timeline-list::before { left: 289px; }
+  .timeline-item { grid-template-columns: 289px 1fr; }
+  .marker { margin-left: 273px; }
+}
+
+

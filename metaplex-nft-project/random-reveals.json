@@ -1,0 +1,43 @@
+{
+  "timestamp": "2025-08-07T13:18:40.135Z",
+  "totalReveals": 5,
+  "reveals": [
+    {
+      "number": 321,
+      "metadataUri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/321.json",
+      "imageUri": "ipfs://bafybeibwozxicevxmwjdqe3yhivglneierhkp5k7xlp2ak3wvr5c2an3my/321.png",
+      "name": "SOLalchemists #321"
+    },
+    {
+      "number": 1103,
+      "metadataUri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/1103.json",
+      "imageUri": "ipfs://bafybeibwozxicevxmwjdqe3yhivglneierhkp5k7xlp2ak3wvr5c2an3my/1103.png",
+      "name": "SOLalchemists #1103"
+    },
+    {
+      "number": 427,
+      "metadataUri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/427.json",
+      "imageUri": "ipfs://bafybeibwozxicevxmwjdqe3yhivglneierhkp5k7xlp2ak3wvr5c2an3my/427.png",
+      "name": "SOLalchemists #427"
+    },
+    {
+      "number": 976,
+      "metadataUri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/976.json",
+      "imageUri": "ipfs://bafybeibwozxicevxmwjdqe3yhivglneierhkp5k7xlp2ak3wvr5c2an3my/976.png",
+      "name": "SOLalchemists #976"
+    },
+    {
+      "number": 1011,
+      "metadataUri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/1011.json",
+      "imageUri": "ipfs://bafybeibwozxicevxmwjdqe3yhivglneierhkp5k7xlp2ak3wvr5c2an3my/1011.png",
+      "name": "SOLalchemists #1011"
+    }
+  ],
+  "collection": {
+    "totalNFTs": 1120,
+    "baseMetadataUri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a",
+    "baseImageUri": "ipfs://bafybeibwozxicevxmwjdqe3yhivglneierhkp5k7xlp2ak3wvr5c2an3my",
+    "symbol": "SOLALCH",
+    "name": "SOLalchemists"
+  }
+}

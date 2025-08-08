@@ -1,0 +1,99 @@
+{
+  "timestamp": "2025-08-07T14:52:30.398Z",
+  "wallet": "834LEdsyaZsgYt8gNmqFo7KJvVvUbMSM4E7ZVgJcWVqn",
+  "totalNFTs": 14,
+  "solalchemistsNFTs": 13,
+  "nfts": [
+    {
+      "name": "Mystery Alchemist #TEST",
+      "symbol": "MYST",
+      "address": "FAAKPJ85oJAeYEoYDeD4RfziErsAVEbFeSZSvoqjFjXL",
+      "uri": "https://example.com/mystery.json",
+      "solscanUrl": "https://solscan.io/token/FAAKPJ85oJAeYEoYDeD4RfziErsAVEbFeSZSvoqjFjXL?cluster=devnet"
+    },
+    {
+      "name": "Mystery Alchemist #VERIFIED",
+      "symbol": "MYST",
+      "address": "8Acmz7u59VRLBD1odLtwAuBrxv2xesKAfvAx7Wh97GjY",
+      "uri": "https://arweave.net/your-metadata-uri-here",
+      "solscanUrl": "https://solscan.io/token/8Acmz7u59VRLBD1odLtwAuBrxv2xesKAfvAx7Wh97GjY?cluster=devnet"
+    },
+    {
+      "name": "Mystery Alchemist #TEST",
+      "symbol": "MYST",
+      "address": "794jncoeo5rcgTzgWNsLjmcF6w4aGoTqAqquFToSjmSW",
+      "uri": "ipfs://bafybeidojayq2h3ja5qqragcu3nxik5qpk65yn6ratpu5mupgtwhi6etcu/mystery-metadata.json",
+      "solscanUrl": "https://solscan.io/token/794jncoeo5rcgTzgWNsLjmcF6w4aGoTqAqquFToSjmSW?cluster=devnet"
+    },
+    {
+      "name": "SOLalchemists #922",
+      "symbol": "SOLALCH",
+      "address": "HNydTrDfkyHrEzqw4JxDsxaZhPnhXWTmgaTpyXzd4a4F",
+      "uri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/922.json",
+      "solscanUrl": "https://solscan.io/token/HNydTrDfkyHrEzqw4JxDsxaZhPnhXWTmgaTpyXzd4a4F?cluster=devnet"
+    },
+    {
+      "name": "SOLalchemists #768",
+      "symbol": "SOLALCH",
+      "address": "9s97rgRN7sui9cnruCMTmMrsEouxSjsNb7rZbSC3rSty",
+      "uri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/768.json",
+      "solscanUrl": "https://solscan.io/token/9s97rgRN7sui9cnruCMTmMrsEouxSjsNb7rZbSC3rSty?cluster=devnet"
+    },
+    {
+      "name": "SOLalchemists #42",
+      "symbol": "SOLALCH",
+      "address": "7tCfstt7h7yjmGMTJPt1sPqUrhQUpsAo7DJabw3xRxc",
+      "uri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/42.json",
+      "solscanUrl": "https://solscan.io/token/7tCfstt7h7yjmGMTJPt1sPqUrhQUpsAo7DJabw3xRxc?cluster=devnet"
+    },
+    {
+      "name": "SOLalchemists #1118",
+      "symbol": "SOLALCH",
+      "address": "4Gj9ZfV64Ngs6Qh97uZyUoNbiHcmB9YZ2F44aUuQACH4",
+      "uri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/1118.json",
+      "solscanUrl": "https://solscan.io/token/4Gj9ZfV64Ngs6Qh97uZyUoNbiHcmB9YZ2F44aUuQACH4?cluster=devnet"
+    },
+    {
+      "name": "SOLalchemists Mystery Collection",
+      "symbol": "MYSTALCH",
+      "address": "97Ui34J11cTugvaTXCfCF5RyLiQNkoAb6cYqqU11myWw",
+      "uri": "ipfs://bafybeidojayq2h3ja5qqragcu3nxik5qpk65yn6ratpu5mupgtwhi6etcu/collection-metadata.json",
+      "solscanUrl": "https://solscan.io/token/97Ui34J11cTugvaTXCfCF5RyLiQNkoAb6cYqqU11myWw?cluster=devnet"
+    },
+    {
+      "name": "SOLalchemists #112",
+      "symbol": "SOLALCH",
+      "address": "8Ej6zsZ3tbwcQZy4DLhHCRXiAcvRz4AWQBMxR6ftwHSE",
+      "uri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/112.json",
+      "solscanUrl": "https://solscan.io/token/8Ej6zsZ3tbwcQZy4DLhHCRXiAcvRz4AWQBMxR6ftwHSE?cluster=devnet"
+    },
+    {
+      "name": "Mystery Alchemist #TEST",
+      "symbol": "MYST",
+      "address": "9bkYqHcKrHi8vkqi4etaunweqaUQNYMyoRkLu4sLdNhk",
+      "uri": "https://gist.githubusercontent.com/test/raw/mystery-test.json",
+      "solscanUrl": "https://solscan.io/token/9bkYqHcKrHi8vkqi4etaunweqaUQNYMyoRkLu4sLdNhk?cluster=devnet"
+    },
+    {
+      "name": "Mystery Alchemist #TEST",
+      "symbol": "MYST",
+      "address": "8zU8K7befzbhL85YjZuenbGMXEjSNEvruPJzU3TTsPTs",
+      "uri": "https://example.com/mystery.json",
+      "solscanUrl": "https://solscan.io/token/8zU8K7befzbhL85YjZuenbGMXEjSNEvruPJzU3TTsPTs?cluster=devnet"
+    },
+    {
+      "name": "Mystery Alchemist #TEST",
+      "symbol": "MYST",
+      "address": "pr1LoXuirRZcxoDs7Pg9TUuQguEUWn3dGJxw1eeW9z6",
+      "uri": "https://example.com/mystery.json",
+      "solscanUrl": "https://solscan.io/token/pr1LoXuirRZcxoDs7Pg9TUuQguEUWn3dGJxw1eeW9z6?cluster=devnet"
+    },
+    {
+      "name": "SOLalchemists #600",
+      "symbol": "SOLALCH",
+      "address": "8Kp9DzTSryDAF1GRCu7Y7ECeyRJHhhgmqYAsjr9HsBBa",
+      "uri": "ipfs://bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a/600.json",
+      "solscanUrl": "https://solscan.io/token/8Kp9DzTSryDAF1GRCu7Y7ECeyRJHhhgmqYAsjr9HsBBa?cluster=devnet"
+    }
+  ]
+}
