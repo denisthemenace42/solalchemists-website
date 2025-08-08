@@ -1554,8 +1554,10 @@
             }
             
             if (connectBtn) {
-                connectBtn.innerHTML = '<i class="fas fa-magic"></i> BEGIN TRANSMUTATION';
-                connectBtn.onclick = beginTransmutation;
+                connectBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> CHANGE WALLET';
+                connectBtn.onclick = showWalletChangeModal;
+                connectBtn.style.background = 'linear-gradient(45deg, #ffd700, #ffed4e)';
+                connectBtn.style.color = '#000';
             }
         }
 
@@ -1573,9 +1575,23 @@
             if (connectBtn) {
                 connectBtn.innerHTML = '<i class="fas fa-plug"></i> CONNECT WALLET';
                 connectBtn.onclick = connectWallet;
+                connectBtn.style.background = 'linear-gradient(45deg, #00ff41, #008000)';
+                connectBtn.style.color = '#fff';
             }
             
             showSuccessMessage('Wallet disconnected');
+        }
+
+        function showWalletChangeModal() {
+            const choice = confirm('Do you want to change your wallet?\n\nClick "OK" to change wallet\nClick "Cancel" to keep current wallet');
+            
+            if (choice) {
+                // User wants to change wallet
+                disconnectWallet();
+                setTimeout(() => {
+                    connectWallet();
+                }, 500);
+            }
         }
 
         function beginTransmutation() {
@@ -1592,15 +1608,21 @@
             showSuccessMessage('Beginning transmutation...');
             
             // Store user info for the reveal page
-            sessionStorage.setItem('userInfo', JSON.stringify({
-                user: firebase.auth().currentUser,
-                wallet: currentPublicKey
-            }));
+            const userInfo = {
+                user: {
+                    displayName: firebase.auth().currentUser.displayName,
+                    email: firebase.auth().currentUser.email,
+                    photoURL: firebase.auth().currentUser.photoURL,
+                    uid: firebase.auth().currentUser.uid
+                },
+                wallet: currentPublicKey,
+                walletType: currentWallet ? currentWallet.wallet : 'Unknown'
+            };
             
-            // Redirect to reveal page after a short delay
-            setTimeout(() => {
-                window.location.href = 'real-nft-reveal.html';
-            }, 2000);
+            sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+            
+            // Redirect to reveal page immediately
+            window.location.href = 'real-nft-reveal.html';
         }
 
         // Listen for auth state changes
@@ -2861,7 +2883,7 @@
 
                 <!-- Call to Action Buttons -->
                 <div class="hero-cta">
-                    <button class="cta-button" onclick="connectWallet()">
+                    <button class="cta-button" onclick="connectWallet()" style="background: linear-gradient(45deg, #00ff41, #008000); color: #fff;">
                         <i class="fas fa-plug"></i> CONNECT WALLET
                     </button>
                     <button class="cta-button secondary" onclick="beginTransmutation()">
@@ -3010,7 +3032,7 @@
                         <i class="fas fa-users"></i> THE ALCHEMISTS
                     </h2>
                     <p class="section-subtitle">
-                        Meet the mastermind behind the mystical realm of SOLalchemists
+                        Meet the masterminds behind the mystical realm of SOLalchemists
                     </p>
                 </div>
             </div>
