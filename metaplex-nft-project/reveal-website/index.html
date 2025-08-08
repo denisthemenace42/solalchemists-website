@@ -313,17 +313,7 @@
             }
         }
         
-        .hero-tagline {
-            font-size: clamp(0.8rem, 2.5vw, 1.1rem);
-            color: #ffffff;
-            margin-bottom: 1rem;
-            font-weight: 400;
-            line-height: 1.6;
-            text-shadow: 0 0 5px #ffffff;
-            animation: tagline-fade 1.5s ease-in-out infinite;
-            text-align: center;
-            padding: 0 1rem;
-        }
+
         
         .potion-above-title {
             font-size: 3rem;
@@ -337,10 +327,7 @@
             text-shadow: 0 0 20px #00ff41;
         }
         
-        @keyframes tagline-fade {
-            0%, 100% { opacity: 1; transform: translateY(0); }
-            50% { opacity: 0.7; transform: translateY(-5px); }
-        }
+
         
         /* NFT Carousel */
         .nft-carousel {
@@ -871,17 +858,11 @@
                 display: none;
             }
             
-            .desktop-potion {
-                display: none;
-            }
+
             
             .mobile-potion {
                 display: block;
                 font-size: clamp(3rem, 12vw, 5rem);
-            }
-            
-            .hero-tagline {
-                display: none;
             }
             
             .potion-above-title {
@@ -944,10 +925,6 @@
                 font-size: clamp(2.5rem, 10vw, 4rem);
             }
             
-            .hero-tagline {
-                display: none;
-            }
-            
             .potion-above-title {
                 display: none;
             }
@@ -1000,10 +977,6 @@
                 font-size: 2rem;
             }
             
-            .hero-tagline {
-                display: none;
-            }
-            
             .potion-above-title {
                 display: none;
             }
@@ -1020,10 +993,6 @@
             
             .mobile-potion {
                 font-size: clamp(2.8rem, 11vw, 4.5rem);
-            }
-            
-            .hero-tagline {
-                display: none;
             }
             
             .potion-above-title {
@@ -1583,9 +1552,7 @@
                 
                 <h1 class="hero-title pixel-text">SOL ALCHEMISTS</h1>
                 
-                <p class="hero-tagline">
-                    Forge your destiny in the mystical realm. Transmute the digital realm with ancient alchemy.
-                </p>
+
                 
                 <!-- NFT Carousel -->
                 <div class="nft-carousel">
@@ -1596,8 +1563,8 @@
                             <img src="images/nft1.png" 
                                  alt="SOLalchemist NFT 1" 
                                  class="carousel-nft"
-                                 onload="console.log('✅ NFT 1 loaded successfully'); this.style.border='3px solid #00ff00';"
-                                 onerror="console.log('❌ NFT 1 failed to load'); this.style.background='#ff0080'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='#fff'; this.style.fontWeight='bold'; this.style.fontSize='16px'; this.innerHTML='SOLalchemist #1'; this.style.border='3px solid #ff0000';">
+                                 onload="this.style.border='3px solid #00ff00';"
+                                 onerror="this.style.background='#ff0080'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='#fff'; this.style.fontWeight='bold'; this.style.fontSize='16px'; this.innerHTML='SOLalchemist #1'; this.style.border='3px solid #ff0000';">
                         </div>
                         <div class="carousel-item">
                             <img src="images/mystery.png" 
@@ -3081,7 +3048,7 @@
         // Mystical text effect
         function addMysticalEffects() {
             const title = document.querySelector('.hero-title');
-            const tagline = document.querySelector('.hero-tagline');
+    
             
             // Add glitch effect to title
             title.addEventListener('mouseenter', function() {
@@ -3102,21 +3069,7 @@
                 `;
             });
             
-            // Add typewriter effect to tagline
-            const originalText = tagline.textContent;
-            tagline.textContent = '';
-            let charIndex = 0;
-            
-            function typeWriter() {
-                if (charIndex < originalText.length) {
-                    tagline.textContent += originalText.charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeWriter, 50);
-                }
-            }
-            
-            // Start typewriter effect after page load
-            setTimeout(typeWriter, 1000);
+
         }
         
 
@@ -3127,39 +3080,7 @@
             enhanceCarousel();
             addMysticalEffects();
             
-            // Debug carousel
-            console.log('🔍 Checking carousel...');
-            const carousel = document.querySelector('.nft-carousel');
-            const carouselItems = document.querySelectorAll('.carousel-item');
-            const carouselImages = document.querySelectorAll('.carousel-nft');
-            
-            console.log('Carousel container:', carousel);
-            console.log('Carousel items found:', carouselItems.length);
-            console.log('Carousel images found:', carouselImages.length);
-            
-            if (carousel) {
-                console.log('✅ Carousel container is present');
-                carousel.style.border = '5px solid #00ff00'; // Green border for success
-                carousel.style.background = 'rgba(0, 255, 0, 0.2)'; // Green background for success
-                console.log('🎨 Carousel dimensions:', carousel.offsetWidth, 'x', carousel.offsetHeight);
-                
-                // Make sure carousel is visible
-                carousel.style.display = 'block';
-                carousel.style.visibility = 'visible';
-                carousel.style.opacity = '1';
-                carousel.style.zIndex = '1000';
-                
-                // Check carousel items
-                const items = carousel.querySelectorAll('.carousel-item');
-                console.log('🎯 Carousel items found:', items.length);
-                items.forEach((item, index) => {
-                    item.style.border = '2px solid #00ff00';
-                    item.style.background = 'rgba(0, 255, 0, 0.1)';
-                    console.log(`🎨 Item ${index}:`, item.offsetWidth, 'x', item.offsetHeight);
-                });
-            } else {
-                console.log('❌ Carousel container not found');
-            }
+
             
             // Add scroll indicator animation
             const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -3174,7 +3095,6 @@
             }
             
             // Connect wallet button is now handled via onclick attribute
-            console.log('🔮 SOLalchemists website loaded successfully');
         });
         
         // Simple and reliable wallet connection
@@ -3182,7 +3102,6 @@
         let currentPublicKey = null;
         
         async function connectWallet() {
-            console.log('🔮 Initiating alchemical connection...');
             
             try {
                 // Try to connect to any available wallet
@@ -3191,14 +3110,12 @@
                 if (wallet && wallet.publicKey) {
                     currentWallet = wallet;
                     currentPublicKey = wallet.publicKey.toString();
-                    console.log('✅ Wallet connected successfully:', currentPublicKey);
                     onWalletConnected(currentPublicKey);
                 } else {
                     throw new Error('No wallet could be connected. Please install Phantom or Solflare.');
                 }
                 
             } catch (error) {
-                console.error('❌ Wallet connection failed:', error);
                 showError('Wallet connection failed: ' + error.message);
             }
         }
