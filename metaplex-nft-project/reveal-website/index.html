@@ -1589,8 +1589,75 @@
                 // User wants to change wallet
                 disconnectWallet();
                 setTimeout(() => {
-                    connectWallet();
+                    // Show wallet selection options
+                    const walletChoice = confirm('Choose your wallet:\n\nClick "OK" for Phantom\nClick "Cancel" for Solflare');
+                    
+                    if (walletChoice) {
+                        // Connect to Phantom
+                        connectToPhantomWallet();
+                    } else {
+                        // Connect to Solflare
+                        connectToSolflareWallet();
+                    }
                 }, 500);
+            }
+        }
+
+        function connectToPhantomWallet() {
+            if (window.solana && window.solana.isPhantom) {
+                window.solana.connect()
+                    .then(response => {
+                        if (response.publicKey) {
+                            const wallet = { wallet: 'Phantom', publicKey: response.publicKey };
+                            currentWallet = wallet;
+                            currentPublicKey = response.publicKey.toString();
+                            console.log('✅ Phantom connected successfully:', currentPublicKey);
+                            updateWalletUI();
+                            showSuccessMessage('Phantom wallet connected!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('❌ Phantom connection failed:', error);
+                        showErrorMessage('Phantom connection failed: ' + error.message);
+                    });
+            } else {
+                showErrorMessage('Phantom wallet not found. Please install Phantom extension.');
+            }
+        }
+
+        function connectToSolflareWallet() {
+            if (window.solflare) {
+                window.solflare.connect()
+                    .then(response => {
+                        if (response === true || response) {
+                            // Try to get public key
+                            let publicKey = null;
+                            
+                            // Try multiple methods to get the public key
+                            if (window.solflare.publicKey) {
+                                publicKey = window.solflare.publicKey.toString();
+                            } else if (window.solflare.getPublicKey) {
+                                return window.solflare.getPublicKey();
+                            }
+                            
+                            if (publicKey) {
+                                const wallet = { wallet: 'Solflare', publicKey: publicKey };
+                                currentWallet = wallet;
+                                currentPublicKey = publicKey;
+                                console.log('✅ Solflare connected successfully:', currentPublicKey);
+                                updateWalletUI();
+                                showSuccessMessage('Solflare wallet connected!');
+                            } else {
+                                throw new Error('Could not retrieve public key from Solflare');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('❌ Solflare connection failed:', error);
+                        showErrorMessage('Solflare connection failed: ' + error.message);
+                    });
+            } else {
+                showErrorMessage('Solflare wallet not found. Please install Solflare extension.');
             }
         }
 

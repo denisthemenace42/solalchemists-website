@@ -584,6 +584,13 @@
                         ALCHEMISTS
                     </h1>
                     <p class="hero-tagline">Transmute your mystery alchemists into legendary SOLalchemist NFTs</p>
+                    
+                    <!-- User Display -->
+                    <div id="user-display" class="user-display" style="display: none;">
+                        <p class="text-warning" style="font-size: 1rem; margin-top: 1rem;">
+                            <i class="fas fa-user"></i> <span id="user-name">Welcome, Alchemist!</span>
+                        </p>
+                    </div>
 
                 </div>
 
@@ -1070,9 +1077,58 @@
             document.getElementById('error-message').style.display = 'block';
         }
 
+        // Load user info from sessionStorage
+        function loadUserInfo() {
+            try {
+                const userInfoStr = sessionStorage.getItem('userInfo');
+                if (userInfoStr) {
+                    const userInfo = JSON.parse(userInfoStr);
+                    console.log('📋 Loaded user info:', userInfo);
+                    
+                    // Display user info if available
+                    if (userInfo.user && userInfo.user.displayName) {
+                        const userDisplay = document.getElementById('user-display');
+                        const userName = document.getElementById('user-name');
+                        if (userDisplay && userName) {
+                            userName.textContent = `Welcome, ${userInfo.user.displayName}!`;
+                            userDisplay.style.display = 'block';
+                        }
+                    }
+                    
+                    // Auto-connect wallet if info is available
+                    if (userInfo.wallet) {
+                        console.log('🔗 Auto-connecting wallet:', userInfo.wallet);
+                        // Set the wallet info for the reveal page
+                        window.userWalletAddress = userInfo.wallet;
+                        window.userWalletType = userInfo.walletType || 'Unknown';
+                        
+                        // Update UI to show connected state
+                        const connectBtn = document.getElementById('connect-wallet');
+                        if (connectBtn) {
+                            connectBtn.textContent = `Connected: ${userInfo.wallet.substring(0, 8)}...`;
+                            connectBtn.disabled = true;
+                        }
+                        
+                        // Enable reveal button
+                        const revealBtn = document.getElementById('reveal-nft');
+                        if (revealBtn) {
+                            revealBtn.disabled = false;
+                        }
+                    }
+                } else {
+                    console.log('⚠️ No user info found in sessionStorage');
+                }
+            } catch (error) {
+                console.error('❌ Error loading user info:', error);
+            }
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
+            
+            // Load user info from previous page
+            loadUserInfo();
             
             // Show mystery NFT section immediately
             document.getElementById('mystery-nft-section').style.display = 'block';
