@@ -20,20 +20,24 @@
   ],
   "routes": [
     {
+      "src": "/real-nft-reveal",
+      "dest": "/real-nft-reveal.html"
+    },
+    {
+      "src": "/real-nft-reveal.html",
+      "dest": "/real-nft-reveal.html"
+    },
+    {
+      "src": "/admin-verifications",
+      "dest": "/admin-verifications.html"
+    },
+    {
       "src": "/images/(.*)",
       "dest": "/images/$1"
     },
     {
       "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
       "dest": "/$1"
-    },
-    {
-      "src": "/real-nft-reveal",
-      "dest": "/real-nft-reveal.html"
-    },
-    {
-      "src": "/admin-verifications",
-      "dest": "/admin-verifications.html"
     },
     {
       "src": "/(.*)",
