@@ -1,0 +1,72 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+
+# Firebase configuration (if contains sensitive keys)
+firebase-config.js
+firebase-config.local.js
+firebase-config.prod.js
+
+# API Keys and Secrets
+config.js
+secrets.js
+keys.js
+api-keys.js
+
+# Wallet files
+wallets/
+*.wallet
+wallet.json
+wallet-backup.json
+
+# Private keys and certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Log files
+*.log
+logs/
+
+# Node modules (if not already ignored)
+node_modules/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Build files
+dist/
+build/
+out/
+
+# Backup files
+*.backup
+*.bak
+*~
