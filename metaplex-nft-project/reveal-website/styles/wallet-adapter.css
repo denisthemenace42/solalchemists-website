@@ -5,8 +5,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(15px);
     display: flex;
@@ -28,10 +28,10 @@
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(0, 255, 65, 0.05));
     border: 3px solid #00ff41;
     border-radius: 25px;
-    padding: 2.5rem;
-    max-width: 650px;
+    padding: 2rem;
+    max-width: 500px;
     width: 90%;
-    max-height: 80vh;
+    max-height: 70vh;
     overflow-y: auto;
     position: relative;
     box-shadow: 
@@ -116,15 +116,15 @@
 .wallet-item {
     display: flex;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1rem;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 65, 0.05));
     border: 2px solid #333;
-    border-radius: 16px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    min-height: 90px;
+    min-height: 70px;
     backdrop-filter: blur(10px);
 }
 
@@ -171,13 +171,14 @@
 
 /* Wallet Icon */
 .wallet-icon {
-    width: 65px;
-    height: 65px;
-    border-radius: 16px;
-    margin-right: 1.5rem;
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    margin-right: 1rem;
     flex-shrink: 0;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     border: 2px solid #333;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -200,15 +201,15 @@
 .wallet-name {
     color: #fff;
     font-weight: bold;
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .wallet-status {
-    font-size: 1rem;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
