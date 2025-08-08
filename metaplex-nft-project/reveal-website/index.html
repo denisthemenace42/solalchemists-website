@@ -1216,7 +1216,7 @@
         .social-link {
             width: 50px;
             height: 50px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1225,12 +1225,76 @@
             font-size: 1.5rem;
             text-decoration: none;
             transition: all 0.3s ease;
+            border: 2px solid #00ff41;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
         }
 
         .social-link:hover {
-            background: #00ff41;
-            color: #000;
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+        }
+
+        /* Platform-specific styling */
+        .twitter-link {
+            border-color: #1DA1F2;
+            color: #1DA1F2;
+        }
+
+        .twitter-link:hover {
+            background: #1DA1F2;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(29, 161, 242, 0.6);
+        }
+
+        .instagram-link {
+            border-color: #E4405F;
+            color: #E4405F;
+        }
+
+        .instagram-link:hover {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(220, 39, 67, 0.6);
+        }
+
+        /* Floating animation for social links */
+        .social-link {
+            animation: social-float 3s ease-in-out infinite;
+        }
+
+        .social-link:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes social-float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .social-link:hover {
+            animation: none;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
         }
 
         .member-name {
@@ -2876,8 +2940,11 @@
                             <img src="https://unavatar.io/twitter/themenace_X" alt="The Menace" class="member-photo" onerror="this.src='images/themenace.png'">
                             <div class="member-overlay">
                                 <div class="social-links">
-                                    <a href="https://twitter.com/themenace_X" target="_blank" class="social-link">
+                                    <a href="https://twitter.com/themenace_X" target="_blank" class="social-link twitter-link" title="Follow on X">
                                         <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="https://instagram.com/belqta__" target="_blank" class="social-link instagram-link" title="Follow on Instagram">
+                                        <i class="fab fa-instagram"></i>
                                     </a>
                                 </div>
                             </div>
