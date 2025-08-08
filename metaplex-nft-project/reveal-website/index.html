@@ -727,72 +727,21 @@
             box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
         }
         
-        /* Message Center Styles */
-        .message-center {
+        .error-message {
+            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 10000;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .message-content {
             background: rgba(0, 0, 0, 0.95);
-            border: 2px solid #00ff41;
-            border-radius: 15px;
-            padding: 0;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.3);
-            animation: messageSlideIn 0.3s ease-out;
-        }
-
-        @keyframes messageSlideIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -60%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        .message-header {
-            background: linear-gradient(45deg, #00ff41, #008000);
-            color: #000;
-            padding: 1rem 1.5rem;
-            border-radius: 13px 13px 0 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-        }
-
-        .message-close {
-            background: none;
-            border: none;
-            color: #000;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .message-close:hover {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .message-body {
-            padding: 1.5rem;
-            color: #00ff41;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            line-height: 1.6;
+            border: 3px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            z-index: 10000;
+            max-width: 400px;
             text-align: center;
+            backdrop-filter: blur(10px);
         }
         
         /* Wallet Address Display Styling */
@@ -872,188 +821,105 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(10px);
+            z-index: 10001;
+            backdrop-filter: blur(5px);
         }
-
+        
         .wallet-modal-content {
             background: rgba(0, 0, 0, 0.95);
-            border: 2px solid #00ff41;
+            border: 3px solid #00ff41;
             border-radius: 15px;
-            max-width: 500px;
+            padding: 0;
+            max-width: 400px;
             width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            animation: modalSlideIn 0.3s ease-out;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
         }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
+        
         .wallet-modal-header {
-            background: linear-gradient(45deg, #00ff41, #008000);
-            color: #000;
-            padding: 1.5rem;
-            border-radius: 13px 13px 0 0;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            font-family: 'Press Start 2P', cursive;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #00ff41;
+            color: #00ff41;
         }
-
+        
         .wallet-modal-header h3 {
             margin: 0;
+            font-family: 'Press Start 2P', cursive;
             font-size: 1rem;
         }
-
+        
         .modal-close {
             background: none;
             border: none;
-            color: #000;
-            font-size: 1.5rem;
+            color: #00ff41;
+            font-size: 1.2rem;
             cursor: pointer;
             padding: 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
         }
-
+        
         .modal-close:hover {
-            background: rgba(0, 0, 0, 0.2);
+            color: #ff0040;
         }
-
+        
         .wallet-modal-body {
-            padding: 1.5rem;
+            padding: 20px;
         }
-
+        
         .wallet-option {
             display: flex;
             align-items: center;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            gap: 15px;
+            padding: 15px;
             border: 2px solid #00ff41;
             border-radius: 10px;
+            margin-bottom: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: rgba(0, 255, 65, 0.05);
+            color: #00ff41;
         }
-
+        
         .wallet-option:hover {
             background: rgba(0, 255, 65, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.2);
         }
-
-        .wallet-option.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            border-color: #666;
-        }
-
-        .wallet-option.disabled:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
+        
         .wallet-icon {
+            font-size: 2rem;
             width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #00ff41, #008000);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            font-size: 1.5rem;
-            color: #000;
-        }
-
-        .wallet-info {
-            flex: 1;
-        }
-
-        .wallet-info h4 {
-            margin: 0 0 0.5rem 0;
-            color: #00ff41;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-        }
-
-        .wallet-info p {
-            margin: 0 0 0.5rem 0;
-            color: #ccc;
-            font-size: 0.6rem;
-        }
-
-        .wallet-status {
-            font-size: 0.6rem;
-            font-family: 'Press Start 2P', cursive;
-        }
-
-        .wallet-status.available {
-            color: #00ff41;
-        }
-
-        .wallet-status.unavailable {
-            color: #ff0000;
-        }
-
-        .wallet-install-prompt {
             text-align: center;
-            padding: 1rem;
-            border: 2px dashed #666;
-            border-radius: 10px;
-            margin-top: 1rem;
         }
-
-        .wallet-install-prompt h4 {
-            color: #00ff41;
+        
+        .wallet-details h4 {
+            margin: 0 0 5px 0;
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
-
-        .wallet-install-prompt p {
-            color: #ccc;
-            font-size: 0.6rem;
-            margin-bottom: 1rem;
+        
+        .wallet-details p {
+            margin: 0;
+            font-size: 0.7rem;
+            opacity: 0.8;
         }
-
-        .wallet-links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
+        
+        .wallet-status {
+            margin-left: auto;
+            font-size: 1.2rem;
         }
-
-        .wallet-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(45deg, #00ff41, #008000);
-            color: #000;
-            text-decoration: none;
-            border-radius: 5px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
-            transition: all 0.3s ease;
+        
+        .wallet-option.connecting .wallet-status {
+            animation: spin 1s linear infinite;
         }
-
-        .wallet-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
-            color: #000;
-
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
         
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -1559,115 +1425,31 @@
             }
         }
 
-        // Message Center Functions
-        function showMessage(type, title, message) {
-            const messageCenter = document.getElementById('message-center');
-            const messageIcon = document.getElementById('message-icon');
-            const messageTitle = document.getElementById('message-title');
-            const messageText = document.getElementById('message-text');
-            
-            if (messageCenter && messageIcon && messageTitle && messageText) {
-                // Set icon based on type
-                if (type === 'error') {
-                    messageIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-                    messageCenter.style.borderColor = '#ff0000';
-                } else if (type === 'success') {
-                    messageIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
-                    messageCenter.style.borderColor = '#00ff41';
-                } else if (type === 'warning') {
-                    messageIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
-                    messageCenter.style.borderColor = '#ffaa00';
-                } else {
-                    messageIcon.innerHTML = '<i class="fas fa-info-circle"></i>';
-                    messageCenter.style.borderColor = '#00ff41';
-                }
-                
-                messageTitle.textContent = title;
-                messageText.textContent = message;
-                messageCenter.style.display = 'block';
-                
-                // Auto-hide after 5 seconds
-                setTimeout(() => {
-                    closeMessage();
-                }, 5000);
-            }
-        }
-
-        function closeMessage() {
-            const messageCenter = document.getElementById('message-center');
-            if (messageCenter) {
-                messageCenter.style.display = 'none';
-            }
-        }
-
         // Show error message function
         function showErrorMessage(message) {
-            showMessage('error', 'Error', message);
+            const errorDiv = document.getElementById('error-message');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            } else {
+                console.error('Error message:', message);
+            }
         }
 
         // Show success message function
         function showSuccessMessage(message) {
-            showMessage('success', 'Success', message);
-        }
-
-        // Wallet Modal Functions
-        function showWalletModal() {
-            const modal = document.getElementById('wallet-modal');
-            if (modal) {
-                modal.style.display = 'flex';
-                updateWalletStatus();
-            }
-        }
-
-        function closeWalletModal() {
-            const modal = document.getElementById('wallet-modal');
-            if (modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        function updateWalletStatus() {
-            const phantomStatus = document.getElementById('phantom-status');
-            const solflareStatus = document.getElementById('solflare-status');
-            const installPrompt = document.getElementById('wallet-install-prompt');
-            
-            let availableWallets = 0;
-            
-            // Check Phantom availability
-            if (window.solana && window.solana.isPhantom) {
-                if (phantomStatus) {
-                    phantomStatus.innerHTML = '<i class="fas fa-check"></i> Available';
-                    phantomStatus.className = 'wallet-status available';
-                }
-                availableWallets++;
+            const successDiv = document.getElementById('success-message');
+            if (successDiv) {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                }, 3000);
             } else {
-                if (phantomStatus) {
-                    phantomStatus.innerHTML = '<i class="fas fa-times"></i> Not Installed';
-                    phantomStatus.className = 'wallet-status unavailable';
-                }
-            }
-            
-            // Check Solflare availability
-            if (window.solflare) {
-                if (solflareStatus) {
-                    solflareStatus.innerHTML = '<i class="fas fa-check"></i> Available';
-                    solflareStatus.className = 'wallet-status available';
-                }
-                availableWallets++;
-            } else {
-                if (solflareStatus) {
-                    solflareStatus.innerHTML = '<i class="fas fa-times"></i> Not Installed';
-                    solflareStatus.className = 'wallet-status unavailable';
-                }
-            }
-            
-            // Show install prompt if no wallets available
-            if (installPrompt) {
-                if (availableWallets === 0) {
-                    installPrompt.style.display = 'block';
-                } else {
-                    installPrompt.style.display = 'none';
-                }
+                console.log('Success message:', message);
             }
         }
 
@@ -3425,68 +3207,14 @@
         </a>
     </div>
 
-    <!-- Message Center -->
-    <div id="message-center" class="message-center" style="display: none;">
-        <div class="message-content">
-            <div class="message-header">
-                <span id="message-icon"></span>
-                <span id="message-title"></span>
-                <button class="message-close" onclick="closeMessage()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="message-body">
-                <span id="message-text"></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Wallet Selection Modal -->
-    <div id="wallet-modal" class="wallet-modal" style="display: none;">
-        <div class="wallet-modal-content">
-            <div class="wallet-modal-header">
-                <h3><i class="fas fa-wallet"></i> Choose Your Wallet</h3>
-                <button class="modal-close" onclick="closeWalletModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="wallet-modal-body">
-                <div class="wallet-option" onclick="connectToPhantomWallet()">
-                    <div class="wallet-icon">
-                        <i class="fas fa-ghost"></i>
-                    </div>
-                    <div class="wallet-info">
-                        <h4>Phantom</h4>
-                        <p>Most popular Solana wallet</p>
-                        <span id="phantom-status" class="wallet-status">Checking...</span>
-                    </div>
-                </div>
-                
-                <div class="wallet-option" onclick="connectToSolflareWallet()">
-                    <div class="wallet-icon">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <div class="wallet-info">
-                        <h4>Solflare</h4>
-                        <p>Advanced Solana wallet</p>
-                        <span id="solflare-status" class="wallet-status">Checking...</span>
-                    </div>
-                </div>
-                
-                <div class="wallet-install-prompt" id="wallet-install-prompt" style="display: none;">
-                    <h4><i class="fas fa-download"></i> Install a Wallet</h4>
-                    <p>You need a Solana wallet to continue. Please install one of these:</p>
-                    <div class="wallet-links">
-                        <a href="https://phantom.app/" target="_blank" class="wallet-link">
-                            <i class="fas fa-ghost"></i> Install Phantom
-                        </a>
-                        <a href="https://solflare.com/" target="_blank" class="wallet-link">
-                            <i class="fas fa-fire"></i> Install Solflare
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="error-message" class="error-message">
+        <h5 style="color: #ff0000; margin-bottom: 15px;">
+            <i class="fas fa-exclamation-triangle"></i> Action Required
+        </h5>
+        <p id="error-text" style="color: #ff0000; margin-bottom: 15px;"></p>
+        <button onclick="document.getElementById('error-message').style.display='none'" style="background: #ff0000; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+            Close
+        </button>
     </div>
 
     <!-- Scripts -->
@@ -3513,31 +3241,98 @@
             }
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .message-center {
-                width: 95%;
-                max-width: 400px;
+        // Enhanced carousel with available NFT collection (104 NFTs) including Mystery.png
+        function enhanceCarousel() {
+            const carouselItems = document.querySelectorAll('.carousel-item img');
+            const nftImages = [];
+            
+            // Missing NFTs that we need to skip
+            const missingNfts = [11, 12, 14, 15, 19, 93];
+            
+            // Generate array with available NFTs and mystery interspersed
+            for (let i = 1; i <= 110; i++) {
+                // Skip missing NFTs
+                if (missingNfts.includes(i)) {
+                    continue;
+                }
+                
+                nftImages.push(`images/nft${i}.png`); // NFT
+                if (i % 2 === 1 && i < 110) { // Add mystery after odd numbers (except last)
+                    nftImages.push('images/mystery.png');
+                }
             }
             
-            .wallet-modal-content {
-                width: 95%;
-                max-width: 400px;
-            }
-            
-            .wallet-option {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .wallet-icon {
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
+            carouselItems.forEach((img, index) => {
+                // Assign random NFT images to all carousel items
+                const randomImage = nftImages[Math.floor(Math.random() * nftImages.length)];
+                img.src = randomImage;
+                
+                // Add random animation delay
+                img.parentElement.style.animationDelay = (index * 0.3) + 's';
+                
+                // Simplified hover effect
+                img.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                });
+                
+                img.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
         }
-    </style>
+        
+        // Mystical text effect
+        function addMysticalEffects() {
+            const title = document.querySelector('.hero-title');
     
+            
+            // Add glitch effect to title
+            title.addEventListener('mouseenter', function() {
+                this.style.textShadow = `
+                    3px 3px 0px #000,
+                    6px 6px 0px #00ff41,
+                    0 0 40px #00ff41,
+                    0 0 60px #00ff41,
+                    0 0 80px #ff0080
+                `;
+            });
+            
+            title.addEventListener('mouseleave', function() {
+                this.style.textShadow = `
+                    3px 3px 0px #000,
+                    6px 6px 0px #00ff41,
+                    0 0 20px #00ff41
+                `;
+            });
+            
 
+        }
+        
+
+        
+        // Initialize all effects when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            enhanceCarousel();
+            addMysticalEffects();
+            
+
+            
+            // Add scroll indicator animation
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', function() {
+                    // Scroll to bottom of page instead
+                    window.scrollTo({ 
+                        top: document.body.scrollHeight, 
+                        behavior: 'smooth' 
+                    });
+                });
+            }
+            
+            // Connect wallet button is now handled via onclick attribute
+        });
+    </script>
     
     <script src="social-rewards-manual.js"></script>
 </body>
