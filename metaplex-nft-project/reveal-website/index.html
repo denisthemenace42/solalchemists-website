@@ -1459,15 +1459,25 @@
             if (user) {
                 // User is signed in
                 const socialLoginContainer = document.querySelector('.social-login-container');
-                const userProfile = document.querySelector('.user-profile');
+                const userProfileContainer = document.getElementById('userProfileContainer');
                 
                 if (socialLoginContainer) socialLoginContainer.style.display = 'none';
-                if (userProfile) {
-                    userProfile.style.display = 'flex';
-                    const userName = userProfile.querySelector('#userName');
-                    const userAvatar = userProfile.querySelector('#userAvatar');
+                if (userProfileContainer) {
+                    userProfileContainer.style.display = 'block';
+                    const userName = userProfileContainer.querySelector('#userName');
+                    const userHandle = userProfileContainer.querySelector('#userHandle');
+                    const userAvatar = userProfileContainer.querySelector('#userAvatar');
+                    
                     if (userName) userName.textContent = user.displayName || 'Alchemist';
-                    if (userAvatar) userAvatar.src = user.photoURL || 'images/default-avatar.png';
+                    if (userAvatar) userAvatar.src = user.photoURL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiMwMGZmNDEiLz4KPHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDEwQzE3LjIwOTEgMTAgMTkgMTEuNzkwOSAxOSAxNEMxOSAxNi4yMDkxIDE3LjIwOTEgMTggMTUgMThDMTIuNzkwOSAxOCAxMSAxNi4yMDkxIDExIDE0QzExIDExLjc5MDkgMTIuNzkwOSAxMCAxNSAxMFoiIGZpbGw9IiMwMDAiLz4KPHBhdGggZD0iTTE1IDIwQzE4LjMxMzcgMjAgMjEgMjIuNjg2MyAyMSAyNkgyMUMxOSAyOCAyMSAzMCAyMSAzMEg5QzkgMzAgMTEgMjggOSAyNkM5IDIyLjY4NjMgMTEuNjg2MyAyMCAxNSAyMFoiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cjwvc3ZnPgo=';
+                    
+                    // Get Twitter handle from provider data
+                    const twitterProvider = user.providerData.find(p => p.providerId === 'twitter.com');
+                    if (twitterProvider && userHandle) {
+                        userHandle.textContent = `@${twitterProvider.screenName || 'twitter_user'}`;
+                    } else if (userHandle) {
+                        userHandle.textContent = '@alchemist';
+                    }
                 }
                 
                 // Show social rewards system
@@ -1478,10 +1488,10 @@
             } else {
                 // User is signed out
                 const socialLoginContainer = document.querySelector('.social-login-container');
-                const userProfile = document.querySelector('.user-profile');
+                const userProfileContainer = document.getElementById('userProfileContainer');
                 
                 if (socialLoginContainer) socialLoginContainer.style.display = 'flex';
-                if (userProfile) userProfile.style.display = 'none';
+                if (userProfileContainer) userProfileContainer.style.display = 'none';
                 
                 // Hide social rewards system
                 const socialRewards = document.getElementById('social-rewards');
@@ -1734,6 +1744,38 @@
 
 
 
+        .user-profile-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            padding: 10px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            border-radius: 6px;
+            color: #00ff41;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .connection-status i {
+            color: #00ff41;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
         .user-profile {
             display: flex;
             align-items: center;
@@ -1745,30 +1787,61 @@
             border: 2px solid #00ff41;
             border-radius: 8px;
             color: #00ff41;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .user-profile img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .user-info #userName {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: #00ff41;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+
+        .user-handle {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            color: #1DA1F2;
+            opacity: 0.8;
         }
 
         .logout-btn {
-            padding: 8px 16px;
-            background: #ff0040;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: linear-gradient(45deg, #ff0040, #cc0033);
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             color: #fff;
             font-family: 'Press Start 2P', cursive;
             font-size: 0.6rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .logout-btn:hover {
-            background: #cc0033;
+            background: linear-gradient(45deg, #cc0033, #990026);
             transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 0, 64, 0.5);
         }
 
 
@@ -2927,6 +3000,10 @@
 
                 <!-- User Profile Container (separate from login) -->
                 <div class="user-profile-container" id="userProfileContainer" style="display: none;">
+                    <div class="connection-status">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Connected to Twitter</span>
+                    </div>
                     <div class="user-profile">
                         <img id="userAvatar" src="" alt="User Avatar">
                         <div class="user-info">
