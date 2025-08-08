@@ -3615,19 +3615,19 @@
       const API_BASE = (location.hostname === 'localhost' && location.port === '8000') ? 'http://localhost:3000' : '';
       async function apiVerifyReferral(payload){
         try {
-          const res = await fetch(`${API_BASE}/api/referral/verify`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const res = await fetch(`${API_BASE}/api/referral/verify`, { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify(payload) });
           return await res.json();
         } catch(e){ return { success:false, error:'Network error' }; }
       }
       async function apiGenerateCodes(payload){
         try {
-          const res = await fetch(`${API_BASE}/api/referral/generate`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const res = await fetch(`${API_BASE}/api/referral/generate`, { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify(payload) });
           return await res.json();
         } catch(e){ return { success:false, error:'Network error' }; }
       }
       async function apiAddXp(payload){
         try {
-          const res = await fetch(`${API_BASE}/api/user/xp/add`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const res = await fetch(`${API_BASE}/api/user/xp/add`, { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify(payload) });
           return await res.json();
         } catch(e){ return { success:false, error:'Network error' }; }
       }
@@ -3635,6 +3635,7 @@
       function setGateUnlocked(unlocked){
         const twitter = document.getElementById('twitter-gated');
         const wallet = document.getElementById('wallet-gated');
+        const gate = document.getElementById('referral-gate');
         if (!twitter || !wallet) return;
         if (unlocked){
           twitter.classList.remove('gated');
@@ -3642,18 +3643,31 @@
           wallet.classList.remove('gated');
           wallet.classList.add('unlocked');
           localStorage.setItem('sola:gateUnlocked','1');
+          if (gate) gate.style.display = 'none';
           // If a wallet is already connected at the provider level, do not auto-bind until user clicks
           // leave currentWallet/currentPublicKey unchanged here
         } else {
           twitter.classList.add('gated');
           wallet.classList.add('gated');
           localStorage.removeItem('sola:gateUnlocked');
+          if (gate) gate.style.display = '';
         }
       }
 
       function loadGateState(){
         const unlocked = localStorage.getItem('sola:gateUnlocked') === '1';
         setGateUnlocked(unlocked);
+      }
+
+      // If user already has a valid session, unlock and hide the referral gate
+      async function trySessionRefresh(){
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/refresh`, { method:'POST', credentials:'include' });
+          const data = await res.json().catch(()=>({}));
+          if (res.ok && data && data.success){
+            setGateUnlocked(true);
+          }
+        } catch (e) { /* ignore */ }
       }
 
       function openCodesModal(codes){
@@ -3683,7 +3697,7 @@
         const user = (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser : null;
         const userId = user?.uid || 'guest';
 
-        const verify = await apiVerifyReferral({ code, userId });
+        const verify = await apiVerifyReferral({ code, identifier: userId });
         if (!verify?.success){ showErrorMessage('Invalid or already used code.'); return; }
 
         // Add referral points as XP immediately (5 RP => 50 XP or choose 5?)
@@ -3709,7 +3723,7 @@
         showSuccessMessage('Access granted. Welcome to the Lab!');
       }
 
-      document.addEventListener('DOMContentLoaded', loadGateState);
+      document.addEventListener('DOMContentLoaded', ()=>{ loadGateState(); trySessionRefresh(); });
     </script>
 </body>
 </html>
