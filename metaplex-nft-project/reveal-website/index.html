@@ -1374,6 +1374,241 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     
+    <!-- Firebase Configuration -->
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSEuWzq5mgmulc53LOXo1iUVuLxs3iAos",
+            authDomain: "sol-alchemists.firebaseapp.com",
+            projectId: "sol-alchemists",
+            storageBucket: "sol-alchemists.firebasestorage.app",
+            messagingSenderId: "898278444",
+            appId: "1:898278444:web:28f2b6b20afc0852ab5d89",
+            measurementId: "G-ME4BQE7K0L"
+        };
+
+        // Initialize Firebase
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        // Social login functions
+        function signInWithTwitter() {
+            if (typeof firebase === 'undefined') {
+                console.error('Firebase not loaded');
+                return;
+            }
+            
+            const provider = new firebase.auth.TwitterAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    console.log('Twitter login successful');
+                    updateUI(result.user);
+                })
+                .catch((error) => {
+                    console.error('Twitter login error:', error);
+                    showErrorMessage('Twitter login failed: ' + error.message);
+                });
+        }
+
+        // Sign out function
+        function signOut() {
+            if (typeof firebase !== 'undefined') {
+                firebase.auth().signOut()
+                    .then(() => {
+                        console.log('User signed out successfully');
+                        updateUI(null);
+                    })
+                    .catch((error) => {
+                        console.error('Sign out error:', error);
+                    });
+            }
+        }
+
+        // Show error message function
+        function showErrorMessage(message) {
+            const errorDiv = document.getElementById('error-message');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            } else {
+                console.error('Error message:', message);
+            }
+        }
+
+        // Show success message function
+        function showSuccessMessage(message) {
+            const successDiv = document.getElementById('success-message');
+            if (successDiv) {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                }, 3000);
+            } else {
+                console.log('Success message:', message);
+            }
+        }
+
+        // Update UI based on authentication state
+        function updateUI(user) {
+            if (user) {
+                // User is signed in
+                const socialLoginContainer = document.querySelector('.social-login-container');
+                const userProfile = document.querySelector('.user-profile');
+                
+                if (socialLoginContainer) socialLoginContainer.style.display = 'none';
+                if (userProfile) {
+                    userProfile.style.display = 'flex';
+                    const userName = userProfile.querySelector('#userName');
+                    const userAvatar = userProfile.querySelector('#userAvatar');
+                    if (userName) userName.textContent = user.displayName || 'Alchemist';
+                    if (userAvatar) userAvatar.src = user.photoURL || 'images/default-avatar.png';
+                }
+                
+                // Show social rewards system
+                const socialRewards = document.getElementById('social-rewards');
+                if (socialRewards) {
+                    socialRewards.style.display = 'block';
+                }
+            } else {
+                // User is signed out
+                const socialLoginContainer = document.querySelector('.social-login-container');
+                const userProfile = document.querySelector('.user-profile');
+                
+                if (socialLoginContainer) socialLoginContainer.style.display = 'flex';
+                if (userProfile) userProfile.style.display = 'none';
+                
+                // Hide social rewards system
+                const socialRewards = document.getElementById('social-rewards');
+                if (socialRewards) {
+                    socialRewards.style.display = 'none';
+                }
+            }
+        }
+
+        // Wallet connection functions
+        let currentWallet = null;
+        let currentPublicKey = null;
+
+        async function connectWallet() {
+            if (!firebase.auth().currentUser) {
+                showErrorMessage('Please connect with Twitter first');
+                return;
+            }
+            
+            try {
+                const wallet = await connectToWallet();
+                if (wallet && wallet.publicKey) {
+                    currentWallet = wallet;
+                    currentPublicKey = wallet.publicKey.toString();
+                    updateWalletUI();
+                    showSuccessMessage('Wallet connected successfully!');
+                } else {
+                    throw new Error('No wallet could be connected. Please install Phantom or Solflare.');
+                }
+            } catch (error) {
+                showErrorMessage('Wallet connection failed: ' + error.message);
+            }
+        }
+
+        async function connectToWallet() {
+            // Try Phantom first
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    const response = await window.solana.connect();
+                    if (response.publicKey) {
+                        return { wallet: 'Phantom', publicKey: response.publicKey };
+                    }
+                } catch (e) {
+                    console.log('Phantom connection failed:', e.message);
+                }
+            }
+            
+            // Try Solflare
+            if (window.solflare) {
+                try {
+                    const response = await window.solflare.connect();
+                    if (response && response.publicKey) {
+                        return { wallet: 'Solflare', publicKey: response.publicKey };
+                    }
+                } catch (e) {
+                    console.log('Solflare connection failed:', e.message);
+                }
+            }
+            
+            return null;
+        }
+
+        function updateWalletUI() {
+            const walletDisplay = document.getElementById('wallet-address-display');
+            const walletAddress = document.getElementById('wallet-address');
+            const connectBtn = document.querySelector('.cta-button');
+            
+            if (currentPublicKey && walletDisplay && walletAddress) {
+                walletDisplay.style.display = 'block';
+                walletAddress.textContent = currentPublicKey.substring(0, 8) + '...' + currentPublicKey.substring(currentPublicKey.length - 8);
+            }
+            
+            if (connectBtn) {
+                connectBtn.innerHTML = '<i class="fas fa-magic"></i> BEGIN TRANSMUTATION';
+                connectBtn.onclick = beginTransmutation;
+            }
+        }
+
+        function disconnectWallet() {
+            currentWallet = null;
+            currentPublicKey = null;
+            
+            const walletDisplay = document.getElementById('wallet-address-display');
+            const connectBtn = document.querySelector('.cta-button');
+            
+            if (walletDisplay) {
+                walletDisplay.style.display = 'none';
+            }
+            
+            if (connectBtn) {
+                connectBtn.innerHTML = '<i class="fas fa-plug"></i> CONNECT WALLET';
+                connectBtn.onclick = connectWallet;
+            }
+            
+            showSuccessMessage('Wallet disconnected');
+        }
+
+        function beginTransmutation() {
+            if (!firebase.auth().currentUser) {
+                showErrorMessage('Please connect with Twitter first');
+                return;
+            }
+            
+            if (!currentPublicKey) {
+                showErrorMessage('Please connect your wallet first');
+                return;
+            }
+            
+            showSuccessMessage('Beginning transmutation...');
+            
+            // Store user info for the reveal page
+            sessionStorage.setItem('userInfo', JSON.stringify({
+                user: firebase.auth().currentUser,
+                wallet: currentPublicKey
+            }));
+            
+            // Redirect to reveal page after a short delay
+            setTimeout(() => {
+                window.location.href = 'real-nft-reveal.html';
+            }, 2000);
+        }
+
+        // Listen for auth state changes
+        if (typeof firebase !== 'undefined') {
+            firebase.auth().onAuthStateChanged(updateUI);
+        }
+    </script>
+    
     <!-- Social Login Styling -->
     <style>
         /* Social Login Styling */
@@ -3008,426 +3243,8 @@
             
             // Connect wallet button is now handled via onclick attribute
         });
-        
-        // Simple and reliable wallet connection
-        let currentWallet = null;
-        let currentPublicKey = null;
-        
-        async function connectWallet() {
-            
-            try {
-                // Try to connect to any available wallet
-                const wallet = await connectToWallet();
-                
-                if (wallet && wallet.publicKey) {
-                    currentWallet = wallet;
-                    currentPublicKey = wallet.publicKey.toString();
-                    onWalletConnected(currentPublicKey);
-                } else {
-                    throw new Error('No wallet could be connected. Please install Phantom or Solflare.');
-                }
-            } catch (error) {
-                showError('Wallet connection failed: ' + error.message);
-            }
-        }
-        
-        async function connectToWallet() {
-            // Try Phantom first
-            if (window.solana && window.solana.isPhantom) {
-                console.log('🔮 Trying Phantom wallet...');
-                try {
-                    const response = await window.solana.connect();
-                    if (response.publicKey) {
-                        console.log('✅ Phantom connected');
-                        return { wallet: 'Phantom', publicKey: response.publicKey };
-                    }
-                } catch (e) {
-                    console.log('❌ Phantom connection failed:', e.message);
-                }
-            }
-            
-            // Try Solflare with improved connection logic
-            if (window.solflare) {
-                console.log('🔮 Trying Solflare wallet...');
-                try {
-                    // First, try to connect
-                    const connectResponse = await window.solflare.connect();
-                    console.log('🔍 Solflare connect response:', connectResponse);
-                    
-                    if (connectResponse === true || connectResponse) {
-                        console.log('✅ Solflare connection successful, getting public key...');
-                        
-                        // Try multiple methods to get the public key
-                        let publicKey = null;
-                        
-                        // Method 1: Try getAccounts
-                        try {
-                            const accountsResponse = await window.solflare.request({ method: 'getAccounts' });
-                            console.log('🔍 getAccounts response:', accountsResponse);
-                            if (accountsResponse && accountsResponse.length > 0) {
-                                publicKey = accountsResponse[0];
-                                console.log('✅ Found publicKey via getAccounts:', publicKey);
-                            }
-                        } catch (e) {
-                            console.log('❌ getAccounts failed:', e.message);
-                        }
-                        
-                        // Method 2: Try getAccountInfo
-                        if (!publicKey) {
-                            try {
-                                const accountInfoResponse = await window.solflare.request({ method: 'getAccountInfo' });
-                                console.log('🔍 getAccountInfo response:', accountInfoResponse);
-                                if (accountInfoResponse && accountInfoResponse.publicKey) {
-                                    publicKey = accountInfoResponse.publicKey;
-                                    console.log('✅ Found publicKey via getAccountInfo:', publicKey);
-                                }
-                            } catch (e) {
-                                console.log('❌ getAccountInfo failed:', e.message);
-                            }
-                        }
-                        
-                        // Method 3: Try direct publicKey property
-                        if (!publicKey && window.solflare.publicKey) {
-                            publicKey = window.solflare.publicKey.toString();
-                            console.log('✅ Found publicKey via direct property:', publicKey);
-                        }
-                        
-                        // Method 4: Try getPublicKey method
-                        if (!publicKey && window.solflare.getPublicKey) {
-                            try {
-                                publicKey = await window.solflare.getPublicKey();
-                                console.log('✅ Found publicKey via getPublicKey method:', publicKey);
-                            } catch (e) {
-                                console.log('❌ getPublicKey failed:', e.message);
-                            }
-                        }
-                        
-                        if (publicKey) {
-                            console.log('✅ Solflare connected successfully');
-                            return { 
-                                wallet: 'Solflare', 
-                                publicKey: { toString: () => publicKey } 
-                            };
-                        } else {
-                            console.log('❌ Could not retrieve public key from Solflare');
-                        }
-                    }
-                } catch (e) {
-                    console.log('❌ Solflare connection failed:', e.message);
-                }
-            }
-            
-            // Try generic Solana wallet
-            if (window.solana) {
-                console.log('🔮 Trying generic Solana wallet...');
-                try {
-                    const response = await window.solana.connect();
-                    if (response.publicKey) {
-                        console.log('✅ Generic Solana wallet connected');
-                        return { wallet: 'Solana', publicKey: response.publicKey };
-                    }
-                } catch (e) {
-                    console.log('❌ Generic Solana connection failed:', e.message);
-                }
-            }
-            
-            return null;
-        }
-        
-        function onWalletConnected(publicKey) {
-            console.log('✅ Wallet connected successfully:', publicKey);
-            
-            // Update button text to show disconnect/change wallet
-            const connectBtn = document.querySelector('.cta-button');
-            if (connectBtn) {
-                connectBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> DISCONNECT/CHANGE WALLET';
-                connectBtn.onclick = disconnectWallet;
-                connectBtn.style.background = 'linear-gradient(45deg, #ff6b35, #f7931e)';
-            }
-            
-            // Show wallet address display
-            const walletDisplay = document.getElementById('wallet-address-display');
-            const walletAddress = document.getElementById('wallet-address');
-            if (walletDisplay && walletAddress) {
-                // Format the address to show first 4 and last 4 characters
-                const shortAddress = publicKey.length > 8 ? 
-                    publicKey.substring(0, 4) + '...' + publicKey.substring(publicKey.length - 4) : 
-                    publicKey;
-                walletAddress.textContent = shortAddress;
-                walletAddress.title = publicKey; // Full address on hover
-                walletDisplay.style.display = 'block';
-            }
-            
-            // Enable reveal button
-            const revealBtn = document.querySelector('.cta-button.secondary');
-            if (revealBtn) {
-                revealBtn.disabled = false;
-            }
-        }
-        
-        function disconnectWallet() {
-            console.log('🔮 Disconnecting wallet...');
-            
-            // Ask user if they want to change wallet or just disconnect
-            const choice = confirm('Do you want to change to a different wallet?\n\nClick "OK" to change wallet\nClick "Cancel" to just disconnect');
-            
-            if (choice) {
-                // User wants to change wallet
-                console.log('🔮 User chose to change wallet');
-                
-                // Disconnect from current wallet
-                if (currentWallet && currentWallet.wallet === 'Phantom' && window.solana) {
-                    try {
-                        window.solana.disconnect();
-                    } catch (e) {
-                        console.log('Phantom disconnect error:', e);
-                    }
-                } else if (currentWallet && currentWallet.wallet === 'Solflare' && window.solflare) {
-                    try {
-                        window.solflare.disconnect();
-                    } catch (e) {
-                        console.log('Solflare disconnect error:', e);
-                    }
-                }
-                
-                // Update UI to show disconnected state
-                onWalletDisconnected();
-                
-                // Show wallet selection modal
-                setTimeout(() => {
-                    showWalletModal();
-                }, 500);
-                
-            } else {
-                // User just wants to disconnect
-                console.log('🔮 User chose to just disconnect');
-                
-                // Disconnect from current wallet
-                if (currentWallet && currentWallet.wallet === 'Phantom' && window.solana) {
-                    try {
-                        window.solana.disconnect();
-                    } catch (e) {
-                        console.log('Phantom disconnect error:', e);
-                    }
-                } else if (currentWallet && currentWallet.wallet === 'Solflare' && window.solflare) {
-                    try {
-                        window.solflare.disconnect();
-                    } catch (e) {
-                        console.log('Solflare disconnect error:', e);
-                    }
-                }
-                
-                // Update UI
-                onWalletDisconnected();
-                showSuccessMessage('Wallet disconnected successfully!');
-            }
-        }
-        
-        function onWalletDisconnected() {
-            console.log('❌ Wallet disconnected');
-            
-            const connectBtn = document.querySelector('.cta-button');
-            if (connectBtn) {
-                connectBtn.innerHTML = '<i class="fas fa-plug"></i> CONNECT WALLET';
-                connectBtn.onclick = connectWallet;
-                connectBtn.style.background = 'linear-gradient(45deg, #00ff41, #008000)';
-            }
-            
-            // Hide wallet address display
-            const walletDisplay = document.getElementById('wallet-address-display');
-            if (walletDisplay) {
-                walletDisplay.style.display = 'none';
-            }
-            
-            // Disable reveal button
-            const revealBtn = document.querySelector('.cta-button.secondary');
-            if (revealBtn) {
-                revealBtn.disabled = true;
-            }
-            
-            currentWallet = null;
-            currentPublicKey = null;
-        }
-        
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            const errorText = document.getElementById('error-text');
-            errorText.textContent = message;
-            errorDiv.style.display = 'block';
-            
-            // Auto-hide after 8 seconds instead of 5
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 8000);
-        }
     </script>
     
-    <!-- Firebase Configuration -->
-    <script src="firebase-config.js"></script>
-    
-    <script>
-        // Additional functions for social login integration
-        function connectWallet() {
-            if (firebase.auth().currentUser) {
-                console.log('🔮 User authenticated, showing wallet selection...');
-                showWalletModal();
-            } else {
-                showErrorMessage('Please connect with social media first!');
-            }
-        }
-        
-        function showWalletModal() {
-            const modal = document.getElementById('wallet-modal');
-            if (modal) {
-                modal.style.display = 'flex';
-                
-                // Update wallet availability status
-                updateWalletStatus();
-            }
-        }
-        
-        function closeWalletModal() {
-            const modal = document.getElementById('wallet-modal');
-            if (modal) {
-                modal.style.display = 'none';
-            }
-        }
-        
-        // Close modal when clicking outside
-        document.addEventListener('click', function(event) {
-            const modal = document.getElementById('wallet-modal');
-            if (modal && event.target === modal) {
-                closeWalletModal();
-            }
-        });
-        
-        function updateWalletStatus() {
-            const phantomStatus = document.getElementById('phantom-status');
-            const solflareStatus = document.getElementById('solflare-status');
-            
-            // Check Phantom availability
-            if (window.solana && window.solana.isPhantom) {
-                phantomStatus.innerHTML = '<i class="fas fa-check" style="color: #00ff41;"></i>';
-            } else {
-                phantomStatus.innerHTML = '<i class="fas fa-times" style="color: #ff0040;"></i>';
-            }
-            
-            // Check Solflare availability
-            if (window.solflare) {
-                solflareStatus.innerHTML = '<i class="fas fa-check" style="color: #00ff41;"></i>';
-            } else {
-                solflareStatus.innerHTML = '<i class="fas fa-times" style="color: #ff0040;"></i>';
-            }
-        }
-        
-        function connectSpecificWallet(walletType) {
-            console.log('🔮 Connecting to specific wallet:', walletType);
-            
-            const option = document.querySelector(`[onclick="connectSpecificWallet('${walletType}')"]`);
-            if (option) {
-                option.classList.add('connecting');
-            }
-            
-            // Connect to specific wallet
-            if (walletType === 'phantom') {
-                connectToPhantomWallet();
-            } else if (walletType === 'solflare') {
-                connectToSolflareWallet();
-            }
-        }
-        
-        function connectToPhantomWallet() {
-            if (window.solana && window.solana.isPhantom) {
-                window.solana.connect()
-                    .then(response => {
-                        if (response.publicKey) {
-                            const wallet = { wallet: 'Phantom', publicKey: response.publicKey };
-                            currentWallet = wallet;
-                            currentPublicKey = response.publicKey.toString();
-                            console.log('✅ Phantom connected successfully:', currentPublicKey);
-                            onWalletConnected(currentPublicKey);
-                            closeWalletModal();
-                            showSuccessMessage('Phantom wallet connected! Ready for transmutation.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('❌ Phantom connection failed:', error);
-                        showErrorMessage('Phantom connection failed: ' + error.message);
-                        closeWalletModal();
-                    });
-            } else {
-                showErrorMessage('Phantom wallet not found. Please install Phantom extension.');
-                closeWalletModal();
-            }
-        }
-        
-        function connectToSolflareWallet() {
-            if (window.solflare) {
-                window.solflare.connect()
-                    .then(response => {
-                        if (response === true || response) {
-                            // Try to get public key
-                            let publicKey = null;
-                            
-                            // Try multiple methods to get the public key
-                            if (window.solflare.publicKey) {
-                                publicKey = window.solflare.publicKey.toString();
-                            } else if (window.solflare.getPublicKey) {
-                                return window.solflare.getPublicKey();
-                            }
-                            
-                            if (publicKey) {
-                                const wallet = { wallet: 'Solflare', publicKey: publicKey };
-                                currentWallet = wallet;
-                                currentPublicKey = publicKey;
-                                console.log('✅ Solflare connected successfully:', currentPublicKey);
-                                onWalletConnected(currentPublicKey);
-                                closeWalletModal();
-                                showSuccessMessage('Solflare wallet connected! Ready for transmutation.');
-                            } else {
-                                throw new Error('Could not retrieve public key from Solflare');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('❌ Solflare connection failed:', error);
-                        showErrorMessage('Solflare connection failed: ' + error.message);
-                        closeWalletModal();
-                    });
-            } else {
-                showErrorMessage('Solflare wallet not found. Please install Solflare extension.');
-                closeWalletModal();
-            }
-        }
-        
-        function beginTransmutation() {
-            if (firebase.auth().currentUser) {
-                if (currentPublicKey) {
-                    showSuccessMessage('Transmutation initiated! Welcome to the mystical realm.');
-                    
-                    // Store user info in sessionStorage for the reveal page
-                    const user = firebase.auth().currentUser;
-                    sessionStorage.setItem('solalchemists_user', JSON.stringify({
-                        displayName: user.displayName,
-                        email: user.email,
-                        photoURL: user.photoURL,
-                        walletAddress: currentPublicKey,
-                        walletType: currentWallet ? currentWallet.wallet : 'Unknown'
-                    }));
-                    
-                    // Redirect to reveal page after a short delay
-                    setTimeout(() => {
-                        window.location.href = 'real-nft-reveal.html';
-                    }, 2000);
-                    
-                } else {
-                    showErrorMessage('Please connect your Solana wallet first!');
-                }
-            } else {
-                showErrorMessage('Please connect with social media first!');
-            }
-        }
-    </script>
     <script src="social-rewards-manual.js"></script>
 </body>
 </html>
