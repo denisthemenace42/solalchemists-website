@@ -3612,21 +3612,22 @@
     <script src="js/leaderboard.js"></script>
     <script>
       // Referral API (mock endpoints)
+      const API_BASE = (location.hostname === 'localhost' && location.port === '8000') ? 'http://localhost:3000' : '';
       async function apiVerifyReferral(payload){
         try {
-          const res = await fetch('/api/referral/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const res = await fetch(`${API_BASE}/api/referral/verify`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
           return await res.json();
         } catch(e){ return { success:false, error:'Network error' }; }
       }
       async function apiGenerateCodes(payload){
         try {
-          const res = await fetch('/api/referral/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const res = await fetch(`${API_BASE}/api/referral/generate`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
           return await res.json();
         } catch(e){ return { success:false, error:'Network error' }; }
       }
       async function apiAddXp(payload){
         try {
-          const res = await fetch('/api/user/xp/add', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const res = await fetch(`${API_BASE}/api/user/xp/add`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
           return await res.json();
         } catch(e){ return { success:false, error:'Network error' }; }
       }
