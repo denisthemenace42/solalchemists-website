@@ -3164,8 +3164,14 @@
                     </div>
                 </div>
                 
+                <!-- Referral Gate -->
+                <div id="referral-gate" class="referral-gate">
+                    <input id="referral-code" class="referral-input" placeholder="CODE REQUIRED" maxlength="10" />
+                    <button id="referral-enter" class="referral-enter" onclick="enterReferralCode()">ENTER</button>
+                </div>
+
                 <!-- Social Login Container -->
-                <div class="social-login-container">
+                <div class="social-login-container gated" id="twitter-gated">
                     <div class="login-buttons">
                         <button class="social-btn twitter-btn" onclick="signInWithTwitter()">
                             <i class="fab fa-twitter"></i>
@@ -3197,7 +3203,7 @@
                 </div>
 
                 <!-- Call to Action Buttons -->
-                <div class="hero-cta">
+                <div class="hero-cta gated" id="wallet-gated">
                     <button class="cta-button" onclick="connectWallet()" style="background: linear-gradient(45deg, #00ff41, #008000); color: #fff;">
                         <i class="fas fa-plug"></i> CONNECT WALLET
                     </button>
@@ -3604,5 +3610,103 @@
     <script src="js/quests-data.js"></script>
     <script src="js/user-progress.js"></script>
     <script src="js/leaderboard.js"></script>
+    <script>
+      // Referral API (mock endpoints)
+      async function apiVerifyReferral(payload){
+        try {
+          const res = await fetch('/api/referral/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          return await res.json();
+        } catch(e){ return { success:false, error:'Network error' }; }
+      }
+      async function apiGenerateCodes(payload){
+        try {
+          const res = await fetch('/api/referral/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          return await res.json();
+        } catch(e){ return { success:false, error:'Network error' }; }
+      }
+      async function apiAddXp(payload){
+        try {
+          const res = await fetch('/api/user/xp/add', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          return await res.json();
+        } catch(e){ return { success:false, error:'Network error' }; }
+      }
+
+      function setGateUnlocked(unlocked){
+        const twitter = document.getElementById('twitter-gated');
+        const wallet = document.getElementById('wallet-gated');
+        if (!twitter || !wallet) return;
+        if (unlocked){
+          twitter.classList.remove('gated');
+          twitter.classList.add('unlocked');
+          wallet.classList.remove('gated');
+          wallet.classList.add('unlocked');
+          localStorage.setItem('sola:gateUnlocked','1');
+        } else {
+          twitter.classList.add('gated');
+          wallet.classList.add('gated');
+          localStorage.removeItem('sola:gateUnlocked');
+        }
+      }
+
+      function loadGateState(){
+        const unlocked = localStorage.getItem('sola:gateUnlocked') === '1';
+        setGateUnlocked(unlocked);
+      }
+
+      function openCodesModal(codes){
+        let overlay = document.getElementById('codes-modal-overlay');
+        if (!overlay){
+          overlay = document.createElement('div');
+          overlay.id = 'codes-modal-overlay';
+          overlay.className = 'codes-modal-overlay';
+          overlay.innerHTML = `
+            <div class="codes-modal">
+              <h3><i class="fas fa-unlock"></i> Gate Unlocked!</h3>
+              <p>You received 5 new referral codes:</p>
+              <div class="codes-grid" id="codes-grid"></div>
+              <button class="modal-close-btn" onclick="document.getElementById('codes-modal-overlay').style.display='none'">CLOSE</button>
+            </div>`;
+          document.body.appendChild(overlay);
+        }
+        const grid = overlay.querySelector('#codes-grid');
+        if (grid){ grid.innerHTML = codes.map(c=>`<div class='code-chip'>${c}</div>`).join(''); }
+        overlay.style.display = 'flex';
+      }
+
+      async function enterReferralCode(){
+        const input = document.getElementById('referral-code');
+        const code = (input?.value || '').trim();
+        if (!code){ showErrorMessage('Invalid or already used code.'); return; }
+        const user = (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser : null;
+        const userId = user?.uid || 'guest';
+
+        const verify = await apiVerifyReferral({ code, userId });
+        if (!verify?.success){ showErrorMessage('Invalid or already used code.'); return; }
+
+        // Add referral points as XP immediately (5 RP => 50 XP or choose 5?)
+        const state = window.UserProgressStore.load(user);
+        window.UserProgressStore.completeQuest(state, 'q0'); // Quest 0: Enter the Lab
+        // Also add small XP bonus for referral, e.g., +50
+        state.xp += 50;
+        window.UserProgressStore.ensureQuestsForLevel(state);
+        window.UserProgressStore.save(state);
+        renderProfile(state);
+        renderQuests(state);
+
+        // Generate 5 codes for this user
+        const gen = await apiGenerateCodes({ userId, count: 5 });
+        if (gen?.success && Array.isArray(gen.codes)){
+          openCodesModal(gen.codes);
+        }
+
+        // Notify backend XP (mock)
+        await apiAddXp({ userId, amount: 50 });
+
+        setGateUnlocked(true);
+        showSuccessMessage('Access granted. Welcome to the Lab!');
+      }
+
+      document.addEventListener('DOMContentLoaded', loadGateState);
+    </script>
 </body>
 </html>

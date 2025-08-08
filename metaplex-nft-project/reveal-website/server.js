@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
+const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
 // Serve static files
 app.use(express.static(__dirname));
 
@@ -29,6 +31,58 @@ app.get('/admin-verifications', (req, res) => {
 // Health check endpoint
 app.get('/health', (req, res) => {
     res.json({ status: 'OK', message: 'SOLalchemists Mystery Reveal Server is running!' });
+});
+
+// In-memory mock storage (replace with DB for production)
+const db = {
+  referralCodes: new Map(), // code -> { code, createdBy, usedBy, usedAt, status }
+  userXp: new Map(),        // userId -> { xp, level, rp }
+};
+
+function genCode() {
+  return crypto.randomBytes(3).toString('hex').toUpperCase();
+}
+
+// POST /api/referral/verify { code, userId }
+app.post('/api/referral/verify', (req, res) => {
+  const { code, userId } = req.body || {};
+  if (!code) return res.json({ success: false, error: 'Invalid code' });
+  const rec = db.referralCodes.get(code);
+  if (!rec || rec.status === 'used') return res.json({ success: false, error: 'Invalid code' });
+  rec.status = 'used';
+  rec.usedBy = userId || 'guest';
+  rec.usedAt = new Date().toISOString();
+  db.referralCodes.set(code, rec);
+  // give referral points to creator
+  const creator = db.userXp.get(rec.createdBy) || { xp: 0, level: 1, rp: 0 };
+  creator.rp = (creator.rp || 0) + 5;
+  db.userXp.set(rec.createdBy, creator);
+  res.json({ success: true });
+});
+
+// POST /api/referral/generate { userId, count }
+app.post('/api/referral/generate', (req, res) => {
+  const { userId, count } = req.body || {};
+  const howMany = Math.min(Math.max(Number(count) || 5, 1), 10);
+  const codes = [];
+  for (let i = 0; i < howMany; i++) {
+    let code;
+    do { code = genCode(); } while (db.referralCodes.has(code));
+    const rec = { code, createdBy: userId || 'guest', usedBy: null, usedAt: null, status: 'unused' };
+    db.referralCodes.set(code, rec);
+    codes.push(code);
+  }
+  res.json({ success: true, codes });
+});
+
+// POST /api/user/xp/add { userId, amount }
+app.post('/api/user/xp/add', (req, res) => {
+  const { userId, amount } = req.body || {};
+  if (!userId) return res.json({ success: false, error: 'Missing userId' });
+  const user = db.userXp.get(userId) || { xp: 0, level: 1, rp: 0 };
+  user.xp = (user.xp || 0) + (Number(amount) || 0);
+  db.userXp.set(userId, user);
+  res.json({ success: true });
 });
 
 // Start server

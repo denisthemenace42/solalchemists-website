@@ -3,6 +3,8 @@
 
 (function initQuestData(global) {
   const QUEST_POOL = [
+    // Referral Gate Intro Quest
+    { id: 'q0', title: 'Enter the Lab', description: 'Unlock access with a valid referral code.', rewardXp: 50, requiredLevel: 1 },
     // Level 1
     { id: 'q1', title: 'Greet the Alchemy Circle', description: 'Introduce yourself in the community.', rewardXp: 100, requiredLevel: 1 },
     // Level 2

@@ -24,9 +24,14 @@
     {
       "src": "*.css",
       "use": "@vercel/static"
+    },
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    { "src": "/api/(.*)", "dest": "/server.js" },
     {
       "src": "/real-nft-reveal",
       "dest": "/real-nft-reveal.html"
