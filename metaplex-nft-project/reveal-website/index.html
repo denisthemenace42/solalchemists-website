@@ -1273,6 +1273,28 @@
             box-shadow: 0 0 20px rgba(220, 39, 67, 0.6);
         }
 
+        .discord-link {
+            border-color: #7289DA;
+            color: #7289DA;
+        }
+
+        .discord-link:hover {
+            background: #7289DA;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(114, 137, 218, 0.6);
+        }
+
+        .telegram-link {
+            border-color: #0088cc;
+            color: #0088cc;
+        }
+
+        .telegram-link:hover {
+            background: #0088cc;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.6);
+        }
+
         /* Floating animation for social links */
         .social-link {
             animation: social-float 3s ease-in-out infinite;
@@ -1280,6 +1302,10 @@
 
         .social-link:nth-child(2) {
             animation-delay: 1.5s;
+        }
+
+        .social-link:nth-child(3) {
+            animation-delay: 3s;
         }
 
         @keyframes social-float {
@@ -2755,7 +2781,7 @@
             </div>
             
             <div class="row justify-content-center">
-                <div class="col-lg-6 col-md-8">
+                <div class="col-lg-6 col-md-8 mb-4">
                     <div class="team-member">
                         <div class="member-image">
                             <img src="https://unavatar.io/twitter/themenace_X" alt="The Menace" class="member-photo" onerror="this.src='images/themenace.png'">
@@ -2787,6 +2813,47 @@
                                 <div class="stat">
                                     <span class="stat-number">∞</span>
                                     <span class="stat-label">Solana Love</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 col-md-8">
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://unavatar.io/twitter/KaiGonnaMakeIt" alt="Kai" class="member-photo" onerror="this.src='images/default-avatar.png'">
+                            <div class="member-overlay">
+                                <div class="social-links">
+                                    <a href="https://twitter.com/KaiGonnaMakeIt" target="_blank" class="social-link twitter-link" title="Follow on X">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-link discord-link" title="Discord Community Manager">
+                                        <i class="fab fa-discord"></i>
+                                    </a>
+                                    <a href="#" class="social-link telegram-link" title="Telegram Community Manager">
+                                        <i class="fab fa-telegram"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">KAI</h3>
+                            <p class="member-role">Community Manager & Solana Enthusiast</p>
+                            <p class="member-bio">
+                                A dedicated Solana enthusiast and community builder, Kai manages our Discord and Telegram channels, 
+                                fostering a vibrant and engaged community around SOLalchemists. With deep knowledge of the Solana ecosystem 
+                                and a passion for connecting people, Kai ensures our community stays informed, engaged, and excited about 
+                                the mystical journey ahead.
+                            </p>
+                            <div class="member-stats">
+                                <div class="stat">
+                                    <span class="stat-number">🎮</span>
+                                    <span class="stat-label">Discord Manager</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number">📱</span>
+                                    <span class="stat-label">Telegram Manager</span>
                                 </div>
                             </div>
                         </div>
