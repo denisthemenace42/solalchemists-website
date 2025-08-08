@@ -6,8 +6,16 @@
       "use": "@vercel/static"
     },
     {
-      "src": "server.js",
-      "use": "@vercel/node"
+      "src": "images/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
