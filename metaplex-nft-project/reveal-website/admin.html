@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLalchemists - Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --neon-green: #00ff41;
+            --neon-blue: #00ffff;
+            --dark-bg: #0a0a0a;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+
+        .admin-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 255, 65, 0.05));
+            padding: 2rem 0;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--neon-green);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--neon-green);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 255, 65, 0.3);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: var(--neon-green);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #fff;
+            opacity: 0.8;
+        }
+
+        .admin-panel {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--neon-green);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .panel-title {
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--neon-green);
+            padding-bottom: 0.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn-admin {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            border: none;
+            border-radius: 8px;
+            color: black;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 65, 0.3);
+            color: black;
+            text-decoration: none;
+        }
+
+        .btn-admin:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .whitelist-table {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .table {
+            color: white;
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: rgba(0, 255, 65, 0.2);
+            color: var(--neon-green);
+            border: none;
+            font-weight: bold;
+        }
+
+        .table td {
+            border-color: rgba(0, 255, 65, 0.2);
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .wallet-address {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--neon-blue);
+        }
+
+        .timestamp {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .search-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-green);
+            border-radius: 8px;
+            color: white;
+            padding: 0.75rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--neon-green);
+        }
+
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            color: #ff0000;
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            background: rgba(0, 255, 65, 0.1);
+            border: 2px solid var(--neon-green);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--neon-green);
+            border-radius: 8px;
+            color: var(--neon-green);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: var(--neon-green);
+            color: black;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-admin {
+                justify-content: center;
+            }
+            
+            .back-btn {
+                position: static;
+                display: inline-block;
+                margin-bottom: 2rem;
+            }
+            
+            .table-responsive {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="admin-container">
+        <div class="container">
+            <div class="header-section">
+                <div class="logo">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h1 class="title">ADMIN DASHBOARD</h1>
+                <p class="subtitle">Manage SOLalchemists Whitelist</p>
+            </div>
+
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" id="totalEntries">-</div>
+                    <div class="stat-label">Total Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-number" id="withEmail">-</div>
+                    <div class="stat-label">With Email</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="stat-number" id="todayEntries">-</div>
+                    <div class="stat-label">Today's Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="stat-number" id="backups">-</div>
+                    <div class="stat-label">Backups Created</div>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+                <h3 class="panel-title">
+                    <i class="fas fa-cogs"></i> Admin Actions
+                </h3>
+                
+                <div class="action-buttons">
+                    <button class="btn-admin" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
+                    </button>
+                    <button class="btn-admin" onclick="exportWhitelist()">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </button>
+                    <button class="btn-admin" onclick="createBackup()">
+                        <i class="fas fa-save"></i> Create Backup
+                    </button>
+                    <button class="btn-admin" onclick="downloadBackups()">
+                        <i class="fas fa-download"></i> Download Backups
+                    </button>
+                </div>
+
+                <div id="messageContainer"></div>
+            </div>
+
+            <div class="admin-panel">
+                <h3 class="panel-title">
+                    <i class="fas fa-list"></i> Whitelist Entries
+                </h3>
+                
+                <input type="text" class="search-box" id="searchBox" 
+                       placeholder="Search by wallet address, Twitter handle, or Discord handle...">
+                
+                <div class="table-responsive">
+                    <table class="table table-hover" id="whitelistTable">
+                        <thead>
+                            <tr>
+                                <th>Wallet Address</th>
+                                <th>Twitter</th>
+                                <th>Discord</th>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="whitelistTableBody">
+                            <tr>
+                                <td colspan="6" class="loading">
+                                    <i class="fas fa-spinner fa-spin"></i> Loading whitelist data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let whitelistData = [];
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadWhitelist();
+        });
+
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/whitelist/stats`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.stats;
+                    document.getElementById('totalEntries').textContent = stats.total_entries;
+                    document.getElementById('withEmail').textContent = stats.with_email;
+                    
+                    // Calculate today's entries
+                    const today = new Date().toISOString().split('T')[0];
+                    const todayEntries = stats.daily_registrations[today] || 0;
+                    document.getElementById('todayEntries').textContent = todayEntries;
+                    
+                    // For demo purposes, show backup count
+                    document.getElementById('backups').textContent = 'Auto';
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                showMessage('Error loading statistics', 'error');
+            }
+        }
+
+        async function loadWhitelist() {
+            try {
+                const response = await fetch(`${API_BASE}/whitelist/list`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    whitelistData = data.entries;
+                    renderWhitelistTable(whitelistData);
+                }
+            } catch (error) {
+                console.error('Error loading whitelist:', error);
+                showMessage('Error loading whitelist data', 'error');
+                document.getElementById('whitelistTableBody').innerHTML = 
+                    '<tr><td colspan="6" class="text-center text-danger">Error loading data</td></tr>';
+            }
+        }
+
+        function renderWhitelistTable(data) {
+            const tbody = document.getElementById('whitelistTableBody');
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">No whitelist entries found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = data.map(entry => `
+                <tr>
+                    <td>
+                        <span class="wallet-address">${entry.walletAddress}</span>
+                    </td>
+                    <td>${entry.twitterHandle}</td>
+                    <td>${entry.discordHandle}</td>
+                    <td>${entry.email || '-'}</td>
+                    <td class="timestamp">${formatDate(entry.timestamp)}</td>
+                    <td>
+                        <span class="badge bg-success">${entry.status || 'pending'}</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+
+        async function refreshData() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            
+            try {
+                await Promise.all([loadStats(), loadWhitelist()]);
+                showMessage('Data refreshed successfully', 'success');
+            } catch (error) {
+                showMessage('Error refreshing data', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        async function exportWhitelist() {
+            try {
+                window.open(`${API_BASE}/whitelist/export`, '_blank');
+                showMessage('CSV export initiated', 'success');
+            } catch (error) {
+                showMessage('Error exporting whitelist', 'error');
+            }
+        }
+
+        async function createBackup() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/whitelist/backup`, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('Backup created successfully', 'success');
+                } else {
+                    showMessage(data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error creating backup', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        function downloadBackups() {
+            // This would typically link to a backup directory
+            showMessage('Backup files are stored in whitelist_backups/ directory', 'success');
+        }
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredData = whitelistData.filter(entry => 
+                entry.walletAddress.toLowerCase().includes(searchTerm) ||
+                entry.twitterHandle.toLowerCase().includes(searchTerm) ||
+                entry.discordHandle.toLowerCase().includes(searchTerm) ||
+                (entry.email && entry.email.toLowerCase().includes(searchTerm))
+            );
+            renderWhitelistTable(filteredData);
+        });
+
+        function showMessage(message, type) {
+            const container = document.getElementById('messageContainer');
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            
+            container.innerHTML = `<div class="${className}">${message}</div>`;
+            
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            loadStats();
+        }, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .error {
+            color: red;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+            background: #e6ffe6;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .info {
+            background: #e6f3ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Wallet Connection Test</h1>
+    
+    <div class="card">
+        <h2>Wallet Detection</h2>
+        <div id="wallet-status">Checking for wallets...</div>
+        <button onclick="checkWallets()">Check Wallets</button>
+    </div>
+    
+    <div class="card">
+        <h2>Connection Test</h2>
+        <button onclick="connectWallet()">Connect Wallet</button>
+        <button onclick="disconnectWallet()">Disconnect Wallet</button>
+        <div id="connection-status">Not connected</div>
+    </div>
+    
+    <div class="card">
+        <h2>Debug Info</h2>
+        <div id="debug-info"></div>
+    </div>
+
+    <script>
+        let connectedWallet = null;
+        
+        function updateDebugInfo() {
+            const debugDiv = document.getElementById('debug-info');
+            debugDiv.innerHTML = `
+                <p><strong>window.solana:</strong> ${window.solana ? 'Available' : 'Not available'}</p>
+                <p><strong>window.solana.isPhantom:</strong> ${window.solana?.isPhantom ? 'Yes' : 'No'}</p>
+                <p><strong>window.solana.isSolflare:</strong> ${window.solana?.isSolflare ? 'Yes' : 'No'}</p>
+                <p><strong>Connected Wallet:</strong> ${connectedWallet ? connectedWallet.toString() : 'None'}</p>
+                <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+            `;
+        }
+        
+        function checkWallets() {
+            const statusDiv = document.getElementById('wallet-status');
+            let status = '';
+            
+            if (window.solana) {
+                status += '<div class="success">✅ Solana wallet detected!</div>';
+                if (window.solana.isPhantom) {
+                    status += '<div class="info">🎭 Phantom wallet detected</div>';
+                }
+                if (window.solana.isSolflare) {
+                    status += '<div class="info">🌅 Solflare wallet detected</div>';
+                }
+                if (!window.solana.isPhantom && !window.solana.isSolflare) {
+                    status += '<div class="info">🔗 Other Solana wallet detected</div>';
+                }
+            } else {
+                status = '<div class="error">❌ No Solana wallet detected. Please install Phantom or Solflare.</div>';
+            }
+            
+            statusDiv.innerHTML = status;
+            updateDebugInfo();
+        }
+        
+        async function connectWallet() {
+            const statusDiv = document.getElementById('connection-status');
+            
+            try {
+                if (!window.solana) {
+                    statusDiv.innerHTML = '<div class="error">❌ No Solana wallet found</div>';
+                    return;
+                }
+                
+                statusDiv.innerHTML = '<div class="info">🔄 Connecting...</div>';
+                
+                const response = await window.solana.connect();
+                connectedWallet = response.publicKey;
+                
+                statusDiv.innerHTML = `
+                    <div class="success">
+                        ✅ Connected!<br>
+                        Address: ${connectedWallet.toString()}<br>
+                        Short: ${connectedWallet.toString().slice(0, 4)}...${connectedWallet.toString().slice(-4)}
+                    </div>
+                `;
+                
+                updateDebugInfo();
+                
+            } catch (error) {
+                console.error('Connection error:', error);
+                statusDiv.innerHTML = `<div class="error">❌ Connection failed: ${error.message}</div>`;
+            }
+        }
+        
+        function disconnectWallet() {
+            const statusDiv = document.getElementById('connection-status');
+            connectedWallet = null;
+            statusDiv.innerHTML = '<div class="info">🔌 Disconnected</div>';
+            updateDebugInfo();
+        }
+        
+        // Auto-check on page load
+        window.addEventListener('load', () => {
+            checkWallets();
+            updateDebugInfo();
+        });
+    </script>
+</body>
+</html>

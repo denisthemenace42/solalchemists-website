@@ -1,0 +1,32 @@
+{
+  "name": "solalchemists-reveal-website",
+  "version": "1.0.0",
+  "description": "SOLalchemists Mystery NFT Reveal Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "npx serve .",
+    "deploy:vercel": "vercel --prod",
+    "deploy:netlify": "netlify deploy --prod"
+  },
+  "keywords": [
+    "nft",
+    "solana",
+    "metaplex",
+    "mystery",
+    "reveal",
+    "web3"
+  ],
+  "author": "SOLalchemists",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

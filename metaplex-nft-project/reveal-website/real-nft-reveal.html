@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLalchemist - NFT Reveal Chamber</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #0a0a0a 50%, #1a1a1a 75%, #0a0a0a 100%);
+            min-height: 100vh;
+            font-family: 'Press Start 2P', cursive;
+            color: #00ff41;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .hero-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ff41;
+            border-radius: 50%;
+            animation: particle-float 8s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes particle-float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+            25% { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
+            50% { transform: translateY(-40px) translateX(-10px); opacity: 1; }
+            75% { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+            padding-top: 2rem;
+        }
+        
+        .hero-title {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 900;
+            color: #00ff41;
+            margin-bottom: 2rem;
+            text-shadow: 
+                2px 2px 0px #000,
+                0 0 20px #00ff41;
+            animation: title-glow 4s ease-in-out infinite;
+            text-align: center;
+            line-height: 1.2;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes title-glow {
+            0%, 100% { 
+                text-shadow: 
+                    2px 2px 0px #000,
+                    0 0 30px #00ff41;
+            }
+            50% { 
+                text-shadow: 
+                    2px 2px 0px #000,
+                    0 0 50px #00ff41;
+            }
+        }
+        
+        .hero-tagline {
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            line-height: 1.6;
+            text-shadow: 0 0 5px #ffffff;
+            animation: tagline-fade 3s ease-in-out infinite;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        
+        @keyframes tagline-fade {
+            0%, 100% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0.7; transform: translateY(-5px); }
+        }
+        
+        .mystery-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff41;
+            border-radius: 8px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 65, 0.2),
+                inset 0 0 10px rgba(0, 255, 65, 0.05);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mystery-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            animation: card-shimmer 3s infinite;
+        }
+        
+        @keyframes card-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .nft-image {
+            width: clamp(200px, 50vw, 300px);
+            height: clamp(200px, 50vw, 300px);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            object-fit: cover;
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        /* Big revealed NFT image */
+        .revealed-nft-image {
+            width: clamp(200px, 50vw, 350px);
+            height: clamp(200px, 50vw, 350px);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            object-fit: cover;
+            border: 3px solid #00ff41;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .nft-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.8);
+        }
+        
+        .mystery-shimmer {
+            background: linear-gradient(90deg, #1a1a1a 25%, #00ff41 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            border-radius: 10px;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, #00ff41, #008000);
+            border: 2px solid #00ff41;
+            border-radius: 0;
+            padding: clamp(8px, 2vw, 14px) clamp(20px, 5vw, 35px);
+            font-size: clamp(0.5rem, 1.8vw, 0.9rem);
+            font-weight: bold;
+            color: #000;
+            transition: all 0.3s ease;
+            margin: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Press Start 2P', cursive;
+            box-shadow: 0 2px 8px rgba(0, 255, 65, 0.3);
+            white-space: nowrap;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 65, 0.5);
+            color: #000;
+        }
+        
+        .cta-button.secondary {
+            background: linear-gradient(45deg, #ff0080, #800040);
+            border-color: #ff0080;
+            box-shadow: 0 5px 15px rgba(255, 0, 128, 0.3);
+        }
+        
+        .cta-button.secondary:hover {
+            box-shadow: 0 8px 20px rgba(255, 0, 128, 0.5);
+        }
+        
+        .cta-button:disabled {
+            background: #333;
+            border-color: #666;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+            color: #666;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: 2px solid #00ff41;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff41;
+            backdrop-filter: blur(10px);
+        }
+        
+        .trait-badge {
+            background: rgba(0, 255, 65, 0.2);
+            color: #00ff41;
+            padding: 8px 15px;
+            border-radius: 15px;
+            margin: 5px;
+            display: inline-block;
+            font-size: 0.7rem;
+            border: 1px solid #00ff41;
+            font-family: 'Press Start 2P', cursive;
+        }
+        
+        .wallet-info {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .success-message {
+            background: rgba(0, 255, 65, 0.1);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner-border {
+            color: #00ff41 !important;
+        }
+        
+        .mystery-image-spinning {
+            animation: image-spin 2s linear infinite;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 65, 0.8),
+                0 0 60px rgba(0, 255, 65, 0.4),
+                0 0 90px rgba(0, 255, 65, 0.2);
+        }
+        
+        @keyframes image-spin {
+            0% { 
+                transform: rotateY(0deg) scale(1);
+                filter: hue-rotate(0deg) brightness(1);
+            }
+            25% { 
+                transform: rotateY(90deg) scale(1.1);
+                filter: hue-rotate(90deg) brightness(1.2);
+            }
+            50% { 
+                transform: rotateY(180deg) scale(1.2);
+                filter: hue-rotate(180deg) brightness(1.4);
+            }
+            75% { 
+                transform: rotateY(270deg) scale(1.1);
+                filter: hue-rotate(270deg) brightness(1.2);
+            }
+            100% { 
+                transform: rotateY(360deg) scale(1);
+                filter: hue-rotate(360deg) brightness(1);
+            }
+        }
+        
+        .magical-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .magical-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ff41;
+            border-radius: 50%;
+            animation: magical-float 3s ease-in-out infinite;
+            box-shadow: 0 0 10px #00ff41;
+        }
+        
+        @keyframes magical-float {
+            0%, 100% { 
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.8;
+            }
+            25% { 
+                transform: translateY(-20px) translateX(10px) scale(1.2);
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(-40px) translateX(-10px) scale(1.5);
+                opacity: 0.6;
+            }
+            75% { 
+                transform: translateY(-20px) translateX(10px) scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        .reveal-loading {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reveal-loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.3), transparent);
+            animation: loading-shimmer 1.5s infinite;
+        }
+        
+        @keyframes loading-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .text-warning {
+            color: #00ff41 !important;
+        }
+        
+        .text-danger {
+            color: #ff0000 !important;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(45deg, #00ff41, #008000) !important;
+            border-color: #00ff41 !important;
+            color: #000 !important;
+        }
+        
+        .btn-outline-warning {
+            border-color: #00ff41 !important;
+            color: #00ff41 !important;
+        }
+        
+        .btn-outline-warning:hover {
+            background: #00ff41 !important;
+            color: #000 !important;
+        }
+        
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .nft-item {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .nft-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .nft-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: #00ff41;
+            color: #000;
+            text-decoration: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+                line-height: 1.2;
+                letter-spacing: 1px;
+            }
+            
+            .hero-tagline {
+                font-size: clamp(0.7rem, 2vw, 0.9rem);
+                padding: 0 0.5rem;
+            }
+            
+            .cta-button {
+                padding: 10px 20px;
+                font-size: 0.7rem;
+                margin: 0.3rem;
+            }
+            
+            .nft-image {
+                width: clamp(120px, 35vw, 180px);
+                height: clamp(120px, 35vw, 180px);
+            }
+            
+            .mystery-card {
+                padding: 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            .back-button {
+                padding: 8px 16px;
+                font-size: 0.7rem;
+            }
+            
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: clamp(2.2rem, 7vw, 3.5rem);
+                letter-spacing: 0.5px;
+            }
+            
+            .hero-tagline {
+                font-size: 0.6rem;
+                padding: 0 0.3rem;
+            }
+            
+            .cta-button {
+                padding: 8px 16px;
+                font-size: 0.6rem;
+                margin: 0.2rem;
+            }
+            
+            .nft-image {
+                width: clamp(100px, 30vw, 150px);
+                height: clamp(100px, 30vw, 150px);
+            }
+            
+            .mystery-card {
+                padding: 1rem;
+                margin: 0.5rem 0;
+            }
+            
+            .back-button {
+                padding: 6px 12px;
+                font-size: 0.6rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .hero-title {
+                font-size: 2rem;
+                letter-spacing: 0.3px;
+            }
+            
+            .hero-tagline {
+                font-size: 0.5rem;
+            }
+        }
+        
+            .cta-button {
+                padding: 6px 12px;
+                font-size: 0.5rem;
+            }
+            
+            .nft-image {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .mystery-card {
+                padding: 0.8rem;
+            }
+            
+            .back-button {
+                padding: 5px 10px;
+                font-size: 0.5rem;
+            }
+        
+        
+        /* Specific optimization for 368x667 mobile devices */
+        @media (max-width: 400px) and (max-height: 700px) {
+            .hero-title {
+                font-size: clamp(2.5rem, 9vw, 3.5rem);
+                line-height: 1.1;
+                letter-spacing: 1px;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-tagline {
+                font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="/" class="back-button">
+        <i class="fas fa-arrow-left"></i> BACK TO LABORATORY
+    </a>
+    
+    <!-- Particles Background -->
+    <div class="hero-particles"></div>
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center mb-5">
+                    <h1 class="hero-title">
+                        <i class="fas fa-flask"></i><br>
+                        SOL<br>
+                        ALCHEMISTS
+                    </h1>
+                    <p class="hero-tagline">Transmute your mystery alchemists into legendary SOLalchemist NFTs</p>
+
+                </div>
+
+                <!-- Wallet Connection -->
+                <div class="mystery-card text-center" style="display: none;">
+                    <h3 class="text-warning mb-4">
+                        <i class="fas fa-plug"></i> CONNECT YOUR ALCHEMICAL WALLET
+                    </h3>
+                    
+                    <div id="wallet-not-connected">
+                        <p class="text-warning mb-4">Connect your wallet to access your mystery elixirs and begin the transmutation!</p>
+                        <button id="connect-wallet" class="cta-button">
+                            <i class="fas fa-plug"></i> CONNECT WALLET
+                        </button>
+                    </div>
+                    
+                    <div id="wallet-connected" class="wallet-info" style="display: none;">
+                        <h5 class="text-warning">
+                            <i class="fas fa-check-circle"></i> WALLET CONNECTED
+                        </h5>
+                        <p class="text-warning" id="wallet-address"></p>
+                        <button id="disconnect-wallet" class="cta-button secondary">
+                            <i class="fas fa-times"></i> DISCONNECT
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mystery NFT Display -->
+                <div id="mystery-nft-section" class="mystery-card" style="display: none;">
+                    <h3 class="text-warning mb-4">
+                        <i class="fas fa-question-circle"></i> YOUR MYSTERY ALCHEMIST
+                    </h3>
+                    
+                    <div class="text-center" style="position: relative;">
+                        <div style="position: relative; display: inline-block;">
+                            <img id="mystery-image" src="https://ipfs.io/ipfs/bafybeidojayq2h3ja5qqragcu3nxik5qpk65yn6ratpu5mupgtwhi6etcu/Mystery.png" 
+                                 alt="Mystery NFT" class="nft-image mystery-shimmer" 
+                                 style="width: 200px; height: 200px; margin: 0 auto 1rem;"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="magical-particles" id="magical-particles"></div>
+                        </div>
+                        <div class="mystery-shimmer" style="width: 200px; height: 200px; margin: 0 auto 1rem; display: none;"></div>
+                        <p class="text-warning">This mystery alchemist contains a legendary SOLalchemist waiting to be revealed!</p>
+                        <button id="reveal-nft" class="cta-button">
+                            <i class="fas fa-magic"></i> REVEAL NFT
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Revealed NFT Display -->
+                <div id="revealed-nft-section" class="mystery-card" style="display: none;">
+                    <h3 class="text-warning mb-4">
+                        <i class="fas fa-star"></i> REVEALED SOLALCHEMIST
+                    </h3>
+                    
+                    <div class="text-center">
+                        <img id="revealed-nft-image" class="revealed-nft-image" src="" alt="Revealed NFT">
+                        <h4 id="revealed-nft-name" class="text-warning mb-3"></h4>
+                        <div id="revealed-nft-traits" class="mb-3"></div>
+                        <a id="view-on-solscan" href="#" target="_blank" class="cta-button secondary">
+                            <i class="fas fa-external-link-alt"></i> VIEW ON SOLSCAN
+                        </a>
+                    </div>
+                </div>
+
+
+
+                <!-- Loading & Messages -->
+                <div id="loading" class="loading-spinner" style="display: none;">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-warning mt-2">Transmuting your elixir...</p>
+                </div>
+
+                <div id="success-message" class="success-message" style="display: none;">
+                    <h5 class="text-warning">
+                        <i class="fas fa-check-circle"></i> TRANSMUTATION SUCCESSFUL!
+                    </h5>
+                    <p class="text-warning">Your mystery alchemist has been revealed!</p>
+                </div>
+
+                <div id="error-message" class="error-message" style="display: none;">
+                    <h5 class="text-danger">
+                        <i class="fas fa-exclamation-triangle"></i> TRANSMUTATION FAILED!
+                    </h5>
+                    <p id="error-text" class="text-danger"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@metaplex-foundation/js@0.20.1/lib/index.iife.min.js"></script>
+    <script>
+        // Create animated particles
+        function createParticles() {
+            const particlesContainer = document.querySelector('.hero-particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 4 + 's';
+                particle.style.animationDuration = (Math.random() * 2 + 4) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Create magical particles around the mystery image
+        function createMagicalParticles() {
+            const particlesContainer = document.getElementById('magical-particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'magical-particle';
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Wallet connection logic
+        let wallet = null;
+        let metaplex = null;
+
+        async function connectWallet() {
+            try {
+                if (window.solflare) {
+                    console.log('🔮 Trying Solflare wallet...');
+                    const response = await window.solflare.connect();
+                    console.log('🔍 Solflare connect response:', response);
+                    
+                    if (response) {
+                        console.log('✅ Solflare connection successful, getting public key...');
+                        let publicKey = null;
+                        
+                        try {
+                            const accounts = await window.solflare.getAccounts();
+                            console.log('🔍 getAccounts response:', accounts);
+                            if (accounts && accounts.length > 0) {
+                                publicKey = accounts[0];
+                            }
+                        } catch (e) {
+                            console.log('🔍 getAccounts failed, trying getAccountInfo...');
+                        }
+                        
+                        if (!publicKey) {
+                            try {
+                                const accountInfo = await window.solflare.getAccountInfo();
+                                console.log('🔍 getAccountInfo response:', accountInfo);
+                                if (accountInfo) {
+                                    publicKey = accountInfo.publicKey;
+                                }
+                            } catch (e) {
+                                console.log('🔍 getAccountInfo failed, trying direct property...');
+                            }
+                        }
+                        
+                        if (!publicKey && window.solflare.publicKey) {
+                            publicKey = window.solflare.publicKey.toString();
+                            console.log('✅ Found publicKey via direct property:', publicKey);
+                        }
+                        
+                        if (publicKey) {
+                            wallet = window.solflare;
+                            onWalletConnected(publicKey);
+                        } else {
+                            throw new Error('Could not get wallet address');
+                        }
+                    }
+                } else if (window.solana) {
+                    console.log('🔮 Trying Phantom wallet...');
+                    const response = await window.solana.connect();
+                    wallet = window.solana;
+                    onWalletConnected(response.publicKey.toString());
+                } else {
+                    throw new Error('No wallet could be connected. Please install Phantom or Solflare.');
+                }
+            } catch (error) {
+                console.error('❌ Wallet connection failed:', error);
+                showError('Wallet connection failed: ' + error.message);
+            }
+        }
+
+        function onWalletConnected(publicKey) {
+            console.log('✅ Wallet connected successfully:', publicKey);
+            
+            document.getElementById('wallet-address').textContent = publicKey;
+            // Mystery NFT section and holdings section are already visible
+            
+                            // Initialize Metaplex
+        try {
+            if (typeof window.Metaplex === 'undefined') {
+                console.warn('⚠️ Metaplex not available, skipping blockchain features');
+                // Show demo mode message
+                document.getElementById('mystery-nft-section').style.display = 'block';
+                document.getElementById('holdings-section').style.display = 'block';
+                return;
+            }
+            
+            metaplex = window.Metaplex.make(new solanaWeb3.Connection('https://api.devnet.solana.com'))
+                .use(window.Metaplex.walletAdapterIdentity(wallet));
+            
+            console.log('✅ Metaplex initialized successfully for devnet');
+            loadMysteryNFTs();
+        } catch (error) {
+            console.error('Failed to initialize Metaplex:', error);
+            console.warn('⚠️ Running in demo mode without blockchain features');
+            // Show demo mode message
+            document.getElementById('mystery-nft-section').style.display = 'block';
+        }
+        }
+
+        function onWalletDisconnected() {
+            console.log('❌ Wallet disconnected');
+            
+            document.getElementById('wallet-not-connected').style.display = 'block';
+            document.getElementById('wallet-connected').style.display = 'none';
+            document.getElementById('mystery-nft-section').style.display = 'none';
+            document.getElementById('revealed-nft-section').style.display = 'none';
+            
+            wallet = null;
+            metaplex = null;
+        }
+
+        async function loadMysteryNFTs() {
+            try {
+                if (!metaplex) {
+                    throw new Error('Metaplex not initialized');
+                }
+                
+                const nfts = await metaplex.nfts().findAllByOwner({ owner: wallet.publicKey });
+                console.log('Found NFTs:', nfts);
+                
+                // Filter for mystery NFTs (you can adjust this logic)
+                const mysteryNFTs = nfts.filter(nft => 
+                    nft.name && nft.name.toLowerCase().includes('mystery')
+                );
+                
+                if (mysteryNFTs.length > 0) {
+                    console.log('Found mystery NFTs:', mysteryNFTs);
+                } else {
+                    console.log('No mystery NFTs found');
+                }
+            } catch (error) {
+                console.error('Failed to load NFTs:', error);
+                showError('Failed to load NFTs: ' + error.message);
+            }
+        }
+
+
+
+        // Collection configuration
+        const COLLECTION_CONFIG = {
+            totalNFTs: 1120,
+            baseImageUri: "https://ipfs.io/ipfs/bafybeibwozxicevxmwjdqe3yhivglneierhkp5k7xlp2ak3wvr5c2an3my",
+            baseMetadataUri: "https://ipfs.io/ipfs/bafybeigpyq4qqmigd5mhghp5zfdz7hckyiv7hdkxdz5sxi2jeyyetnnr5a",
+            symbol: "SOLALCH",
+            name: "SOLalchemists"
+        };
+
+        // Function to get random NFT from collection (no duplicates)
+        function getRandomNFT() {
+            // For demo purposes, we'll simulate available numbers
+            // In real implementation, this would check against minted NFTs
+            const availableNumbers = [];
+            for (let i = 1; i <= COLLECTION_CONFIG.totalNFTs; i++) {
+                // Simulate some NFTs as already minted (for demo)
+                if (i !== 600 && i !== 922 && i !== 768 && i !== 42 && i !== 1118 && i !== 112) {
+                    availableNumbers.push(i);
+                }
+            }
+            
+            if (availableNumbers.length === 0) {
+                throw new Error('All 1120 NFTs have been revealed! Collection is complete.');
+            }
+            
+            const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+            const randomNumber = availableNumbers[randomIndex];
+            
+            return {
+                number: randomNumber,
+                imageUri: `${COLLECTION_CONFIG.baseImageUri}/${randomNumber}.png`,
+                metadataUri: `${COLLECTION_CONFIG.baseMetadataUri}/${randomNumber}.json`,
+                name: `${COLLECTION_CONFIG.name} #${randomNumber}`,
+                image: `${COLLECTION_CONFIG.baseImageUri}/${randomNumber}.png`
+            };
+        }
+
+        // Function to fetch NFT metadata
+        async function fetchNFTMetadata(nftNumber) {
+            try {
+                const response = await fetch(`${COLLECTION_CONFIG.baseMetadataUri}/${nftNumber}.json`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch metadata for NFT #${nftNumber}`);
+                }
+                const metadata = await response.json();
+                return metadata;
+            } catch (error) {
+                console.error(`Error fetching metadata for NFT #${nftNumber}:`, error.message);
+                return null;
+            }
+        }
+
+        async function revealNFT() {
+            try {
+                // Add spinning animation to mystery image only
+                const mysteryImage = document.getElementById('mystery-image');
+                mysteryImage.classList.add('mystery-image-spinning');
+                
+                // Create magical particles around the image
+                createMagicalParticles();
+                
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('reveal-nft').disabled = true;
+                
+                // Get random NFT from collection
+                const randomNFT = getRandomNFT();
+                console.log('🎲 Random NFT selected:', randomNFT);
+                
+                // Fetch metadata for the random NFT
+                const metadata = await fetchNFTMetadata(randomNFT.number);
+                
+                // Check if we have Metaplex for real minting
+                if (metaplex && wallet) {
+                    console.log('🚀 Attempting real NFT mint on devnet...');
+                    
+                    try {
+                        // Create NFT metadata
+                        const nftMetadata = {
+                            name: randomNFT.name,
+                            symbol: COLLECTION_CONFIG.symbol,
+                            description: metadata?.description || `A legendary SOLalchemist from the mystical collection`,
+                            image: randomNFT.image,
+                            attributes: metadata?.attributes || [
+                                { trait_type: "Background", value: "Mystical" },
+                                { trait_type: "Body", value: "Alchemist" },
+                                { trait_type: "Eyes", value: "Glowing" },
+                                { trait_type: "Rarity", value: "Legendary" }
+                            ]
+                        };
+                        
+                        // Simulate reveal process with longer animation
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        
+                        // Mint the actual NFT
+                        const { nft } = await metaplex.nfts().create({
+                            name: nftMetadata.name,
+                            symbol: nftMetadata.symbol,
+                            sellerFeeBasisPoints: 500, // 5% royalty
+                            uri: randomNFT.metadataUri,
+                            isCollection: false,
+                            maxSupply: 1
+                        });
+                        
+                        console.log('✅ NFT minted successfully:', nft.address.toString());
+                        
+                        // Remove spinning animation
+                        mysteryImage.classList.remove('mystery-image-spinning');
+                        
+                        // Clear magical particles
+                        const magicalParticles = document.getElementById('magical-particles');
+                        magicalParticles.innerHTML = '';
+                        
+                        // Show revealed NFT
+                        document.getElementById('mystery-nft-section').style.display = 'none';
+                        document.getElementById('revealed-nft-section').style.display = 'block';
+                        
+                        document.getElementById('revealed-nft-image').src = randomNFT.image;
+                        document.getElementById('revealed-nft-name').textContent = randomNFT.name;
+                        
+                        const traitsDiv = document.getElementById('revealed-nft-traits');
+                        if (metadata && metadata.attributes) {
+                            traitsDiv.innerHTML = metadata.attributes.map(trait => 
+                                `<span class="trait-badge">${trait.trait_type}: ${trait.value}</span>`
+                            ).join('');
+                        } else {
+                            // Fallback traits
+                            traitsDiv.innerHTML = `
+                                <span class="trait-badge">Background: Mystical</span>
+                                <span class="trait-badge">Body: Alchemist</span>
+                                <span class="trait-badge">Eyes: Glowing</span>
+                                <span class="trait-badge">Rarity: Legendary</span>
+                            `;
+                        }
+                        
+                        // Set Solscan link
+                        const solscanUrl = `https://solscan.io/token/${nft.address.toString()}?cluster=devnet`;
+                        document.getElementById('view-on-solscan').href = solscanUrl;
+                        document.getElementById('success-message').style.display = 'block';
+                        
+                        console.log(`🎉 Successfully minted ${randomNFT.name} to your wallet!`);
+                        console.log(`🔗 View on Solscan: ${solscanUrl}`);
+                        
+
+                        
+                    } catch (mintError) {
+                        console.error('❌ NFT minting failed:', mintError);
+                        showError('NFT minting failed: ' + mintError.message);
+                        
+                        // Remove spinning animation on error
+                        mysteryImage.classList.remove('mystery-image-spinning');
+                        
+                        // Clear magical particles on error
+                        const magicalParticles = document.getElementById('magical-particles');
+                        magicalParticles.innerHTML = '';
+                    }
+                } else {
+                    // Fallback to demo mode
+                    console.log('⚠️ Running in demo mode - no Metaplex available');
+                    
+                    // Simulate reveal process with longer animation
+                    await new Promise(resolve => setTimeout(resolve, 3000));
+                    
+                    // Remove spinning animation
+                    mysteryImage.classList.remove('mystery-image-spinning');
+                    
+                    // Clear magical particles
+                    const magicalParticles = document.getElementById('magical-particles');
+                    magicalParticles.innerHTML = '';
+                    
+                    // Show revealed NFT
+                    document.getElementById('mystery-nft-section').style.display = 'none';
+                    document.getElementById('revealed-nft-section').style.display = 'block';
+                    
+                    document.getElementById('revealed-nft-image').src = randomNFT.image;
+                    document.getElementById('revealed-nft-name').textContent = randomNFT.name;
+                    
+                    const traitsDiv = document.getElementById('revealed-nft-traits');
+                    if (metadata && metadata.attributes) {
+                        traitsDiv.innerHTML = metadata.attributes.map(trait => 
+                            `<span class="trait-badge">${trait.trait_type}: ${trait.value}</span>`
+                        ).join('');
+                    } else {
+                        // Fallback traits
+                        traitsDiv.innerHTML = `
+                            <span class="trait-badge">Background: Mystical</span>
+                            <span class="trait-badge">Body: Alchemist</span>
+                            <span class="trait-badge">Eyes: Glowing</span>
+                            <span class="trait-badge">Rarity: Legendary</span>
+                        `;
+                    }
+                    
+                    document.getElementById('view-on-solscan').href = '#';
+                    document.getElementById('success-message').style.display = 'block';
+                    
+                    console.log(`🎉 Revealed ${randomNFT.name}! (Demo mode)`);
+                    
+                    // Show demo message
+                    showError('⚠️ DEMO MODE: This is a preview only. In production, this would mint the actual NFT to your wallet.');
+                }
+                
+            } catch (error) {
+                console.error('Reveal failed:', error);
+                showError('Reveal failed: ' + error.message);
+                
+                // Remove spinning animation on error
+                const mysteryImage = document.getElementById('mystery-image');
+                mysteryImage.classList.remove('mystery-image-spinning');
+                
+                // Clear magical particles on error
+                const magicalParticles = document.getElementById('magical-particles');
+                magicalParticles.innerHTML = '';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('reveal-nft').disabled = false;
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('error-text').textContent = message;
+            document.getElementById('error-message').style.display = 'block';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Show mystery NFT section immediately
+            document.getElementById('mystery-nft-section').style.display = 'block';
+            
+            document.getElementById('connect-wallet').addEventListener('click', connectWallet);
+            document.getElementById('disconnect-wallet').addEventListener('click', onWalletDisconnected);
+            document.getElementById('reveal-nft').addEventListener('click', revealNFT);
+        });
+    </script>
+</body>
+</html>

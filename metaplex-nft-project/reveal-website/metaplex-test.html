@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metaplex Test</title>
+</head>
+<body>
+    <h1>Metaplex Library Test</h1>
+    <button onclick="testMetaplex()">Test Metaplex</button>
+    <div id="output"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@metaplex-foundation/js@latest/lib/index.iife.min.js"></script>
+    
+    <script>
+        function testMetaplex() {
+            const output = document.getElementById('output');
+            output.innerHTML = '<h3>Testing Metaplex availability...</h3>';
+            
+            console.log('🔍 Testing Metaplex objects...');
+            
+            // Check what's available
+            const objects = [
+                'window.Metaplex',
+                'window.metaplex',
+                'Metaplex',
+                'metaplex',
+                'window.MetaplexFoundation',
+                'window.MetaplexJS'
+            ];
+            
+            let found = false;
+            
+            objects.forEach(objName => {
+                try {
+                    const obj = eval(objName);
+                    if (obj) {
+                        console.log(`✅ ${objName} is available:`, obj);
+                        output.innerHTML += `<p>✅ ${objName} is available</p>`;
+                        found = true;
+                        
+                        // Check if it has a 'make' method
+                        if (obj.make) {
+                            console.log(`✅ ${objName}.make is available`);
+                            output.innerHTML += `<p>✅ ${objName}.make is available</p>`;
+                        } else {
+                            console.log(`❌ ${objName}.make is NOT available`);
+                            output.innerHTML += `<p>❌ ${objName}.make is NOT available</p>`;
+                        }
+                    } else {
+                        console.log(`❌ ${objName} is undefined`);
+                        output.innerHTML += `<p>❌ ${objName} is undefined</p>`;
+                    }
+                } catch (e) {
+                    console.log(`❌ ${objName} error:`, e.message);
+                    output.innerHTML += `<p>❌ ${objName} error: ${e.message}</p>`;
+                }
+            });
+            
+            // Check all window properties that might be Metaplex
+            console.log('🔍 Checking all window properties...');
+            const windowProps = Object.keys(window).filter(key => 
+                key.toLowerCase().includes('metaplex') || 
+                key.toLowerCase().includes('meta')
+            );
+            
+            console.log('Window properties with "metaplex" or "meta":', windowProps);
+            output.innerHTML += `<p>Window properties: ${windowProps.join(', ')}</p>`;
+            
+            if (!found) {
+                output.innerHTML += '<p style="color: red;">❌ No Metaplex object found!</p>';
+            }
+        }
+        
+        // Auto-run test after page loads
+        window.addEventListener('load', () => {
+            setTimeout(testMetaplex, 1000);
+        });
+    </script>
+</body>
+</html>

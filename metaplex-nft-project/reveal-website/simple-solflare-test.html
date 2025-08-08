@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Solflare Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Simple Solflare Test</h1>
+    
+    <button onclick="connectAndTest()">Connect & Test All Methods</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            output.appendChild(div);
+            console.log(message);
+        }
+        
+        async function connectAndTest() {
+            log('🔄 Starting connection and test...');
+            
+            if (!window.solflare) {
+                log('❌ Solflare not detected', 'error');
+                return;
+            }
+            
+            try {
+                // Step 1: Connect
+                log('🔄 Connecting to Solflare...');
+                const connectResponse = await window.solflare.connect();
+                log(`✅ Connected! Response: ${connectResponse}`, 'success');
+                
+                // Step 2: Test all methods
+                const methods = [
+                    'getAccounts', 'getAccountInfo', 'getWallet', 'getAddress', 
+                    'getPublicKey', 'getAccount', 'getKey', 'getBalance'
+                ];
+                
+                for (const method of methods) {
+                    try {
+                        log(`🔍 Testing ${method}...`);
+                        const response = await window.solflare.request({ method });
+                        log(`✅ ${method}: ${JSON.stringify(response)}`, 'success');
+                    } catch (error) {
+                        log(`❌ ${method}: ${error.message}`, 'error');
+                    }
+                }
+                
+            } catch (error) {
+                log(`❌ Connection failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-run on page load
+        window.addEventListener('load', () => {
+            log('🚀 Page loaded, ready to test!', 'info');
+        });
+    </script>
+</body>
+</html>

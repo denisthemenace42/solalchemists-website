@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solflare Properties Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Solflare Properties Test</h1>
+    
+    <button onclick="testSolflareProperties()">Test Solflare Properties</button>
+    <button onclick="connectAndCheck()">Connect & Check Properties</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            output.appendChild(div);
+            console.log(message);
+        }
+        
+        function testSolflareProperties() {
+            log('🔍 Testing Solflare properties...');
+            
+            if (!window.solflare) {
+                log('❌ Solflare not detected', 'error');
+                return;
+            }
+            
+            log('✅ Solflare detected, checking properties...', 'success');
+            
+            // Check all properties
+            const properties = [
+                'publicKey', 'pubkey', 'key', 'address', 'wallet',
+                'isConnected', 'connected', 'connection',
+                'getPublicKey', 'getAddress', 'getWallet',
+                'account', 'accounts', 'accountInfo'
+            ];
+            
+            for (const prop of properties) {
+                if (window.solflare[prop] !== undefined) {
+                    log(`✅ Found property: ${prop} = ${window.solflare[prop]}`, 'success');
+                } else {
+                    log(`❌ Property not found: ${prop}`, 'error');
+                }
+            }
+            
+            // Check all object keys
+            log('🔍 All Solflare object keys:', 'info');
+            log(Object.keys(window.solflare).join(', '), 'info');
+        }
+        
+        async function connectAndCheck() {
+            log('🔄 Connecting to Solflare and checking properties...');
+            
+            if (!window.solflare) {
+                log('❌ Solflare not detected', 'error');
+                return;
+            }
+            
+            try {
+                const response = await window.solflare.connect();
+                log(`✅ Connection response: ${response} (type: ${typeof response})`, 'success');
+                
+                // Check properties after connection
+                log('🔍 Checking properties after connection...', 'info');
+                
+                const properties = [
+                    'publicKey', 'pubkey', 'key', 'address', 'wallet',
+                    'isConnected', 'connected', 'connection',
+                    'getPublicKey', 'getAddress', 'getWallet',
+                    'account', 'accounts', 'accountInfo'
+                ];
+                
+                for (const prop of properties) {
+                    if (window.solflare[prop] !== undefined) {
+                        const value = window.solflare[prop];
+                        if (typeof value === 'function') {
+                            log(`✅ Found method: ${prop}`, 'success');
+                        } else {
+                            log(`✅ Found property: ${prop} = ${value}`, 'success');
+                        }
+                    } else {
+                        log(`❌ Property not found: ${prop}`, 'error');
+                    }
+                }
+                
+                // Try to call getPublicKey if it exists
+                if (typeof window.solflare.getPublicKey === 'function') {
+                    try {
+                        const pubKey = await window.solflare.getPublicKey();
+                        log(`✅ getPublicKey() returned: ${pubKey}`, 'success');
+                    } catch (e) {
+                        log(`❌ getPublicKey() failed: ${e.message}`, 'error');
+                    }
+                }
+                
+                // Try to call request method
+                if (typeof window.solflare.request === 'function') {
+                    try {
+                        const requestResponse = await window.solflare.request({ method: 'getPublicKey' });
+                        log(`✅ request(getPublicKey) returned: ${JSON.stringify(requestResponse)}`, 'success');
+                    } catch (e) {
+                        log(`❌ request(getPublicKey) failed: ${e.message}`, 'error');
+                    }
+                }
+                
+            } catch (error) {
+                log(`❌ Connection failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-run property test on page load
+        window.addEventListener('load', () => {
+            log('🚀 Page loaded, running property test...');
+            testSolflareProperties();
+        });
+    </script>
+</body>
+</html>
