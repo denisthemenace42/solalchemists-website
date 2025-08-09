@@ -1573,11 +1573,6 @@
 
         // New Wallet Adapter Integration
         async function connectWallet() {
-            if (!firebase.auth().currentUser) {
-                showErrorMessage('Please connect with Twitter first');
-                return;
-            }
-            
             // Open wallet selection modal
             if (window.WalletModal) {
                 window.WalletModal.open((result) => {
@@ -1720,10 +1715,7 @@
         }
 
         function beginTransmutation() {
-            if (!firebase.auth().currentUser) {
-                showErrorMessage('Please connect with Twitter first');
-                return;
-            }
+            // Twitter sign-in no longer required
 
             // Determine active wallet provider and ensure we have a string public key
             function getActiveWalletProvider() {
