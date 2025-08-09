@@ -7,6 +7,8 @@
     el.textContent = now.toLocaleDateString(undefined, opts);
   }
 
+  // thumbnails removed per request
+
   function setupScrollAnimations(){
     var items = Array.prototype.slice.call(document.querySelectorAll('.animate-on-scroll'));
     if ('IntersectionObserver' in window){
@@ -38,6 +40,16 @@
     if (link){ link.classList.add('active'); link.setAttribute('aria-current','page'); }
   }
 
+  function setupTypewriter(){
+    var el = document.querySelector('.hero-subtitle');
+    if (!el) return;
+    var text = el.textContent || '';
+    var ch = Math.max(text.length, 1);
+    el.style.setProperty('--tw-width', ch + 'ch');
+    var durationMs = Math.min(Math.max(ch * 80, 600), 4000);
+    el.style.animation = 'typewriterReveal ' + durationMs + 'ms steps(' + ch + ') forwards, typewriterCaret 900ms steps(1) infinite';
+  }
+
   // TOC removed per design simplification
 
   document.addEventListener('DOMContentLoaded', function(){
@@ -45,6 +57,8 @@
     setupScrollAnimations();
     setupBackToTop();
     highlightActiveNav();
+    setupTypewriter();
+    // thumbnails removed per request
     // no TOC
   });
 })();
