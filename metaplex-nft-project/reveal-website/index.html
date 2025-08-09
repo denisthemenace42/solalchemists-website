@@ -1178,12 +1178,14 @@
             transition: opacity 0.3s ease;
         }
 
-        .member-image:hover .member-overlay {
-            opacity: 1;
+        /* Updated hover effect: subtle glow on avatar border, minimal scale */
+        .member-image:hover {
+            border-color: #00ff80;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
         }
 
         .member-image:hover .member-photo {
-            transform: scale(1.1);
+            transform: scale(1.03);
         }
 
         .social-links {
@@ -1192,40 +1194,24 @@
         }
 
         .social-link {
-            width: 50px;
-            height: 50px;
+            width: 46px;
+            height: 46px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #00ff41;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
             border: 2px solid #00ff41;
-            position: relative;
-            overflow: hidden;
         }
 
-        .social-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .social-link:hover::before {
-            left: 100%;
-        }
-
+        /* Disable shimmer and movement on social links; keep simple hover color handled per platform */
         .social-link:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+            box-shadow: none;
+            transform: none;
         }
 
         /* Platform-specific styling */
@@ -1273,33 +1259,8 @@
             box-shadow: 0 0 20px rgba(0, 136, 204, 0.6);
         }
 
-        /* Floating animation for social links */
-        .social-link {
-            animation: social-float 3s ease-in-out infinite;
-        }
-
-        .social-link:nth-child(2) {
-            animation-delay: 1.5s;
-        }
-
-        .social-link:nth-child(3) {
-            animation-delay: 3s;
-        }
-
-        @keyframes social-float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .social-link:hover {
-            animation: none;
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
-        }
+        /* Disable floating animation for social links */
+        .social-link { animation: none; }
 
         .member-name {
             color: #00ff41;
@@ -1320,6 +1281,13 @@
             line-height: 1.6;
             margin-bottom: 2rem;
             opacity: 0.9;
+        }
+
+        /* Static social links container under member info */
+        .member-social {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0 0.5rem;
         }
 
         .member-stats {
@@ -3172,7 +3140,11 @@
                     <div class="team-member">
                         <div class="member-image">
                             <img src="https://unavatar.io/twitter/themenace_X" alt="The Menace" class="member-photo" onerror="this.src='images/themenace.png'">
-                            <div class="member-overlay">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">DENIS</h3>
+                            <p class="member-role">Founder & Lead Alchemist</p>
+                            <div class="member-social">
                                 <div class="social-links">
                                     <a href="https://twitter.com/themenace_X" target="_blank" class="social-link twitter-link" title="Follow on X">
                                         <i class="fa-brands fa-x-twitter"></i>
@@ -3182,10 +3154,6 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">DENIS</h3>
-                            <p class="member-role">Founder & Lead Alchemist</p>
                             <p class="member-bio">
                                 A passionate 26-year-old student and Solana enthusiast, Denis is the creative force behind SOLalchemists.
                                  <br>- This marks my first NFT project, bringing together my love for blockchain technology and artistic expression. 
@@ -3210,7 +3178,11 @@
                     <div class="team-member">
                         <div class="member-image">
                             <img src="https://unavatar.io/twitter/KaiGonnaMakeIt" alt="Kai" class="member-photo" onerror="this.src='images/default-avatar.png'">
-                            <div class="member-overlay">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">KAI</h3>
+                            <p class="member-role">Community Manager & Solana Enthusiast</p>
+                            <div class="member-social">
                                 <div class="social-links">
                                     <a href="https://twitter.com/KaiGonnaMakeIt" target="_blank" class="social-link twitter-link" title="Follow on X">
                                         <i class="fa-brands fa-x-twitter"></i>
@@ -3223,10 +3195,6 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="member-info">
-                            <h3 class="member-name">KAI</h3>
-                            <p class="member-role">Community Manager & Solana Enthusiast</p>
                             <p class="member-bio">
                                 A dedicated Solana enthusiast and community builder, Kai manages our Discord and Telegram channels, 
                                 fostering a vibrant and engaged community around SOLalchemists. With deep knowledge of the Solana ecosystem 
