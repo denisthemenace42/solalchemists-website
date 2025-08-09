@@ -1138,6 +1138,9 @@
             document.getElementById('reveal-nft').addEventListener('click', revealNFT);
         });
     </script>
-    <script defer src="/_vercel/speed-insights/script.js"></script>
+    <script type="module">
+      import { injectSpeedInsights } from "/node_modules/@vercel/speed-insights/dist/index.mjs";
+      injectSpeedInsights();
+    </script>
 </body>
 </html>
