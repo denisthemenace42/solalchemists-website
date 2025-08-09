@@ -38,31 +38,14 @@
     if (link){ link.classList.add('active'); link.setAttribute('aria-current','page'); }
   }
 
-  function enhanceTOC(){
-    var toc = document.querySelector('.toc');
-    if (!toc) return;
-    // Smooth scroll for TOC links
-    toc.addEventListener('click', function(e){
-      var t = e.target;
-      if (t.tagName === 'A' && t.getAttribute('href').startsWith('#')){
-        e.preventDefault();
-        var id = t.getAttribute('href').slice(1);
-        var sec = document.getElementById(id);
-        if (sec){
-          var y = sec.getBoundingClientRect().top + window.scrollY - 90;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-          history.replaceState(null, '', '#'+id);
-        }
-      }
-    });
-  }
+  // TOC removed per design simplification
 
   document.addEventListener('DOMContentLoaded', function(){
     setLastUpdated();
     setupScrollAnimations();
     setupBackToTop();
     highlightActiveNav();
-    enhanceTOC();
+    // no TOC
   });
 })();
 

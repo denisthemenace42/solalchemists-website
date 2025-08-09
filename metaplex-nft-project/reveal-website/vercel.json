@@ -35,10 +35,7 @@
   "routes": [
     { "handle": "filesystem" },
     { "src": "^/roadmap$", "dest": "/roadmap.html" },
-    { "src": "^/invite$", "dest": "/invite.html" },
-    { "src": "^/signin$", "dest": "/signin.html" },
     { "src": "^/real-nft-reveal$", "dest": "/real-nft-reveal.html" },
-    { "src": "^/admin-verifications$", "dest": "/admin-verifications.html" },
     { "src": "^/api/(.*)$", "dest": "/server.js" },
     { "src": "/.*", "dest": "/index.html" }
   ]

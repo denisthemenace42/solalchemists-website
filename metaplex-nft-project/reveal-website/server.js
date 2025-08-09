@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,8 +19,48 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-// Serve static files
-app.use(express.static(__dirname));
+
+// Compression for text assets
+try {
+  const compression = require('compression');
+  app.use(compression({ level: 6 }));
+} catch (_) {
+  // compression optional in local dev
+}
+
+// Serve static files with long-term caching for assets
+app.use(express.static(__dirname, {
+  setHeaders: (res, filePath) => {
+    const ext = path.extname(filePath);
+    const longCache = 'public, max-age=31536000, immutable';
+    const noStore = 'no-store';
+    if (/\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|avif|woff|woff2|ttf|eot)$/i.test(ext)) {
+      res.setHeader('Cache-Control', longCache);
+    } else if (/\.(html)$/i.test(ext) || path.basename(filePath) === 'index.html') {
+      res.setHeader('Cache-Control', noStore);
+    }
+  }
+}));
+
+// Serve modern image formats when available and supported
+app.get(/^\/images\/.+\.(png|jpg|jpeg)$/i, (req, res, next) => {
+  try {
+    const accept = req.headers['accept'] || '';
+    const originalPath = path.join(__dirname, req.path);
+    const base = originalPath.replace(/\.(png|jpg|jpeg)$/i, '');
+    if (accept.includes('image/avif')) {
+      const avifPath = base + '.avif';
+      if (fs.existsSync(avifPath)) return res.sendFile(avifPath);
+    }
+    if (accept.includes('image/webp')) {
+      const webpPath = base + '.webp';
+      if (fs.existsSync(webpPath)) return res.sendFile(webpPath);
+    }
+  } catch (e) {
+    // fall through
+  }
+  next();
+});
 
 // Serve the main page
 app.get('/', (req, res) => {
@@ -44,10 +85,7 @@ app.get('/real-nft-reveal', (req, res) => {
     res.sendFile(path.join(__dirname, 'real-nft-reveal.html'));
 });
 
-// Serve the verification admin panel
-app.get('/admin-verifications', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin-verifications.html'));
-});
+// Removed admin-verifications page
 
 // Health check endpoint
 app.get('/health', (req, res) => {
