@@ -27,18 +27,18 @@
 .wallet-modal {
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(0, 255, 65, 0.05));
     border: 3px solid #00ff41;
-    border-radius: 25px;
-    padding: 2rem;
-    max-width: 500px;
-    width: 90%;
-    max-height: 70vh;
+    border-radius: 16px;
+    padding: 1.25rem;
+    max-width: 380px;
+    width: 92%;
+    max-height: 60vh;
     overflow-y: auto;
     position: relative;
     box-shadow: 
-        0 0 60px rgba(0, 255, 65, 0.4),
-        0 20px 40px rgba(0, 0, 0, 0.8),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transform: scale(0.8);
+        0 0 40px rgba(0, 255, 65, 0.35),
+        0 16px 32px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transform: scale(0.86);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
@@ -51,25 +51,31 @@
 /* Modal Header */
 .wallet-modal-header {
     text-align: center;
-    margin-bottom: 2.5rem;
-    position: relative;
+    margin-bottom: 1.25rem;
+    position: sticky;
+    top: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(0, 255, 65, 0.05));
+    padding-top: 0.5rem;
+    padding-bottom: 0.75rem;
+    z-index: 1;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.15);
     flex-shrink: 0;
 }
 
 .wallet-modal-title {
     color: #00ff41;
     font-family: 'Press Start 2P', cursive;
-    font-size: 1.8rem;
-    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
     text-shadow: 
-        0 0 10px rgba(0, 255, 65, 0.5),
-        0 0 20px rgba(0, 255, 65, 0.3);
-    letter-spacing: 2px;
+        0 0 8px rgba(0, 255, 65, 0.45),
+        0 0 16px rgba(0, 255, 65, 0.25);
+    letter-spacing: 1.5px;
 }
 
 .wallet-modal-subtitle {
     color: #ccc;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     opacity: 0.9;
     font-weight: 300;
 }
@@ -77,15 +83,15 @@
 /* Close Button */
 .wallet-modal-close {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 40px;
-    height: 40px;
+    top: -8px;
+    right: -8px;
+    width: 32px;
+    height: 32px;
     background: #ff0040;
     border: 2px solid #00ff41;
     border-radius: 50%;
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -103,19 +109,19 @@
 /* Wallet List */
 .wallet-list {
     display: grid;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
     flex: 1;
     overflow-y: auto;
-    min-height: 300px;
-    padding-right: 0.5rem;
+    min-height: 200px;
+    padding-right: 0.25rem;
 }
 
 /* Wallet Item */
 .wallet-item {
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: 0.75rem;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 65, 0.05));
     border: 2px solid #333;
     border-radius: 12px;
@@ -123,7 +129,7 @@
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    min-height: 70px;
+    min-height: 56px;
     backdrop-filter: blur(10px);
 }
 
@@ -170,17 +176,17 @@
 
 /* Wallet Icon */
 .wallet-icon {
-    width: 45px;
-    height: 45px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
-    margin-right: 1rem;
+    margin-right: 0.75rem;
     flex-shrink: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     border: 2px solid #333;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .wallet-item:hover .wallet-icon {
@@ -200,18 +206,18 @@
 .wallet-name {
     color: #fff;
     font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 0.3rem;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .wallet-status {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     white-space: nowrap;
 }
 
@@ -328,7 +334,7 @@
 .connected-wallet-address {
     color: #ccc;
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .disconnect-button {
@@ -336,10 +342,10 @@
     border: none;
     border-radius: 8px;
     color: #fff;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     cursor: pointer;
     font-family: 'Press Start 2P', cursive;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     transition: all 0.3s ease;
 }
 
@@ -373,32 +379,32 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .wallet-modal {
-        padding: 1.5rem;
-        margin: 1rem;
-        max-width: 95%;
+        padding: 1rem;
+        margin: 0.75rem;
+        max-width: 92%;
     }
     
     .wallet-modal-title {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .wallet-item {
-        padding: 1rem;
-        min-height: 70px;
+        padding: 0.6rem;
+        min-height: 52px;
     }
     
     .wallet-icon {
-        width: 50px;
-        height: 50px;
-        margin-right: 1rem;
+        width: 34px;
+        height: 34px;
+        margin-right: 0.6rem;
     }
     
     .wallet-name {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
     }
     
     .wallet-status {
-        font-size: 0.9rem;
+        font-size: 0.75rem;
     }
     
     .connected-wallet {
