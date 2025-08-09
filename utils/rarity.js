@@ -11,7 +11,7 @@ let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 let data = JSON.parse(rawdata);
 let editionSize = data.length;
 
-let rarityData = [];
+let rarityData = {};
 
 // intialize layers to chart
 layerConfigurations.forEach((config) => {
@@ -35,7 +35,7 @@ layerConfigurations.forEach((config) => {
         ? layer.options?.["displayName"]
         : layer.name;
     // don't include duplicate layers
-    if (!rarityData.includes(layer.name)) {
+    if (!Object.prototype.hasOwnProperty.call(rarityData, layerName)) {
       // add elements for each layer to chart
       rarityData[layerName] = elementsForLayer;
     }
