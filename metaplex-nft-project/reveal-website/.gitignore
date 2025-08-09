@@ -6,7 +6,7 @@
 .env.test
 
 # Firebase configuration (contains sensitive keys)
-firebase-config.js
+# firebase-config.js
 firebase-config.local.js
 firebase-config.prod.js
 firebase-config.example.js
