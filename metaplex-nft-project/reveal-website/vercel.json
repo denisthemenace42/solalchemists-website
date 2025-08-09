@@ -30,9 +30,23 @@
       "use": "@vercel/node"
     }
   ],
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    },
+    {
+      "source": "/(.*)\.html",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    }
+  ],
   "routes": [
+    { "src": "^/(.*\\.html)$", "dest": "/$1" },
+    { "src": "^/roadmap$", "dest": "/roadmap.html" },
     { "src": "/invite", "dest": "/invite.html" },
     { "src": "/signin", "dest": "/signin.html" },
+    { "src": "/roadmap.html", "dest": "/roadmap.html" },
     { "src": "/api/(.*)", "dest": "/server.js" },
     {
       "src": "/real-nft-reveal",
@@ -50,13 +64,7 @@
       "src": "/images/(.*)",
       "dest": "/images/$1"
     },
-    {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))", "dest": "/$1" },
+    { "src": "^(?!.*\\.[a-zA-Z0-9]+$)(?!/api/).*", "dest": "/index.html" }
   ]
 }
