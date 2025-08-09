@@ -1,34 +1,7 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "images/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "js/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "styles/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
+    { "src": "server.js", "use": "@vercel/node" }
   ],
   "cleanUrls": true,
   "headers": [
@@ -37,34 +10,36 @@
       "headers": [{ "key": "Cache-Control", "value": "no-store" }]
     },
     {
-      "source": "/(.*)\.html",
+      "source": "/:path*.html",
       "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    },
+    {
+      "source": "/:path*.(js|css)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/:path*.(png|jpg|jpeg|gif|svg|ico|webp|avif)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/:path*.(woff|woff2|ttf|eot)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
     }
   ],
   "routes": [
-    { "src": "^/(.*\\.html)$", "dest": "/$1" },
+    { "handle": "filesystem" },
     { "src": "^/roadmap$", "dest": "/roadmap.html" },
-    { "src": "/invite", "dest": "/invite.html" },
-    { "src": "/signin", "dest": "/signin.html" },
-    { "src": "/roadmap.html", "dest": "/roadmap.html" },
-    { "src": "/api/(.*)", "dest": "/server.js" },
-    {
-      "src": "/real-nft-reveal",
-      "dest": "/real-nft-reveal.html"
-    },
-    {
-      "src": "/real-nft-reveal.html",
-      "dest": "/real-nft-reveal.html"
-    },
-    {
-      "src": "/admin-verifications",
-      "dest": "/admin-verifications.html"
-    },
-    {
-      "src": "/images/(.*)",
-      "dest": "/images/$1"
-    },
-    { "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))", "dest": "/$1" },
-    { "src": "^(?!.*\\.[a-zA-Z0-9]+$)(?!/api/).*", "dest": "/index.html" }
+    { "src": "^/invite$", "dest": "/invite.html" },
+    { "src": "^/signin$", "dest": "/signin.html" },
+    { "src": "^/real-nft-reveal$", "dest": "/real-nft-reveal.html" },
+    { "src": "^/admin-verifications$", "dest": "/admin-verifications.html" },
+    { "src": "^/api/(.*)$", "dest": "/server.js" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
