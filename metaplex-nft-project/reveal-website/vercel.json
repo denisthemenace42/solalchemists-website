@@ -1,8 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
-  ],
+  
   "cleanUrls": true,
   "headers": [
     {
@@ -33,7 +31,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/server.js" },
     { "source": "/roadmap", "destination": "/roadmap.html" },
     { "source": "/real-nft-reveal", "destination": "/real-nft-reveal.html" }
   ]

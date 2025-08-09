@@ -126,9 +126,10 @@ function getUserFromCookies(req){
 }
 
 // Export the Express app for Vercel serverless. Do not call app.listen in Vercel.
-if (process.env.VERCEL) {
-  module.exports = app;
-} else {
+// Export the Express app both for Vercel and Node
+module.exports = app;
+
+if (!process.env.VERCEL) {
   // Local development server
   app.listen(PORT, () => {
     console.log('🔮 SOLalchemists Mystery Reveal Website');
