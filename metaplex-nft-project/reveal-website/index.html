@@ -448,36 +448,7 @@
             animation-delay: 0s;
         }
         
-        /* Consistent green hover effects for all NFTs */
-        .carousel-item:nth-child(1):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(2):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(3):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(4):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(5):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(6):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(7):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(8):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(9):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(10):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(11):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(12):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(13):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(14):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(15):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(16):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(17):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(18):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(19):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(20):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        .carousel-item:nth-child(21):hover { box-shadow: 0 15px 30px rgba(0, 255, 65, 0.7); }
-        
-        .carousel-item:hover {
-            transform: translateY(-8px) scale(1.08);
-            border-color: #00ff80;
-            box-shadow: 
-                0 20px 40px rgba(0, 255, 65, 0.8),
-                inset 0 0 20px rgba(0, 255, 65, 0.2);
-        }
+        /* Hover effects removed for carousel items */
         
         .carousel-nft {
             width: 100% !important;
@@ -3336,60 +3307,70 @@
         // Enhanced carousel with available NFT collection (104 NFTs) including Mystery.png
         function enhanceCarousel() {
             const carouselItems = document.querySelectorAll('.carousel-item img');
-            const nftImages = [];
+            const nftBases = [];
             
             // Missing NFTs that we need to skip
             const missingNfts = [11, 12, 14, 15, 19, 93];
             
-            // Generate array with available NFTs and mystery interspersed
+            // Generate array with available NFTs (base path without extension) and mystery interspersed
             for (let i = 1; i <= 110; i++) {
                 // Skip missing NFTs
                 if (missingNfts.includes(i)) {
                     continue;
                 }
-                
-                nftImages.push(`images/nft${i}.png`); // NFT
+                nftBases.push(`images/nft${i}`);
                 if (i % 2 === 1 && i < 110) { // Add mystery after odd numbers (except last)
-                    nftImages.push('images/mystery.png');
+                    nftBases.push('images/mystery');
                 }
             }
-            
-            // Defer setting image src until near viewport to avoid loading all at once
+            // Helper to wrap an <img> with a <picture> for AVIF/WEBP and PNG fallback
+            function applyPicture(img, basePath) {
+                if (!img || img.closest('picture')) return; // already wrapped
+                const picture = document.createElement('picture');
+                const avif = document.createElement('source');
+                avif.type = 'image/avif';
+                avif.srcset = `${basePath}.avif`;
+                const webp = document.createElement('source');
+                webp.type = 'image/webp';
+                webp.srcset = `${basePath}.webp`;
+                // Ensure lazy and async decoding
+                img.loading = img.loading || 'lazy';
+                img.decoding = img.decoding || 'async';
+                // Fallback PNG/JPG
+                if (!img.src) img.src = `${basePath}.png`;
+                // Insert wrapper before img and move img inside
+                img.parentNode.insertBefore(picture, img);
+                picture.appendChild(avif);
+                picture.appendChild(webp);
+                picture.appendChild(img);
+            }
+
+            // Defer setting image sources until near viewport to avoid loading all at once
             const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const img = entry.target;
-                        if (!img.dataset.src) {
-                            const randomImage = nftImages[Math.floor(Math.random() * nftImages.length)];
-                            img.dataset.src = randomImage;
-                        }
-                        if (!img.src) {
-                            img.loading = 'lazy';
-                            img.decoding = 'async';
-                            img.src = img.dataset.src;
-                        }
+                        const base = img.dataset.base || nftBases[Math.floor(Math.random() * nftBases.length)];
+                        applyPicture(img, base);
                         observer.unobserve(img);
                     }
                 });
-            }, { rootMargin: '300px' }) : null;
+            }, { rootMargin: '800px' }) : null;
 
             carouselItems.forEach((img, index) => {
                 // Stagger animations
                 img.parentElement.style.animationDelay = (index * 0.3) + 's';
-                // Hover effects
-                img.addEventListener('mouseenter', function() { this.style.transform = 'scale(1.05)'; });
-                img.addEventListener('mouseleave', function() { this.style.transform = 'scale(1)'; });
-                // Observe for lazy population
-                if (io) {
-                    io.observe(img);
+                // Hover effect removed
+                // Choose a random base image
+                const base = nftBases[Math.floor(Math.random() * nftBases.length)];
+                if (index < 12 || !io) {
+                    // Immediately render a small subset to populate the viewport
+                    applyPicture(img, base);
                 } else {
-                    // Fallback: only load a small subset immediately
-                    if (index < 12) {
-                        const randomImage = nftImages[Math.floor(Math.random() * nftImages.length)];
-                        img.loading = 'lazy';
-                        img.decoding = 'async';
-                        img.src = randomImage;
-                    }
+                    // Remove eager src to prevent initial fetch; will be applied by IntersectionObserver
+                    img.removeAttribute('src');
+                    img.dataset.base = base;
+                    io.observe(img);
                 }
             });
         }
