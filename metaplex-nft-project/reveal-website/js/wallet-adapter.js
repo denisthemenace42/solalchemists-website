@@ -27,7 +27,7 @@ class SolanaWalletAdapter {
             {
                 name: 'Backpack',
                 url: 'https://backpack.app/',
-                icon: 'images/backpack.png',
+                icon: 'images/backpack.webp',
                 adapter: 'backpack'
             }
         ];

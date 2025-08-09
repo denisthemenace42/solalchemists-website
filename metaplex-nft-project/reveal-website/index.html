@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOL Alchemists - Live Site Updated</title>
+    <title>SOL Alchemists</title>
     <link rel="icon" type="image/png" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2IDJMMjAgNkwxOCA4TDIwIDEwTDE4IDEyTDIwIDE0TDE4IDE2TDIwIDE4TDE4IDIwTDIwIDIyTDE4IDI0TDIwIDI2TDE4IDI4TDIwIDMwSDEyTDE0IDI4SDEyTDE0IDI2SDEyTDE0IDI0SDEyTDE0IDIySDEyTDE0IDIwSDEyTDE0IDE4SDEyTDE0IDE2SDEyTDE0IDE0SDEyTDE0IDEySDEyTDE0IDEwSDEyTDE0IDhMMTYgNloiIGZpbGw9IiMwMGZmNDEiLz4KPHBhdGggZD0iTTE0IDI4SDE4VjMwSDE0VjI4WiIgZmlsbD0iIzAwZmY0MSIvPgo8cGF0aCBkPSJNMTYgMjZIMThWMjZIMTZaIiBmaWxsPSIjMDBmZjQxIi8+Cjwvc3ZnPgo=">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1333,10 +1333,47 @@
             measurementId: "G-ME4BQE7K0L"
         };
 
-        // Initialize Firebase
-        if (typeof firebase !== 'undefined') {
-            firebase.initializeApp(firebaseConfig);
-        }
+        // Initialize Firebase as soon as SDK is available (don't wait for full window load)
+        (function initFirebaseWhenReady(){
+            const doInit = () => {
+                try {
+                    if (firebase.apps && firebase.apps.length === 0) {
+                        firebase.initializeApp(firebaseConfig);
+                    } else if (!firebase.apps) {
+                        firebase.initializeApp(firebaseConfig);
+                    }
+                } catch (_) {}
+                try {
+                    if (firebase.auth) {
+                        // Attach once
+                        if (!window.__authListenerAttached) {
+                            window.__authListenerAttached = true;
+                            firebase.auth().onAuthStateChanged(updateUI);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to set up Firebase auth state listener:', e);
+                }
+            };
+            const ready = () => typeof window.firebase !== 'undefined' && !!window.firebase;
+            if (ready()) {
+                doInit();
+                return;
+            }
+            const start = Date.now();
+            const timer = setInterval(() => {
+                if (ready()) {
+                    clearInterval(timer);
+                    doInit();
+                } else if (Date.now() - start > 10000) {
+                    clearInterval(timer);
+                    console.error('Firebase SDK not loaded');
+                }
+            }, 100);
+            // Also try on DOMContentLoaded and load just in case
+            document.addEventListener('DOMContentLoaded', () => { if (ready()) doInit(); });
+            window.addEventListener('load', () => { if (ready()) doInit(); });
+        })();
 
         // Social login functions
         function signInWithTwitter() {
@@ -1701,14 +1738,15 @@
 
             const walletType = getActiveWalletProvider();
 
-            // Store user info for the reveal page
+            // Store user info for the reveal page (guard if not signed in)
+            const currentUser = (window.firebase && firebase.auth) ? firebase.auth().currentUser : null;
             const userInfo = {
-                user: {
-                    displayName: firebase.auth().currentUser.displayName,
-                    email: firebase.auth().currentUser.email,
-                    photoURL: firebase.auth().currentUser.photoURL,
-                    uid: firebase.auth().currentUser.uid
-                },
+                user: currentUser ? {
+                    displayName: currentUser.displayName || '',
+                    email: currentUser.email || '',
+                    photoURL: currentUser.photoURL || '',
+                    uid: currentUser.uid || ''
+                } : null,
                 wallet: currentPublicKey,
                 walletType
             };
@@ -1719,10 +1757,7 @@
             window.location.href = 'real-nft-reveal.html';
         }
 
-        // Listen for auth state changes
-        if (typeof firebase !== 'undefined') {
-            firebase.auth().onAuthStateChanged(updateUI);
-        }
+        // Auth state listener is registered in the window load handler above
 
 
     </script>
@@ -3402,11 +3437,9 @@
         });
     </script>
     
-    <script defer src="social-rewards-manual.js"></script>
-    
     <!-- Solana Wallet Adapter -->
-    <script defer src="js/wallet-adapter.js"></script>
-    <script defer src="js/wallet-modal.js"></script>
+    <script defer src="js/wallet-adapter.js?v=20250809-1"></script>
+    <script defer src="js/wallet-modal.js?v=20250809-1"></script>
     
     <script>
       // Referral system removed. Ensure UI is always unlocked.
