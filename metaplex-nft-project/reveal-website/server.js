@@ -28,67 +28,11 @@ try {
   // compression optional in local dev
 }
 
-// Serve static files with long-term caching for assets
-app.use(express.static(__dirname, {
-  setHeaders: (res, filePath) => {
-    const ext = path.extname(filePath);
-    const longCache = 'public, max-age=31536000, immutable';
-    const noStore = 'no-store';
-    if (/\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|avif|woff|woff2|ttf|eot)$/i.test(ext)) {
-      res.setHeader('Cache-Control', longCache);
-    } else if (/\.(html)$/i.test(ext) || path.basename(filePath) === 'index.html') {
-      res.setHeader('Cache-Control', noStore);
-    }
-  }
-}));
+// Note: Static pages and assets are served by Vercel directly.
+// This server only handles API endpoints under /api/* when deployed on Vercel.
 
-// Serve modern image formats when available and supported
-app.get(/^\/images\/.+\.(png|jpg|jpeg)$/i, (req, res, next) => {
-  try {
-    const accept = req.headers['accept'] || '';
-    const originalPath = path.join(__dirname, req.path);
-    const base = originalPath.replace(/\.(png|jpg|jpeg)$/i, '');
-    if (accept.includes('image/avif')) {
-      const avifPath = base + '.avif';
-      if (fs.existsSync(avifPath)) return res.sendFile(avifPath);
-    }
-    if (accept.includes('image/webp')) {
-      const webpPath = base + '.webp';
-      if (fs.existsSync(webpPath)) return res.sendFile(webpPath);
-    }
-  } catch (e) {
-    // fall through
-  }
-  next();
-});
-
-// Serve the main page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Serve roadmap page
-app.get('/roadmap', (req, res) => {
-  res.sendFile(path.join(__dirname, 'roadmap.html'));
-});
-app.get('/roadmap.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'roadmap.html'));
-});
-
-// Serve the reveal page
-app.get('/real-nft-reveal.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'real-nft-reveal.html'));
-});
-
-// Serve the reveal page without extension
-app.get('/real-nft-reveal', (req, res) => {
-    res.sendFile(path.join(__dirname, 'real-nft-reveal.html'));
-});
-
-// Removed admin-verifications page
-
-// Health check endpoint
-app.get('/health', (req, res) => {
+// Health check endpoint (under /api for Vercel routing)
+app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'SOLalchemists Mystery Reveal Server is running!' });
 });
 
@@ -181,19 +125,13 @@ function getUserFromCookies(req){
   return null;
 }
 
-// Start server
-app.listen(PORT, () => {
+// Export the Express app for Vercel serverless. Do not call app.listen in Vercel.
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  // Local development server
+  app.listen(PORT, () => {
     console.log('🔮 SOLalchemists Mystery Reveal Website');
-    console.log('=' * 50);
     console.log(`🌐 Server running on: http://localhost:${PORT}`);
-    console.log(`🔗 Local URL: http://localhost:${PORT}`);
-    console.log(`📱 Mobile friendly: Yes`);
-    console.log(`🔒 Secure: HTTPS recommended for production`);
-    console.log('=' * 50);
-    console.log('💡 To deploy to production:');
-    console.log('   • Upload files to hosting service (Vercel, Netlify, etc.)');
-    console.log('   • Or use: npm install -g serve && serve .');
-    console.log('   • Or use: python3 -m http.server 3000');
-});
-
-module.exports = app;
+  });
+}
